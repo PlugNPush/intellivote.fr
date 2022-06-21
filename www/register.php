@@ -36,7 +36,7 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-blue bg-dark fixed-top">
       <div class="container">
-        <img class="navbar-brand" href="index.php" src="image/Logo.png">
+        <img class="navbar-brand" href="index.php" src="image/Logo.png" style="width:50%;height:50%;">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span id="new-dark-navbar-toggler-icon" class="navbar-toggler-icon"></span>
         </button>
