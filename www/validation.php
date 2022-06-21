@@ -4,9 +4,17 @@ require_once dirname(__FILE__).'/../../config/efreidynconfig.php';
 
 require 'PHPMailer/PHPMailer.php';
 require 'PHPMailer/SMTP.php';
+require 'PHPMailer/POP3.php';
+require 'PHPMailer/OAuth.php';
+require 'PHPMailer/Exception.php';
+
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\POP3;
+use PHPMailer\PHPMailer\OAuth;
+use PHPMailer\PHPMailer\Exception;
+
 
 try
 {
