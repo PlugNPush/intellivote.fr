@@ -22,6 +22,8 @@ require_once dirname(__FILE__).'/../../config/config.php';
     $_SESSION['photo'] = $test['photo'];
     $_SESSION['linkedin'] = $test['linkedin'];
     $_SESSION['ban'] = $test['ban'];
+  } else {
+    header( "refresh:0;url=login.php?expired=true" );
   }
 if(empty($_POST['titre']) OR empty($_POST['contenu']) OR empty($_POST['matiere'])){
 
