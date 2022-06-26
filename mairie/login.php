@@ -46,7 +46,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
 
     <meta http-equiv="Content-Security-Policy" content="default-src \'self\'; img-src https://* \'self\' data:; child-src \'none\';">
 
-    <title>Efrei Dynamo</title>
+    <title>Intellivote - Espace Mairie</title>
 
     <link href="css/custom.css" rel="stylesheet">
 
