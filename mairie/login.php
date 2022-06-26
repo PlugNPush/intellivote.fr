@@ -6,27 +6,20 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
   $pass_hache = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
 
   // Vérification des identifiants
-  $req = $bdd->prepare('SELECT * FROM utilisateurs WHERE email = ?;');
+  $req = $bdd->prepare('SELECT * FROM individual WHERE email = ?;');
   $req->execute(array($_POST['email']));
   $test = $req->fetch();
 
 
-  $verify = password_verify($_POST['mdp'], $test['mdp']);
+  $verify = password_verify($_POST['mdp'], $test['password']);
   if ($verify)
   {
       session_start();
       $_SESSION['id'] = $test['id'];
-      $_SESSION['pseudo'] = $test['pseudo'];
-      $_SESSION['email'] = $test['email'];
-      $_SESSION['role'] = $test['role'];
-      $_SESSION['annee'] = $test['annee'];
-      $_SESSION['majeure'] = $test['majeure'];
-      $_SESSION['validation'] = $test['validation'];
-      $_SESSION['karma'] = $test['karma'];
-      $_SESSION['inscription'] = $test['inscription'];
-      $_SESSION['photo'] = $test['photo'];
-      $_SESSION['linkedin'] = $test['linkedin'];
-      $_SESSION['ban'] = $test['ban'];
+      $_SESSION['name'] = $test['name'];
+      $_SESSION['surname'] = $test['surname'];
+      $_SESSION['birthday'] = $test['birthday'];
+      $_SESSION['birthplace'] = $test['birthplace'];
 
 
       header( "refresh:0;url=index.php" );
@@ -144,7 +137,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
                   echo '
                 </div>
                 <button type="submit" class="btn btn-primary">Se connecter</button>
-                <br>Pas encore inscrit ? <a class="btn btn-secondary" href=/register.php>Inscrivez-vous maintenant !</a>
+                <br>Pas encore inscrit ? <a class="btn btn-secondary" href=https://www.intellivote.fr/register.php>Inscrivez-vous maintenant !</a>
                 </form><br><br>';
             } else {
               echo '<h3 class="my-4">Échec de l\'étape 2</h3>';
@@ -164,7 +157,17 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
               <div class="form-group">
                 <label for="departement">Saisissez votre numéro de département
                 </label>
-                <input type="text" name="departement" class="form-control" id="departement" placeholder="Département" required>
+                <select name="departement" class="form-control" id="departement" required>';
+
+                $departement_fetch = $bdd->prepare('SELECT * FROM departements ORDER BY id ASC;');
+                $departement_fetch->execute();
+
+                while ($departement = $departement_fetch->fetch()) {
+                  echo '<option value="', $departement['id'] ,'">', $departement['nom'] ,'</option>';
+                }
+
+                echo '
+                </select>
                 <small id="help" class="form-text text-muted">
                 ATTENTION, départements spéciaux :<br>
                 201 : CORSE DU SUD<br>
@@ -192,7 +195,17 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
               <input type="hidden" type="text" name="departement" class="form-control" id="departement" placeholder="Département" value="'. $test["id"] .'">
                 <div class="form-group">
                   <label for="insee">Saisissez le numéro INSEE de la commune de votre mairie</label>
-                  <input type="text" name="insee" class="form-control" id="insee" placeholder="INSEE" required>
+                  <select name="insee" class="form-control" id="insee" required>';
+
+                  $insee_fetch = $bdd->prepare('SELECT * FROM mairies WHERE departement = ? ORDER BY id ASC;');
+                  $insee_fetch->execute(array($test['id']));
+
+                  while ($insee = $insee_fetch->fetch()) {
+                    echo '<option value="', $insee['insee'] ,'">', $insee['nom'] ,'</option>';
+                  }
+
+                  echo '
+                  </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Suivant</button>
                 </form><br><br>
