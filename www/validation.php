@@ -73,7 +73,7 @@ if (isset($_SESSION['id'])){
             echo'<h1 class="my-4">Validation du compte</h1>';
 
 
-            $gatherdata = $bdd->prepare('SELECT * FROM validations WHERE user = ? AND type = 0;');
+            $gatherdata = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 0;');
             $gatherdata->execute(array($_SESSION['id']));
             $data = $gatherdata->fetch();
 
@@ -289,7 +289,7 @@ if (isset($_SESSION['id'])){
       $token = generateRandomString(256);
       $date = date('Y-m-d H:i:s', strtotime('+1 day'));
 
-      $newtoken = $bdd->prepare('INSERT INTO validations(type, individual, token, expiration) VALUES(:type, :individual, :token,:expiration);');
+      $newtoken = $bdd->prepare('INSERT INTO validations(type, individual, token, expiration) VALUES(:type, :individual, :token, :expiration);');
       $newtoken->execute(array(
         'type' => 0,
         'individual' => $_SESSION['id'],
