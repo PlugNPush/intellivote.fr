@@ -124,6 +124,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
                 </small>
               </div>
               <button type="submit" class="btn btn-primary">Suivant</button>
+              </form><br><br>
               ';
           } else {
             $req = $bdd->prepare('SELECT * FROM departements WHERE numero = ?;');
@@ -143,12 +144,14 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
                   <input type="text" name="insee" class="form-control" id="insee" placeholder="INSEE" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Suivant</button>
+                </form><br><br>
                 ';
             } else {
               echo '<h3 class="my-4">Échec de l\'étape 1</h3>';
               echo '<form action="login.php" method="post">
                 <h4 class="my-4">Le département n\'a pas pu être trouvé.</h4>
                 <button type="submit" class="btn btn-primary">Réessayer</button>
+                </form><br><br>
                 ';
             }
 
