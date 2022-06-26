@@ -81,6 +81,26 @@ if (!isset($_SESSION['id'])) {
             <div class="alert alert-info fade show" role="alert">
               <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Votre compte est prêt.<br>
             </div>';
+
+            $gatherdata = $bdd->prepare('SELECT * FROM mayor WHERE individual = ? AND mairie = ? AND verified = 1;');
+            $gatherdata->execute(array($_SESSION['id'], $_SESSION['idmairie']));
+            $data = $gatherdata->fetch();
+
+            if ($data) {
+              echo '
+              <div class="alert alert-info fade show" role="alert">
+                <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Pas d\'élections à venir.<br>
+              </div>';
+            } else {
+              $req = $bdd->prepare('SELECT * FROM mairies WHERE id = ?;');
+              $req->execute(array($_SESSION['idmairie']));
+              $test = $req->fetch();
+
+              echo '
+              <div class="alert alert-warning fade show" role="alert">
+                <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Notre système ne vous a pas détecté en tant que résponsable au sein de la mairie de ' . $test['nom'] . '. Votre demande de certification devra être traitée par <a href="https://gouv.intellivote.fr">un représentant de l\'État</a>. Cette procédure ne peut pas être automatisée pour des raisons de sécurité.
+              </div>';
+            }
           }
 
           echo '<br><br>';
