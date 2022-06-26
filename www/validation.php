@@ -201,7 +201,7 @@ if (isset($_SESSION['id'])){
         <html>
          <body>
           <h1>Vérification automatique de votre compte.</h1>
-          <p>Bonjour ' . $_SESSION['name'] . ' ' . $_SESSION['surname'] . ', et bienvenue sur Intellivote. Pour confirmer votre inscription, vous devez confirmer votre identité numérique. Grâce à votre adresse email, vous êtes éligible à notre solution de validation automatique. Cliquez simplement sur le lien ci-dessous pour terminer l\'activation de votre compte.
+          <p>Bonjour ' . $_SESSION['surname'] . ' ' . $_SESSION['name'] . ', et bienvenue sur Intellivote. Pour confirmer votre inscription, vous devez confirmer votre identité numérique. Grâce à votre adresse email, vous êtes éligible à notre solution de validation automatique. Cliquez simplement sur le lien ci-dessous pour terminer l\'activation de votre compte.
           <p>Adresse email utilisée</p>
           <h4>' . $_SESSION['email'] . '</h4>
           <p>Certification demandée le</p>
@@ -310,7 +310,7 @@ if (isset($_SESSION['id'])){
           <html>
            <body>
             <h1>Vérification automatique de votre compte.</h1>
-            <p>Bonjour ' . $_SESSION['name'] . ' ' . $_SESSION['surname'] . ', et bienvenue sur Intellivote. Pour confirmer votre inscription, vous devez confirmer votre identité numérique. Grâce à votre adresse email, vous êtes éligible à notre solution de validation automatique. Cliquez simplement sur le lien ci-dessous pour terminer l\'activation de votre compte.
+            <p>Bonjour ' . $_SESSION['surname'] . ' ' . $_SESSION['name'] . ', et bienvenue sur Intellivote. Pour confirmer votre inscription, vous devez confirmer votre identité numérique. Grâce à votre adresse email, vous êtes éligible à notre solution de validation automatique. Cliquez simplement sur le lien ci-dessous pour terminer l\'activation de votre compte.
             <p>Adresse email utilisée</p>
             <h4>' . $_POST['email'] . '</h4>
             <p>Certification demandée le</p>

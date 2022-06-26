@@ -81,10 +81,15 @@ if (isset($_SESSION['id'])){
               </div>';
             }
 
-              if ($_SESSION['validation'] != 1) {
+              if ($_SESSION['verified'] != 1) {
                 echo '
                 <div class="alert alert-danger fade show" role="alert">
                   <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Vous devez confirmer votre compte pour accéder au site. Celui-ci n\'a pas encore pu être vérifié.<br><a class = "btn btn-primary" href = "validation.php">Lancer ou vérifier la procédure de validation</a>
+                </div>';
+              } else {
+                echo '
+                <div class="alert alert-info fade show" role="alert">
+                  <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Votre compte est prêt.<br>
                 </div>';
               }
 
