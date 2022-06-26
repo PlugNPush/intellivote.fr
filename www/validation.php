@@ -233,7 +233,7 @@ if (isset($_SESSION['id'])){
     $mail->IsHTML(true);
     $mail->CharSet = 'UTF-8';
     $mail->Host = 'mail.groupe-minaste.org';
-    $mail->Port = 465;
+    $mail->Port = 25;
     $mail->SMTPAuth = true;
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
     $mail->Username = 'no-reply@efrei-dynamo.fr';
