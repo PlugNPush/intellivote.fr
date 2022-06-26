@@ -91,6 +91,23 @@ if (isset($_SESSION['id'])){
                 <div class="alert alert-info fade show" role="alert">
                   <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Votre compte est prêt.<br>
                 </div>';
+
+                $gatherdata = $bdd->prepare('SELECT * FROM elector WHERE individual = ?;');
+                $gatherdata->execute(array($_SESSION['id']));
+                $data = $gatherdata->fetch();
+
+                if ($data) {
+                  echo '
+                  <div class="alert alert-info fade show" role="alert">
+                    <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Pas d\'élections à venir.<br>
+                  </div>';
+                } else {
+                  echo '
+                  <div class="alert alert-warning fade show" role="alert">
+                    <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Vous devez maintenant vous authentifier en tant qu\'électeur, donc relier votre identité numérique à votre identité physique. Lancez une pré-demande en ligne ou rendez-vous en mairie.<br><a class = "btn btn-primary" href = "validation.php">Relier mon identité physique</a><br>
+                    Vous representez une mairie ? Votre demande devra être traitée par un représentant de l\'État.
+                  </div>';
+                }
               }
 
             echo '
