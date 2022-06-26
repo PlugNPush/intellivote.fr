@@ -16,6 +16,9 @@ use PHPMailer\PHPMailer\POP3;
 use PHPMailer\PHPMailer\OAuth;
 use PHPMailer\PHPMailer\Exception;
 
+$mail = new PHPMailer();
+echo $mail;
+
 
 try
 {
