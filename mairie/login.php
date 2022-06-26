@@ -112,14 +112,16 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
             echo '<form action="login.php" method="post">
               <div class="form-group">
                 <label for="departement">Saisissez votre numéro de département
-                ATTENTION, départements spéciaux :
-                201 : CORSE DU SUD
-                202 : HAUTE CORSE
-                981 : NOUVELLE CALEDONIE
-                982 : POLYNESIE FRANCAISE
-                99 : ETRANGER
                 </label>
                 <input type="text" name="departement" class="form-control" id="departement" placeholder="Département" required>
+                <small id="help" class="form-text text-muted">
+                ATTENTION, départements spéciaux :<br>
+                201 : CORSE DU SUD<br>
+                202 : HAUTE CORSE<br>
+                981 : NOUVELLE CALEDONIE<br>
+                982 : POLYNESIE FRANCAISE<br>
+                99 : ETRANGER<br>
+                </small>
               </div>
               <button type="submit" class="btn btn-primary">Suivant</button>
               ';
@@ -145,13 +147,15 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
             } else {
               echo '<h3 class="my-4">Échec de l\'étape 1</h3>';
               echo '<form action="login.php" method="post">
-
+                <h4 class="my-4">Le département n\'a pas pu être trouvé.</h4>
                 <button type="submit" class="btn btn-primary">Réessayer</button>
                 ';
             }
 
 
           }
+
+          /*
 
           echo '
           <form action="login.php" method="post">
@@ -180,6 +184,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
             <button type="submit" class="btn btn-primary">Se connecter</button>
             <br>Pas encore inscrit ? <a class="btn btn-secondary" href=/register.php>Inscrivez-vous maintenant !</a>
             </form><br><br>';
+            */
 
         echo '</div>
 
