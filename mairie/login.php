@@ -107,7 +107,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
             </div>';
           }
 
-          if (isset($_POST['insee'])) {
+          if (isset($_POST['insee'] && isset($_POST['departement'])) {
 
             $req = $bdd->prepare('SELECT * FROM mairies WHERE departement = ? AND insee = ?;');
             $req->execute(array($_POST['departement'], $_POST['insee']));
@@ -185,7 +185,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
                 <strong>Numéro INSEE oublié ?</strong> Vous pouvez le retrouver sur le site gouvernemental des données publiques ou sur le site de l\'INSEE. Rendez-vous sur <a href="https://www.insee.fr/fr/information/5057840">https://www.insee.fr/fr/information/5057840</a> pour plus d\'informations.
               </div>
               <h4 class="my-4">Identification de votre mairie à ' . $test['nom'] . '</h4>
-              <input type="hidden" type="text" name="departement" class="form-control" id="departement" placeholder="Département" value="'. $test["numero"] .'">
+              <input type="hidden" type="text" name="departement" class="form-control" id="departement" placeholder="Département" value="'. $test["id"] .'">
                 <div class="form-group">
                   <label for="insee">Saisissez le numéro INSEE de la commune de votre mairie</label>
                   <input type="text" name="insee" class="form-control" id="insee" placeholder="INSEE" required>
