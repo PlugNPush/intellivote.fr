@@ -92,7 +92,7 @@ if (isset($_SESSION['id'])){
                   <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Votre compte est prêt.<br>
                 </div>';
 
-                $gatherdata = $bdd->prepare('SELECT * FROM elector WHERE individual = ?;');
+                $gatherdata = $bdd->prepare('SELECT * FROM elector WHERE individual = ? AND verified = 1;');
                 $gatherdata->execute(array($_SESSION['id']));
                 $data = $gatherdata->fetch();
 
