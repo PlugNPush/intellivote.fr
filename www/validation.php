@@ -1,67 +1,9 @@
 <?php
-require_once dirname(__FILE__).'/../../config/config.php';
-require_once dirname(__FILE__).'/../../config/efreidynconfig.php';
-
-require 'PHPMailer/PHPMailer.php';
-require 'PHPMailer/SMTP.php';
-require 'PHPMailer/POP3.php';
-require 'PHPMailer/OAuth.php';
-require 'PHPMailer/Exception.php';
-
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\POP3;
-use PHPMailer\PHPMailer\OAuth;
-use PHPMailer\PHPMailer\Exception;
-
-
-try
-{
-    $bdd = new PDO('mysql:host='.getDBHost().';dbname=efreidynamo', getDBUsername(), getDBPassword(), array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4"));
-}
-catch (Exception $e)
-{
-        die('Erreur : ' . $e->getMessage());
-}
-
-session_start();
-if (isset($_SESSION['id'])) {
-  $req = $bdd->prepare('SELECT * FROM utilisateurs WHERE id = ?;');
-  $req->execute(array($_SESSION['id']));
-  $test = $req->fetch();
-  $_SESSION['id'] = $test['id'];
-  $_SESSION['pseudo'] = $test['pseudo'];
-  $_SESSION['email'] = $test['email'];
-  $_SESSION['role'] = $test['role'];
-  $_SESSION['annee'] = $test['annee'];
-  $_SESSION['majeure'] = $test['majeure'];
-  $_SESSION['validation'] = $test['validation'];
-  $_SESSION['karma'] = $test['karma'];
-  $_SESSION['inscription'] = $test['inscription'];
-  $_SESSION['photo'] = $test['photo'];
-  $_SESSION['linkedin'] = $test['linkedin'];
-  $_SESSION['ban'] = $test['ban'];
-}
-
-function generateRandomString($length = 10) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $charactersLength = strlen($characters);
-    $randomString = '';
-    for ($i = 0; $i < $length; $i++) {
-        $randomString .= $characters[rand(0, $charactersLength - 1)];
-    }
-    return $randomString;
-}
+require_once dirname(__FILE__).'/../config.php';
 
 if (isset($_SESSION['id'])){
 
-  if (isset($_GET['downgrade'])) {
-    $newrole = $bdd->prepare('UPDATE utilisateurs SET role = 0 WHERE id = ?;');
-    $newrole->execute(array($_SESSION['id']));
-
-    header( "refresh:0;url=validation.php" );
-  } else if (empty($_POST['email']) && empty($_GET['token']) && !isset($_GET['resend']) && !isset($_GET['cancel'])){
+  if (empty($_POST['email']) && empty($_GET['token']) && !isset($_GET['resend']) && !isset($_GET['cancel'])){
     echo '<!DOCTYPE html>
     <html lang="fr">
 
@@ -74,7 +16,7 @@ if (isset($_SESSION['id'])){
 
       <meta http-equiv="Content-Security-Policy" content="default-src \'self\'; img-src https://* \'self\' data:; child-src \'none\';">
 
-      <title>Efrei Dynamo</title>
+      <title>Intellivote - Espace électeur</title>
 
       <link href="css/custom.css" rel="stylesheet">
 
@@ -88,42 +30,30 @@ if (isset($_SESSION['id'])){
 
     <body>
 
-      <!-- Navigation -->
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container">
-          <a class="navbar-brand" href="index.php">Projet Efrei Dynamo</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span id="new-dark-navbar-toggler-icon" class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="index.php">Répondre à des questions</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="newquestion.php">Poser une question</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="account.php">Mon compte</a>
-              </li>';
+    <!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.php">intellivote.fr</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span id="new-dark-navbar-toggler-icon" class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="https://www.intellivote.fr">Espace élécteur<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://mairie.intellivote.fr">Espace mairie</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://gouv.intellivote.fr">Espace Gouvernement</a>
+        </li>';
 
-              if (isset($_SESSION['id'])) {
-                echo '
-                <li class="nav-item">
-                  <a class="nav-link" href="logout.php">Se déconnecter</a>
-                </li>';
-              } else {
-                echo '
-                <li class="nav-item">
-                  <a class="nav-link" href="login.php">Connexion</a>
-                </li>';
-              }
-
-              echo '
-            </ul>
-          </div>
-        </div>
-      </nav>
+        echo '
+      </ul>
+    </div>
+  </div>
+</nav>
 
       <!-- Page Content -->
       <div class="container">
@@ -134,10 +64,10 @@ if (isset($_SESSION['id'])){
           <div class="col-md-8">';
 
 
-            echo'<h1 class="my-4">Statut de validation Efrei</h1>';
+            echo'<h1 class="my-4">Validation du compte</h1>';
 
 
-            $gatherdata = $bdd->prepare('SELECT * FROM validations WHERE user = ?;');
+            $gatherdata = $bdd->prepare('SELECT * FROM validations WHERE user = ? AND type = 0;');
             $gatherdata->execute(array($_SESSION['id']));
             $data = $gatherdata->fetch();
 
@@ -188,12 +118,12 @@ if (isset($_SESSION['id'])){
 
             if (isset($_SESSION['validation']) && $_SESSION['validation'] == 1 && $data) {
               echo '<div class="alert alert-success fade show" role="alert">
-                <strong>Félicitations, votre compte Efrei est validé !</strong><br>Vous n\'avez rien à faire, nous avons vérifié votre appartenance à l\'Efrei avec une signature numérique le ', $data['date'], ' via l\'adresse email Efrei suivante : <a href="mailto:', $data['email'] ,'">', $data['email'] ,'</a>.
+                <strong>Félicitations, votre compte Intellivote est validé !</strong><br>Votre identité numérique a été certifiée avec une signature numérique le ', $data['date'], ' via l\'adresse email Efrei suivante : <a href="mailto:', $data['email'] ,'">', $data['email'] ,'</a>.
               </div>
               <a href="index.php" class="btn btn-success btn-lg btn-block">Accéder à Efrei Dynamo</a><br><br>';
             } else if (isset($_SESSION['validation']) && $_SESSION['validation'] == 1) {
               echo '<div class="alert alert-success fade show" role="alert">
-                <strong>Votre compte Efrei est validé manuellement !</strong><br>Vous n\'avez rien à faire, nous avons vérifié votre appartenance à l\'Efrei via un de nos modérateurs.
+                <strong>Votre compte est validé manuellement par un représentant du Gouvernement !</strong><br>Vous n\'avez rien d\'autre à faire.
               </div>
               <a href="index.php" class="btn btn-success btn-lg btn-block">Accéder à Efrei Dynamo</a><br><br>';
             } else if ($data) {
@@ -214,42 +144,17 @@ if (isset($_SESSION['id'])){
                 </form><br><br>';
             } else {
 
-              if ($_SESSION['role'] == 0 || $_SESSION['role'] == 2) {
-                echo '<div class="alert alert-warning fade show" role="alert">
-                  <strong>Bonjour ', $_SESSION['pseudo'], ' !</strong><br> Vous devez confirmer votre statut d\'Efreien pour accéder au site.<br>Veuillez suivre les instructions ci-dessous pour procéder à la validation.<br>
-                </div>';
-
-                if ($_SESSION['role'] == 2) {
-                  echo '<div class="alert alert-warning fade show" role="alert">
-                    <strong>Pas d\'adresse email en @efrei.fr ou @intervenants.efrei.net ?</strong> Contactez un modérateur pour manuellement valider votre compte, ou rétrogradez vers un profil étudiant pour valider votre compte immédiatement.
-                  </div>
-                  <a href="validation.php?downgrade=true" class="btn btn-warning btn-lg btn-block">Rétrograder vers un profil étudiant</a><br>';
-                }
-
                 echo '
                 <form action="validation.php" method="post">
                   <div class="form-group">
-                    <label for="email">Confirmez votre adresse mail Efrei</label>
+                    <label for="email">Confirmez votre adresse mail</label>
                     <input type="text" name="email" class="form-control" id="email" placeholder="', $_SESSION['email'] ,'" value="', $_SESSION['email'] ,'" required>
                     <small id="emailHelp" class="form-text text-muted">
-                      Vous devez utiliser une adresse en ', ($_SESSION['role'] == 0) ? ("@efrei.net") : ("@efrei.fr ou @intervenants.efrei.net") ,'
+                      Vous ne pourrrez plus modifier cette adresse une fois votre compte validé.
                     </small>
                   </div>
                   <button type="submit" class="btn btn-primary">Démarrer le processus de vérification</button>
                   </form><br><br>';
-
-              } else if ($_SESSION['role'] == 1) {
-                echo '<div class="alert alert-danger fade show" role="alert">
-                  <strong>Tu n\'es pas éligible à la vérification automatique</strong>.<br> Tu as demandé à être modérateur, et pour cela nous devons vérifier manuellement ton statut. Contacte un autre modérateur, ou rétrograde ton profil vers un profil étudiant pour valider ton compte immédiatement.
-                </div>
-                <a href="validation.php?downgrade=true" class="btn btn-warning btn-lg btn-block">Rétrograder vers un profil étudiant</a><br><br>';
-              } else {
-                echo '<div class="alert alert-danger fade show" role="alert">
-                  <strong>Tu n\'es pas éligible à la vérification automatique</strong>.<br> Tu es un super-modérateur, il semblerait que nous ayons oublié de vérifier manuellement ton statut. Utilise ton pouvoir de super-modérateur pour t\'auto-certifier.
-                </div>
-                <a href="account.php" class="btn btn-primary btn-lg btn-block">Modifier les réglages du compte</a><br><br>';
-              }
-
           }
 
           echo '
@@ -264,7 +169,7 @@ if (isset($_SESSION['id'])){
       <!-- Footer -->
       <footer class="py-5 bg-dark">
         <div class="container">
-          <p class="m-0 text-center text-white">&copy; 2021 Efrei Dynamo. Tous droits reservés. <a href="/legal.php">Mentions légales</a>.</p>
+          <p class="m-0 text-center text-white">&copy; 2022 Intellivote. Tous droits reservés. <a href="/legal.php">Mentions légales</a>.</p>
         </div>
         <!-- /.container -->
       </footer>

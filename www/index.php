@@ -16,7 +16,7 @@ if (isset($_SESSION['id'])){
 
       <meta http-equiv="Content-Security-Policy" content="default-src \'self\'; img-src https://* \'self\' data:; child-src \'none\';">
 
-      <title>Efrei Dynamo</title>
+      <title>Intellivote - Espace électeur</title>
 
       <link href="css/custom.css" rel="stylesheet">
 
