@@ -114,7 +114,11 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
 
 
             if ($test) {
-              echo '<h3 class="my-4">Étape 3</h3>';
+              if (!isset($_POST['idmairie'])) {
+                echo '<h3 class="my-4">Étape 3</h3>';
+              } else {
+                echo '<h3 class="my-4">Connexion rapide</h3>';
+              }
               echo '
               <form action="login.php" method="post">
               <h4 class="my-4">Connexion à votre mairie à ' . $test['nom'] . ' (' . $test['departement'] . ')</h4>';
