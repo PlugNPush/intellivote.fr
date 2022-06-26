@@ -107,7 +107,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
             </div>';
           }
 
-          if (isset($_POST['insee'] && isset($_POST['departement'])) {
+          if (isset($_POST['insee']) && isset($_POST['departement'])) {
 
             $req = $bdd->prepare('SELECT * FROM mairies WHERE departement = ? AND insee = ?;');
             $req->execute(array($_POST['departement'], $_POST['insee']));
