@@ -262,7 +262,7 @@ if (isset($_SESSION['id'])){
       if ($sent) {
         header( "refresh:0;url=validation.php?resent=true" );
       } else {
-        echo 'Mailer Error: '. $mail->ErrorInfo} . '!';
+        echo 'Mailer Error: ' . $mail->ErrorInfo . '!';
         header( "refresh:0;url=validation.php?serror=true" );
       }
 
