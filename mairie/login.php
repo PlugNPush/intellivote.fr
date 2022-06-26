@@ -22,6 +22,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
       $_SESSION['birthplace'] = $test['birthplace'];
       $_SESSION['registered'] = $test['registered'];
       $_SESSION['email'] = $test['email'];
+      $_SESSION['verified'] = $test['verified'];
 
 
       header( "refresh:0;url=index.php" );

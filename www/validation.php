@@ -122,12 +122,12 @@ if (isset($_SESSION['id'])){
               </div>';
             }
 
-            if (isset($_SESSION['validation']) && $_SESSION['validation'] == 1 && $data) {
+            if (isset($_SESSION['verified']) && $_SESSION['verified'] == 1 && $data) {
               echo '<div class="alert alert-success fade show" role="alert">
                 <strong>Félicitations, votre compte Intellivote est validé !</strong><br>Votre identité numérique a été certifiée avec une signature numérique le ', $data['date'], ' via l\'adresse email Efrei suivante : <a href="mailto:', $data['email'] ,'">', $data['email'] ,'</a>.
               </div>
               <a href="index.php" class="btn btn-success btn-lg btn-block">Accéder à Efrei Dynamo</a><br><br>';
-            } else if (isset($_SESSION['validation']) && $_SESSION['validation'] == 1) {
+            } else if (isset($_SESSION['verified']) && $_SESSION['verified'] == 1) {
               echo '<div class="alert alert-success fade show" role="alert">
                 <strong>Votre compte est validé manuellement par un représentant du Gouvernement !</strong><br>Vous n\'avez rien d\'autre à faire.
               </div>
@@ -378,8 +378,11 @@ if (isset($_SESSION['id'])){
   $token = $vtoken->fetch();
 
   if ($token) {
-    $validation = $bdd->prepare('UPDATE individual SET validation = 1 WHERE id = ?;');
+    $validation = $bdd->prepare('UPDATE individual SET verified = 1 WHERE id = ?;');
     $validation->execute(array($_SESSION['id']));
+
+    $validation = $bdd->prepare('UPDATE validations SET validated = 1 WHERE token = ?;');
+    $validation->execute(array($_GET['token']));
 
     header( "refresh:0;url=validation.php" );
   } else {

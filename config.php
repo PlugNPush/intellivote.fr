@@ -36,6 +36,7 @@ if (isset($_SESSION['id'])) {
   $_SESSION['birthplace'] = $test['birthplace'];
   $_SESSION['registered'] = $test['registered'];
   $_SESSION['email'] = $test['email'];
+  $_SESSION['verified'] = $test['verified'];
 }
 
 function generateRandomString($length = 10) {

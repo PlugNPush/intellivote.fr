@@ -263,6 +263,7 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
           $_SESSION['birthplace'] = $test['birthplace'];
           $_SESSION['registered'] = $test['registered'];
           $_SESSION['email'] = $test['email'];
+          $_SESSION['verified'] = $test['verified'];
 
           header( "refresh:0;url=index.php" );
       } else {
