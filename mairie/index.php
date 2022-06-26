@@ -67,10 +67,6 @@ if (!isset($_SESSION['id'])) {
 
           echo '<h1 class="my-4">Espace Mairie</h1>';
 
-          echo '<div class="alert alert-warning fade show" role="alert">
-            <strong>L\'espace Mairie est en construction.</strong> Par sécurité, vous devez utiliser l\'interface de gestion interne d\'Intellivote pour pouvoir administrer le service, la connexion à distance n\'est pas possible. Intellivote ne vous demandera jamais vos identifiants ni codes de vérifications, ne les communiquez jamais.
-          </div>';
-
           if ($_SESSION['verified'] != 1) {
             echo '
             <div class="alert alert-danger fade show" role="alert">
