@@ -203,14 +203,14 @@ if (isset($_SESSION['id'])){
           <h1>Vérification automatique de votre compte.</h1>
           <p>Bonjour ' . $_SESSION['name'] . ' ' . $_SESSION['surname'] . ', et bienvenue sur Intellivote. Pour confirmer votre inscription, vous devez confirmer votre identité numérique. Grâce à votre adresse email, vous êtes éligible à notre solution de validation automatique. Cliquez simplement sur le lien ci-dessous pour terminer l\'activation de votre compte.
           <p>Adresse email utilisée</p>
-          <h4>' . $_POST['email'] . '</h4>
+          <h4>' . $_SESSION['email'] . '</h4>
           <p>Certification demandée le</p>
-          <h4>' . $date . '</h4>
+          <h4>' . $data['date'] . '</h4>
           <br>
-          <h3><a href="https://www.intellivote.fr/validation.php?token=' . $token . '">Cliquez ici pour activer automatiquement votre compte</a>.</h3>
+          <h3><a href="https://www.intellivote.fr/validation.php?token=' . $data['token'] . '">Cliquez ici pour activer automatiquement votre compte</a>.</h3>
           <br>
           <p>En cas de problème avec le lien ci-dessus, vous pouvez aussi copier votre code d\'authentification à usage unique :</p>
-          <h4>' . $token . '</h4>
+          <h4>' . $data['token'] . '</h4>
           <br>
           <p>À très vite !</p>
           <p>- L\'équipe Intellivote.</p><br><br>
@@ -225,7 +225,7 @@ if (isset($_SESSION['id'])){
     $headers[] = 'Content-type: text/html; charset=iso-8859-1';
 
     // En-têtes additionnels
-    $headers[] = 'To: <' . $_POST['email'] . '>';
+    $headers[] = 'To: <' . $_SESSION['email'] . '>';
     $headers[] = 'From: Validation Intellivote <noreply@intellivote.fr>';
 
     $mail = new PHPmailer();
@@ -262,7 +262,6 @@ if (isset($_SESSION['id'])){
       if ($sent) {
         header( "refresh:0;url=validation.php?resent=true" );
       } else {
-        echo 'Mailer Error: ' . $mail->ErrorInfo . '!';
         header( "refresh:0;url=validation.php?serror=true" );
       }
 
@@ -296,12 +295,12 @@ if (isset($_SESSION['id'])){
       $token = generateRandomString(256);
       $date = date('Y-m-d H:i:s', strtotime('+1 day'));
 
-      $newtoken = $bdd->prepare('INSERT INTO validations(type, individual, token, expiration) VALUES(:type, :individual, :token, :expiration);');
+      $newtoken = $bdd->prepare('INSERT INTO validations(type, individual, token, date) VALUES(:type, :individual, :token, :date);');
       $newtoken->execute(array(
         'type' => 0,
         'individual' => $_SESSION['id'],
         'token' => $token,
-        'expiration' => $date
+        'date' => $date
       ));
 
 
