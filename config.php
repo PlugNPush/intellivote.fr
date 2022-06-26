@@ -8,16 +8,11 @@ require dirname(__FILE__) . '/PHPMailer/POP3.php';
 require dirname(__FILE__) . '/PHPMailer/OAuth.php';
 require dirname(__FILE__) . '/PHPMailer/Exception.php';
 
-echo 'CANNOT LOAD ' . dirname(__FILE__) . '/PHPMailer/PHPMailer.php';
-
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\POP3;
 use PHPMailer\PHPMailer\OAuth;
 use PHPMailer\PHPMailer\Exception;
-
-$mail = new PHPMailer();
-echo $mail;
 
 
 try
