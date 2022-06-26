@@ -63,8 +63,8 @@ require_once dirname(__FILE__).'/../../config/config.php';
 
           echo '<h1 class="my-4">Espace Gouvernement</h1>';
 
-          echo '<div class="alert alert-warning fade show" role="alert">
-            <strong>L\'espace Gouvernement n\'est pas accessible depuis l\'extérieur.</strong>. Par sécurité, vous devez utiliser l\'interface de gestion interne d\'intellivote pour pouvoir administrer le service, la connexion à distance n\'est pas possible. Intellivote ne vous demandera jamais vos identifiants ni codes de vérifications, ne les communiquez jamais.
+          echo '<div class="alert alert-danger fade show" role="alert">
+            <strong>L\'espace Gouvernement n\'est pas accessible depuis l\'extérieur.</strong> Par sécurité, vous devez utiliser l\'interface de gestion interne d\'Intellivote pour pouvoir administrer le service, la connexion à distance n\'est pas possible. Intellivote ne vous demandera jamais vos identifiants ni codes de vérifications, ne les communiquez jamais.
           </div>';
 
           echo '<br><br>';
