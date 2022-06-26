@@ -163,7 +163,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
                 $departement_fetch->execute();
 
                 while ($departement = $departement_fetch->fetch()) {
-                  echo '<option value="', $departement['id'] ,'">', $departement['nom'] ,'</option>';
+                  echo '<option value="', $departement['id'] ,'">', $departement['id'], ' - ', $departement['nom'] ,'</option>';
                 }
 
                 echo '
@@ -201,7 +201,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
                   $insee_fetch->execute(array($test['id']));
 
                   while ($insee = $insee_fetch->fetch()) {
-                    echo '<option value="', $insee['insee'] ,'">', $insee['nom'] ,'</option>';
+                    echo '<option value="', $insee['insee'] ,'">', $insee['insee'], ' - ', $insee['nom'] ,'</option>';
                   }
 
                   echo '
