@@ -1,10 +1,6 @@
 <?php
-require_once dirname(__FILE__).'/../../config/config.php';
-  try {
-    $bdd = new PDO('mysql:host='.getDBHost().';dbname=efreidynamo', getDBUsername(), getDBPassword(), array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4"));
-  } catch(Exception $e) {
-    exit ('Erreur while connecting to database: '.$e->getMessage());
-  }
+require_once dirname(__FILE__).'/../config.php';
+
 if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
 
   echo '<!DOCTYPE html>
@@ -19,7 +15,7 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
 
     <meta http-equiv="Content-Security-Policy" content="default-src \'self\'; img-src https://* \'self\' data:; child-src \'none\';">
 
-    <title>Intellivote</title>
+    <title>Intellivote - Espace électeur</title>
 
     <link href="css/custom.css" rel="stylesheet">
 
@@ -33,43 +29,30 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
 
   <body>
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-blue bg-dark fixed-top">
-      <div class="container">
-        <img class="navbar-brand" href="index.php">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span id="new-dark-navbar-toggler-icon" class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="index.php">Répondre à des questions
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="newquestion.php">Poser une question</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="account.php">Mon compte</a>
-            </li>';
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.php">mairie.intellivote.fr</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span id="new-dark-navbar-toggler-icon" class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="https://www.intellivote.fr">Espace élécteur<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://mairie.intellivote.fr">Espace mairie</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://gouv.intellivote.fr">Espace Gouvernement</a>
+          </li>';
 
-            if (isset($_SESSION['id'])) {
-              echo '
-              <li class="nav-item">
-                <a class="nav-link" href="logout.php">Se déconnecter</a>
-              </li>';
-            } else {
-              echo '
-              <li class="nav-item">
-                <a class="nav-link" href="login.php">Connexion</a>
-              </li>';
-            }
-
-            echo '
-          </ul>
-        </div>
+          echo '
+        </ul>
       </div>
-    </nav>
+    </div>
+  </nav>
 
     <!-- Page Content -->
     <div class="container">
@@ -124,7 +107,7 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
               if (isset($_GET['emailexists'])){
                 echo ' is-invalid';
               }
-              echo '" id="email" placeholder="Préférez votre mail professionnel en @efrei.net, @intervenants.efrei.net ou @efrei.fr" required>';
+              echo '" id="email" placeholder="Email pour la connexion" required>';
               if (isset($_GET['emailexists'])){
                 echo '<div class="invalid-feedback">
                   Echec de la validation du mail. Un compte existe déjà avec cette adresse.
@@ -132,22 +115,16 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
               }
               echo '
               <small id="emailHelp" class="form-text text-muted">
-                Pro-tip : Vous pouvez utiliser une autre adresse que votre email Efrei, celle-ci vous sera demandée ultérieurement lors de la validation de votre compte. Cependant, pour simplifier les démarches de validation, il est recommandé d\'utiliser son email Efrei pour la connexion.
+                Attention : cette adresse e-mail sera vérifiée, assurez-vous d\'être en mesure de recevoir des e-mails dessus.
               </small>
             </div>
             <div class="form-group">
-              <label for="titre">Votre pseudonyme</label>
-              <input type="text" name="pseudo" class="form-control';
-              if (isset($_GET['pseudoexists'])){
-                echo ' is-invalid';
-              }
-              echo '" id="pseudo" placeholder="Pseudo" required>';
-              if (isset($_GET['pseudoexists'])){
-                echo '<div class="invalid-feedback">
-                  Echec de la validation du pseudonyme. Un compte existe déjà avec ce pseudo.
-                </div>';
-              }
-              echo '
+              <label for="titre">Votre nom</label>
+              <input type="text" name="name" class="form-control" id="name" placeholder="Nom" required>
+            </div>
+            <div class="form-group">
+              <label for="titre">Vos prénoms</label>
+              <input type="text" name="prenom" class="form-control" id="name" placeholder="Vos prénoms" required>
             </div>
             <div class="form-group">
               <label for="titre">Votre mot de passe</label>
@@ -179,40 +156,32 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
             </div>
 
             <div class="form-group">
-              <label for="role">Choisissez votre rôle</label>
-              <select name="role" class="form-control" id="role" required>
-                <option value="0">Étudiant (vérification automatique par mail @efrei.net)</option>
-                <option value="1">Modérateur (requiert une double vérification manuelle)</option>
-                <option value="2">Professeur (requiert un mail en @efrei.fr ou @intervenants.efrei.net)</option>
-              </select>
+              <label for="titre">Date de naissance</label>
+              <input type="text" name="birthdate" class="form-control" id="birthdate" placeholder="Format MM-DD-YYYY" required>
             </div>
 
             <div class="form-group">
-              <label for="annee">Choisissez votre niveau</label>
-              <select name="annee" class="form-control" id="annee" required>
-                <option value="1">Cycle préparatoire - L1</option>
-                <option value="2">Cycle préparatoire - L2</option>
-                <option value="3">Cycle ingénieur - L3</option>
-                <option value="4">Cycle ingénieur - M1</option>
-                <option value="5">Cycle ingénieur - M2</option>
-                <option value="6">Ancien élève diplomé</option>
-                <option value="7">Intervenant (tous niveaux)</option>
-              </select>
-            </div>
+              <label for="departement">Département de naissance
+              </label>
+              <select name="birthplace" class="form-control" id="birthplace" required>';
 
-            <div class="form-group">
-              <label for="majeure">Choisissez votre majeure</label>
-              <select name="majeure" class="form-control" id="majeure" required>';
+              $departement_fetch = $bdd->prepare('SELECT * FROM departements ORDER BY id ASC;');
+              $departement_fetch->execute();
 
-              $majeure_fetch = $bdd->prepare('SELECT * FROM majeures;');
-              $majeure_fetch->execute();
-
-              while ($majeure = $majeure_fetch->fetch()) {
-                echo '<option value="', $majeure['id'] ,'">', $majeure['nom'] ,'</option>';
+              while ($departement = $departement_fetch->fetch()) {
+                echo '<option value="', $departement['id'] ,'">', $departement['id'], ' - ', $departement['nom'] ,'</option>';
               }
 
               echo '
               </select>
+              <small id="help" class="form-text text-muted">
+              ATTENTION, départements spéciaux :<br>
+              201 : CORSE DU SUD<br>
+              202 : HAUTE CORSE<br>
+              981 : NOUVELLE CALEDONIE<br>
+              982 : POLYNESIE FRANCAISE<br>
+              99 : ETRANGER<br>
+              </small>
             </div>
 
 
