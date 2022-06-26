@@ -325,7 +325,7 @@ if (isset($_SESSION['id'])){
       $headers[] = 'To: <' . $_POST['email'] . '>';
       $headers[] = 'From: Validation Intellivote <noreply@intellivote.fr>';
 
-      $mail = new PHPmailer();
+      $mail = new PHPMailer();
       $mail->IsSMTP();
       $mail->IsHTML(true);
       $mail->CharSet = 'UTF-8';
