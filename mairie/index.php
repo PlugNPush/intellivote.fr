@@ -71,6 +71,18 @@ if (!isset($_SESSION['id'])) {
             <strong>L\'espace Mairie est en construction.</strong> Par sécurité, vous devez utiliser l\'interface de gestion interne d\'Intellivote pour pouvoir administrer le service, la connexion à distance n\'est pas possible. Intellivote ne vous demandera jamais vos identifiants ni codes de vérifications, ne les communiquez jamais.
           </div>';
 
+          if ($_SESSION['verified'] != 1) {
+            echo '
+            <div class="alert alert-danger fade show" role="alert">
+              <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Vous devez confirmer votre compte pour accéder au site. Celui-ci n\'a pas encore pu être vérifié.<br><a class = "btn btn-primary" href = "https://www.intellivote.fr/validation.php">Lancer ou vérifier la procédure de validation</a>
+            </div>';
+          } else {
+            echo '
+            <div class="alert alert-info fade show" role="alert">
+              <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Votre compte est prêt.<br>
+            </div>';
+          }
+
           echo '<br><br>';
 
         echo '</div>
