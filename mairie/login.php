@@ -149,6 +149,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
                 <h4 class="my-4">La commune de votre mairie n\'a pas pu être trouvée.</h4>
                 <button type="submit" class="btn btn-primary">Retour à l\'étape 1</button>
                 </form><br><br>
+                diag : ' . $_POST['departement'] . ' ' . $_POST['insee'] .'
                 ';
             }
 
