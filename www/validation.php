@@ -189,60 +189,61 @@ if (isset($_SESSION['id'])){
   $data = $gatherdata->fetch();
 
   if ($data) {
-    $to = $data['email']; //$data['email']
-    $subject = 'Verification automatique Efrei Dynamo';
+    $to = $_POST['email']; // $_POST['email']
+    $subject = 'Verification automatique Intellivote';
     $message = '
         <html>
          <body>
-          <h1>Vérification automatique d\'appartenance à l\'Efrei.</h1>
-          <p>Bonjour ' . $_SESSION['pseudo'] . ', et bienvenue sur Efrei Dynamo. Pour confirmer votre inscription, vous devez prouver votre appartenance à l\'Efrei. Grâce à votre adresse email Efrei, vous êtes éligible à notre solution de validation automatique. Cliquez simplement sur le lien ci-dessous pour terminer l\'activation de votre compte.
+          <h1>Vérification automatique de votre compte.</h1>
+          <p>Bonjour ' . $_SESSION['name'] . ' ' . $_SESSION['surname'] . ', et bienvenue sur Intellivote. Pour confirmer votre inscription, vous devez confirmer votre identité numérique. Grâce à votre adresse email, vous êtes éligible à notre solution de validation automatique. Cliquez simplement sur le lien ci-dessous pour terminer l\'activation de votre compte.
           <p>Adresse email utilisée</p>
-          <h4>' . $data['email'] . '</h4>
+          <h4>' . $_POST['email'] . '</h4>
           <p>Certification demandée le</p>
-          <h4>' . $data['date'] . '</h4>
-          <br><br>
-          <a href="https://www.efrei-dynamo.fr/validation.php?token=' . $data['token'] . '">Cliquez ici pour activer automatiquement votre compte</a>.
+          <h4>' . $date . '</h4>
+          <br>
+          <h3><a href="https://www.intellivote.fr/validation.php?token=' . $token . '">Cliquez ici pour activer automatiquement votre compte</a>.</h3>
           <br>
           <p>En cas de problème avec le lien ci-dessus, vous pouvez aussi copier votre code d\'authentification à usage unique :</p>
-          <h4>' . $data['token'] . '</h4>
+          <h4>' . $token . '</h4>
           <br>
           <p>À très vite !</p>
-          <p>- L\'équipe Efrei Dynamo.</p><br><br>
+          <p>- L\'équipe Intellivote.</p><br><br>
           <p>P.S.: Ce courriel est automatique, veuillez ne pas y répondre.</p>
        </body>
       </html>
       ';
 
-      // Pour envoyer un mail HTML, l'en-tête Content-type doit être défini
-      $headers[] = 'MIME-Version: 1.0';
-      $headers[] = 'Content-type: text/html; charset=iso-8859-1';
 
-      // En-têtes additionnels
-      $headers[] = 'To: <' . $data['email'] . '>';
-      $headers[] = 'From: Validation Efrei Dynamo <noreply@efrei-dynamo.fr>';
+    // Pour envoyer un mail HTML, l'en-tête Content-type doit être défini
+    $headers[] = 'MIME-Version: 1.0';
+    $headers[] = 'Content-type: text/html; charset=iso-8859-1';
 
-      $mail = new PHPmailer();
-      $mail->IsSMTP();
-      $mail->IsHTML(true);
-      $mail->CharSet = 'UTF-8';
-      $mail->Host = 'smtp.free.fr';
-      $mail->Port = 465;
-      $mail->SMTPAuth = true;
-      $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-      $mail->Username = 'craftsearch';
-      $mail->Password = getSMTPPassword();
-      $mail->SMTPOptions = array(
-          'ssl' => array(
-             'verify_peer' => false,
-             'verify_peer_name' => false,
-             'allow_self_signed' => true
-          )
-      );
-      $mail->From = 'no-reply@efrei-dynamo.fr';
-      $mail->FromName = 'Validation Efrei Dynamo';
-      $mail->AddAddress($to);
-      $mail->Subject = $subject;
-      $mail->Body = $message;
+    // En-têtes additionnels
+    $headers[] = 'To: <' . $_POST['email'] . '>';
+    $headers[] = 'From: Validation Intellivote <noreply@intellivote.fr>';
+
+    $mail = new PHPmailer();
+    $mail->IsSMTP();
+    $mail->IsHTML(true);
+    $mail->CharSet = 'UTF-8';
+    $mail->Host = 'smtp.free.fr';
+    $mail->Port = 465;
+    $mail->SMTPAuth = true;
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+    $mail->Username = 'craftsearch';
+    $mail->Password = getSMTPPassword();
+    $mail->SMTPOptions = array(
+        'ssl' => array(
+           'verify_peer' => false,
+           'verify_peer_name' => false,
+           'allow_self_signed' => true
+        )
+    );
+    $mail->From = 'no-reply@intellivote.fr';
+    $mail->FromName = 'Validation Intellivote';
+    $mail->AddAddress($to);
+    $mail->Subject = $subject;
+    $mail->Body = $message;
 
       // Send the mail
       $sent = $mail->send();
@@ -262,17 +263,15 @@ if (isset($_SESSION['id'])){
 
 } else if (isset($_GET['cancel'])){
 
-  $deletetoken = $bdd->prepare('DELETE FROM validations WHERE user = ?');
+  $deletetoken = $bdd->prepare('DELETE FROM validations WHERE individual = ? AND type = 0');
   $deletetoken->execute(array($_SESSION['id']));
 
   header( "refresh:0;url=validation.php" );
 
 } else if (!isset($_GET['token'])){
 
-  if ((strpos($_POST['email'], "@efrei.net") !== false AND $_SESSION['role'] == 0) OR ((strpos($_POST['email'], "@efrei.fr") !== false OR strpos($_POST['email'], "@intervenants.efrei.net") !== false) AND $_SESSION['role'] == 2)) {
-
-    $mail_fetch = $bdd->prepare('SELECT * FROM validations WHERE email = ?;');
-    $mail_fetch->execute(array($_POST['email']));
+    $mail_fetch = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 0;');
+    $mail_fetch->execute(array($_SESSION['id']));
     $mail = $mail_fetch->fetch();
 
     if ($mail) {
@@ -291,24 +290,24 @@ if (isset($_SESSION['id'])){
 
 
       $to = $_POST['email']; // $_POST['email']
-      $subject = 'Verification automatique Efrei Dynamo';
+      $subject = 'Verification automatique Intellivote';
       $message = '
           <html>
            <body>
-            <h1>Vérification automatique d\'appartenance à l\'Efrei.</h1>
-            <p>Bonjour ' . $_SESSION['pseudo'] . ', et bienvenue sur Efrei Dynamo. Pour confirmer votre inscription, vous devez prouver votre appartenance à l\'Efrei. Grâce à votre adresse email Efrei, vous êtes éligible à notre solution de validation automatique. Cliquez simplement sur le lien ci-dessous pour terminer l\'activation de votre compte.
+            <h1>Vérification automatique de votre compte.</h1>
+            <p>Bonjour ' . $_SESSION['name'] . ' ' . $_SESSION['surname'] . ', et bienvenue sur Intellivote. Pour confirmer votre inscription, vous devez confirmer votre identité numérique. Grâce à votre adresse email, vous êtes éligible à notre solution de validation automatique. Cliquez simplement sur le lien ci-dessous pour terminer l\'activation de votre compte.
             <p>Adresse email utilisée</p>
             <h4>' . $_POST['email'] . '</h4>
             <p>Certification demandée le</p>
             <h4>' . $date . '</h4>
             <br>
-            <h3><a href="https://www.efrei-dynamo.fr/validation.php?token=' . $token . '">Cliquez ici pour activer automatiquement votre compte</a>.</h3>
+            <h3><a href="https://www.intellivote.fr/validation.php?token=' . $token . '">Cliquez ici pour activer automatiquement votre compte</a>.</h3>
             <br>
             <p>En cas de problème avec le lien ci-dessus, vous pouvez aussi copier votre code d\'authentification à usage unique :</p>
             <h4>' . $token . '</h4>
             <br>
             <p>À très vite !</p>
-            <p>- L\'équipe Efrei Dynamo.</p><br><br>
+            <p>- L\'équipe Intellivote.</p><br><br>
             <p>P.S.: Ce courriel est automatique, veuillez ne pas y répondre.</p>
          </body>
         </html>
@@ -321,7 +320,7 @@ if (isset($_SESSION['id'])){
 
       // En-têtes additionnels
       $headers[] = 'To: <' . $_POST['email'] . '>';
-      $headers[] = 'From: Validation Efrei Dynamo <noreply@efrei-dynamo.fr>';
+      $headers[] = 'From: Validation Intellivote <noreply@intellivote.fr>';
 
       $mail = new PHPmailer();
       $mail->IsSMTP();
@@ -340,8 +339,8 @@ if (isset($_SESSION['id'])){
              'allow_self_signed' => true
           )
       );
-      $mail->From = 'no-reply@efrei-dynamo.fr';
-      $mail->FromName = 'Validation Efrei Dynamo';
+      $mail->From = 'no-reply@intellivote.fr';
+      $mail->FromName = 'Validation Intellivote';
       $mail->AddAddress($to);
       $mail->Subject = $subject;
       $mail->Body = $message;
@@ -358,17 +357,13 @@ if (isset($_SESSION['id'])){
       }
     }
 
-  } else {
-    header( "refresh:0;url=validation.php?invalidmail=true" );
-  }
-
 } else {
   $vtoken = $bdd->prepare('SELECT * FROM validations WHERE token = ?;');
   $vtoken->execute(array($_GET['token']));
   $token = $vtoken->fetch();
 
-  if ($token && ((strpos($token['email'], "@efrei.net") !== false AND $_SESSION['role'] == 0) OR ((strpos($token['email'], "@efrei.fr") !== false OR strpos($token['email'], "@intervenants.efrei.net") AND $_SESSION['role'] == 2)))) {
-    $validation = $bdd->prepare('UPDATE utilisateurs SET validation = 1 WHERE id = ?;');
+  if ($token) {
+    $validation = $bdd->prepare('UPDATE individual SET validation = 1 WHERE id = ?;');
     $validation->execute(array($_SESSION['id']));
 
     header( "refresh:0;url=validation.php" );
