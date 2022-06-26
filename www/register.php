@@ -153,7 +153,7 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
 
             <div class="form-group">
               <label for="titre">Date de naissance</label>
-              <input type="text" name="birthdate" class="form-control" id="birthdate" placeholder="Format MM-JJ-AAAA" required>
+              <input type="text" name="birthdate" class="form-control" id="birthdate" placeholder="Format AAAA-MM-JJ" required>
               <small id="help" class="form-text text-muted">
               ATTENTION : format AAAA-MM-JJ<br>
               Par exemple, si vous êtes né le 25 août 1971, indiquez 1971-08-25.
@@ -237,12 +237,12 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
     if (!empty($_POST['mdp']) AND !empty($_POST['vmdp']) AND $_POST['mdp'] == $_POST['vmdp']) {
       $hash=password_hash($_POST['mdp'], PASSWORD_DEFAULT);
       $date = date('Y-m-d H:i:s');
-      $req=$bdd->prepare('INSERT INTO individual(email, password, name, surname, birthdate, birthplace) VALUES(:email, :password, :name, :surname, :birthdate, :birthplace);');
+      $req=$bdd->prepare('INSERT INTO individual(email, password, name, surname, birthdate, birthplace, registered) VALUES(:email, :password, :name, :surname, :birthdate, :birthplace, :registered);');
       $req->execute(array(
         'email'=> $_POST['email'],
         'password'=> $hash,
-        'name'=> $_POST['nom'],
-        'surname'=> $_POST['prenom'],
+        'name'=> $_POST['name'],
+        'surname'=> $_POST['surname'],
         'birthdate'=> $_POST['birthdate'],
         'birthplace' => $_POST['birthplace'],
         'registered'=> $date
