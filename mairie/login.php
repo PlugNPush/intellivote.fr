@@ -18,7 +18,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
       $_SESSION['id'] = $test['id'];
       $_SESSION['name'] = $test['name'];
       $_SESSION['surname'] = $test['surname'];
-      $_SESSION['birthday'] = $test['birthday'];
+      $_SESSION['birthdate'] = $test['birthdate'];
       $_SESSION['birthplace'] = $test['birthplace'];
       $_SESSION['registered'] = $test['registered'];
       $_SESSION['email'] = $test['email'];
