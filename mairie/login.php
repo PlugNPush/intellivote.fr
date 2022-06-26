@@ -117,7 +117,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
               echo '<h3 class="my-4">Étape 3</h3>';
               echo '
               <form action="login.php" method="post">
-              <h4 class="my-4">Connexion à votre mairie à ' . $test['nom'] . ' ( ' . $_POST['departement'] . ')</h4>
+              <h4 class="my-4">Connexion à votre mairie à ' . $test['nom'] . ' (' . $_POST['departement'] . ')</h4>
                 <div class="form-group">
                   <label for="email">Saisissez votre adresse adresse e-mail</label>
                   <input type="text" name="email" class="form-control" id="email" placeholder="Courriel" required>
