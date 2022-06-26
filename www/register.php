@@ -88,16 +88,6 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
               <strong>Echec de la validation du mail</strong>. Un compte avec cette adresse mail existe déjà.
             </div>';
           }
-          if (isset($_GET['pseudoexists'])) {
-            echo '
-            <div class="alert alert-danger fade show" role="alert">
-              <strong>Echec de la validation du pseudo</strong>. Un compte avec ce pseudo existe déjà.
-            </div>';
-          }
-
-          echo '<div class="alert alert-danger fade show" role="alert">
-            <strong>Efrei Dynamo ferme ses portes le 31 décembre 2021</strong>. Afin de préparer la fermeture de notre plateforme, il n\'est désormais plus possible de s\'y inscrire depuis le 1er octobre 2021.
-          </div>';
 
           echo '
           <form action="register.php" method="post">
@@ -157,7 +147,11 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
 
             <div class="form-group">
               <label for="titre">Date de naissance</label>
-              <input type="text" name="birthdate" class="form-control" id="birthdate" placeholder="Format MM-DD-YYYY" required>
+              <input type="text" name="birthdate" class="form-control" id="birthdate" placeholder="Format MM-JJ-AAAA" required>
+              <small id="help" class="form-text text-muted">
+              ATTENTION : format MM-JJ-AAAA<br>
+              Par exemple, si vous êtes né le 25 août 1971, indiquez 08-25-1971.
+              </small>
             </div>
 
             <div class="form-group">
