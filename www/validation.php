@@ -190,7 +190,7 @@ if (isset($_SESSION['id'])){
 ';
 } else if (isset($_GET['resend'])){
 
-  $gatherdata = $bdd->prepare('SELECT * FROM validations WHERE user = ?;');
+  $gatherdata = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 0;');
   $gatherdata->execute(array($_SESSION['id']));
   $data = $gatherdata->fetch();
 
@@ -254,12 +254,15 @@ if (isset($_SESSION['id'])){
       // Send the mail
       $sent = $mail->send();
 
+
+
       // Envoi
       //$sent = mail($to, $subject, $message, implode("\r\n", $headers));
 
       if ($sent) {
         header( "refresh:0;url=validation.php?resent=true" );
       } else {
+        echo 'Mailer Error: '. $mail->ErrorInfo} . '!';
         header( "refresh:0;url=validation.php?serror=true" );
       }
 
