@@ -1,5 +1,6 @@
 <?php
-require_once dirname(__FILE__).'/../../config/config.php';
+require_once dirname(__FILE__).'/../config.php';
+
 
 if (!isset($_SESSION['id'])) {
   header( "refresh:0;url=login.php?expired=true" );

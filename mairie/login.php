@@ -133,6 +133,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
               }
 
               echo '
+              <input type="hidden" name="idmairie" class="form-control" id="idmairie" placeholder="Courriel" value = "' . $test["id"] .'">
                 <div class="form-group">
                   <label for="email">Saisissez votre adresse adresse e-mail</label>
                   <input type="text" name="email" class="form-control" id="email" placeholder="Courriel" required>
