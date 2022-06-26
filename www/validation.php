@@ -233,7 +233,7 @@ if (isset($_SESSION['id'])){
     $mail->IsHTML(true);
     $mail->CharSet = 'UTF-8';
     $mail->Host = 'mail.groupe-minaste.org';
-    $mail->Port = 25;
+    $mail->Port = 587;
     $mail->SMTPAuth = true;
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
     $mail->SMTPDebug = SMTP::DEBUG_SERVER;
