@@ -232,11 +232,11 @@ if (isset($_SESSION['id'])){
     $mail->IsSMTP();
     $mail->IsHTML(true);
     $mail->CharSet = 'UTF-8';
-    $mail->Host = 'smtp.free.fr';
+    $mail->Host = 'mail.groupe-minaste.org';
     $mail->Port = 465;
     $mail->SMTPAuth = true;
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-    $mail->Username = 'craftsearch';
+    $mail->Username = 'no-reply@efrei-dynamo.fr';
     $mail->Password = getSMTPPassword();
     $mail->SMTPOptions = array(
         'ssl' => array(
@@ -281,7 +281,7 @@ if (isset($_SESSION['id'])){
 
     $mailchange = $bdd->prepare('UPDATE individual SET email = ? WHERE id = ?');
     $mailchange->execute(array($_POST['email'], $_SESSION['id']));
-    
+
 
     $mail_fetch = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 0;');
     $mail_fetch->execute(array($_SESSION['id']));
