@@ -195,7 +195,7 @@ if (isset($_SESSION['id'])){
   $data = $gatherdata->fetch();
 
   if ($data) {
-    $to = $_POST['email']; // $_POST['email']
+    $to = $_SESSION['email']; // $_POST['email']
     $subject = 'Verification automatique Intellivote';
     $message = '
         <html>
@@ -279,6 +279,10 @@ if (isset($_SESSION['id'])){
 
 } else if (!isset($_GET['token'])){
 
+    $mailchange = $bdd->prepare('UPDATE individual SET email = ? WHERE id = ?');
+    $mailchange->execute(array($_POST['email'], $_SESSION['id']));
+    
+
     $mail_fetch = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 0;');
     $mail_fetch->execute(array($_SESSION['id']));
     $mail = $mail_fetch->fetch();
@@ -301,7 +305,7 @@ if (isset($_SESSION['id'])){
       ));
 
 
-      $to = $_POST['email']; // $_POST['email']
+      $to = $_SESSION['email']; // $_POST['email']
       $subject = 'Verification automatique Intellivote';
       $message = '
           <html>
