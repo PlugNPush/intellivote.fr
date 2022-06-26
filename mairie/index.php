@@ -1,6 +1,9 @@
 <?php
 require_once dirname(__FILE__).'/../../config/config.php';
 
+if (!isset($_SESSION['id'])) {
+  header( "refresh:0;url=login.php?expired=true" );
+}
 
   echo '<!DOCTYPE html>
   <html lang="fr">
