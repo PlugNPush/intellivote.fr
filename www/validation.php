@@ -124,7 +124,7 @@ if (isset($_SESSION['id'])){
 
             if (isset($_SESSION['verified']) && $_SESSION['verified'] == 1 && $data) {
               echo '<div class="alert alert-success fade show" role="alert">
-                <strong>Félicitations, votre compte Intellivote est validé !</strong><br>Votre identité numérique a été certifiée avec une signature numérique le ', $data['date'], ' via l\'adresse email suivante : <a href="mailto:', $data['email'] ,'">', $data['email'] ,'</a>.
+                <strong>Félicitations, votre compte Intellivote est validé !</strong><br>Votre identité numérique a été certifiée avec une signature numérique le ', $data['date'], ' via l\'adresse email suivante : <a href="mailto:', $_SESSION['email'] ,'">', $_SESSION['email'] ,'</a>.
               </div>
               <a href="index.php" class="btn btn-success btn-lg btn-block">Continuer sur Intellivote</a><br><br>';
             } else if (isset($_SESSION['verified']) && $_SESSION['verified'] == 1) {
