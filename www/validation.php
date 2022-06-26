@@ -236,7 +236,6 @@ if (isset($_SESSION['id'])){
     $mail->Port = 587;
     $mail->SMTPAuth = true;
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->SMTPDebug = SMTP::DEBUG_SERVER;
     $mail->Username = 'no-reply@efrei-dynamo.fr';
     $mail->Password = getSMTPPassword();
     $mail->SMTPOptions = array(
