@@ -105,7 +105,7 @@ if (isset($_SESSION['id'])){
                   echo '
                   <div class="alert alert-warning fade show" role="alert">
                     <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Vous devez maintenant vous authentifier en tant qu\'électeur, donc relier votre identité numérique à votre identité physique. Lancez une pré-demande en ligne ou rendez-vous en mairie.<br><a class = "btn btn-primary" href = "validation.php">Relier mon identité physique</a><br>
-                    Vous representez une mairie ? Votre demande devra être traitée par un représentant de l\'État.
+                    <br>Vous representez une mairie ? Votre demande devra être traitée par <a href="https://gouv.intellivote.fr">un représentant de l\'État</a>.
                   </div>';
                 }
               }
