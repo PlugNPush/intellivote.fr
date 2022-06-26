@@ -127,7 +127,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
               </form><br><br>
               ';
           } else {
-            $req = $bdd->prepare('SELECT * FROM departements WHERE numero = ?;');
+            $req = $bdd->prepare('SELECT * FROM departements WHERE id = ?;');
             $req->execute(array($_POST['departement']));
             $test = $req->fetch();
 
