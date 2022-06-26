@@ -118,6 +118,9 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
               echo '
               <form action="login.php" method="post">
               <h4 class="my-4">Connexion à votre mairie à ' . $test['nom'] . ' (' . $_POST['departement'] . ')</h4>
+              <div class="alert alert-info fade show" role="alert">
+                <strong>L\'identifiant de votre mairie mairie est</strong> ' . $test["id"] . '. Pensez à le noter pour une connexion plus rapide.
+              </div>
                 <div class="form-group">
                   <label for="email">Saisissez votre adresse adresse e-mail</label>
                   <input type="text" name="email" class="form-control" id="email" placeholder="Courriel" required>
