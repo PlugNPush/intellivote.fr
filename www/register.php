@@ -252,7 +252,7 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
       $req->execute(array($_POST['email']));
       $test = $req->fetch();
 
-      $verify = password_verify($_POST['mdp'], $test['mdp']);
+      $verify = password_verify($_POST['mdp'], $test['password']);
       if ($verify)
       {
           session_start();
