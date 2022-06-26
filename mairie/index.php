@@ -4,7 +4,7 @@ require_once dirname(__FILE__).'/../config.php';
 
 if (!isset($_SESSION['id'])) {
   header( "refresh:0;url=login.php?expired=true" );
-}
+} else {
 
   echo '<!DOCTYPE html>
   <html lang="fr">
@@ -99,7 +99,9 @@ if (!isset($_SESSION['id'])) {
             }
           }
 
-          echo '<br><br>';
+          echo '
+          <a class = "btn btn-secondary" href = "logout.php">Se déconnecter</a>
+          <br><br>';
 
         echo '</div>
 
@@ -124,5 +126,8 @@ if (!isset($_SESSION['id'])) {
   </body>
 
   </html>';
+
+
+}
 
 ?>
