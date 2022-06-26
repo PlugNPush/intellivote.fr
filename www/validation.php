@@ -277,15 +277,18 @@ if (isset($_SESSION['id'])){
     if ($mail) {
       header( "refresh:0;url=validation.php?emailexists=true" );
     } else {
-      $token = generateRandomString(32);
-      $date = date('Y-m-d H:i:s');
+      $newmail = $bdd->prepare('UPDATE individual SET email = ? WHERE id = ?;');
+      $newmail->execute(array($_POST['email'], $_SESSION['id']));
 
-      $newtoken = $bdd->prepare('INSERT INTO validations(user, email, token, date) VALUES(:user, :email, :token, :date);');
+      $token = generateRandomString(256);
+      $date = date('Y-m-d H:i:s', strtotime('+1 day'));
+
+      $newtoken = $bdd->prepare('INSERT INTO validations(type, individual, token, expiration) VALUES(:type, :individual, :token,:expiration);');
       $newtoken->execute(array(
-        'user' => $_SESSION['id'],
-        'email' => $_POST['email'],
+        'type' => 0,
+        'individual' => $_SESSION['id'],
         'token' => $token,
-        'date' => $date
+        'expiration' => $date
       ));
 
 
