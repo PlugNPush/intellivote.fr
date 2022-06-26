@@ -2,11 +2,11 @@
 require_once dirname(__FILE__).'/../config/config.php';
 require_once dirname(__FILE__).'/../config/efreidynconfig.php';
 
-require_once 'PHPMailer/PHPMailer.php';
-require_once 'PHPMailer/SMTP.php';
-require_once 'PHPMailer/POP3.php';
-require_once 'PHPMailer/OAuth.php';
-require_once 'PHPMailer/Exception.php';
+require dirname(__FILE__) . 'PHPMailer/PHPMailer.php';
+require dirname(__FILE__) . 'PHPMailer/SMTP.php';
+require dirname(__FILE__) . 'PHPMailer/POP3.php';
+require dirname(__FILE__) . 'PHPMailer/OAuth.php';
+require dirname(__FILE__) . 'PHPMailer/Exception.php';
 
 
 use PHPMailer\PHPMailer\PHPMailer;
