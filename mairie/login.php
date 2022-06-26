@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/../config.php';
 
-if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
+if (!empty($_POST['email']) AND !empty($_POST['mdp'] AND !empty($_POST['idmairie']))){
   // Hachage du mot de passe
   $pass_hache = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
 
@@ -23,6 +23,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
       $_SESSION['registered'] = $test['registered'];
       $_SESSION['email'] = $test['email'];
       $_SESSION['verified'] = $test['verified'];
+      $_SESSION['idmairie'] = $test['idmairie'];
 
 
       header( "refresh:0;url=index.php" );
