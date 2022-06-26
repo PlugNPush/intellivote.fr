@@ -88,6 +88,12 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
               <strong>Echec de la validation du mail</strong>. Un compte avec cette adresse mail existe déjà.
             </div>';
           }
+          if (isset($_GET['wrongdepartement'])) {
+            echo '
+            <div class="alert alert-danger fade show" role="alert">
+              <strong>Echec de la validation du département de naissance</strong>. Vérifiez votre saisie.
+            </div>';
+          }
 
           echo '
           <form action="register.php" method="post">
@@ -114,7 +120,7 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
             </div>
             <div class="form-group">
               <label for="titre">Vos prénoms</label>
-              <input type="text" name="prenom" class="form-control" id="name" placeholder="Prénoms" required>
+              <input type="text" name="surname" class="form-control" id="surname" placeholder="Prénoms" required>
             </div>
             <div class="form-group">
               <label for="titre">Votre mot de passe</label>
@@ -149,8 +155,8 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
               <label for="titre">Date de naissance</label>
               <input type="text" name="birthdate" class="form-control" id="birthdate" placeholder="Format MM-JJ-AAAA" required>
               <small id="help" class="form-text text-muted">
-              ATTENTION : format MM-JJ-AAAA<br>
-              Par exemple, si vous êtes né le 25 août 1971, indiquez 08-25-1971.
+              ATTENTION : format AAAA-MM-JJ<br>
+              Par exemple, si vous êtes né le 25 août 1971, indiquez 1971-08-25.
               </small>
             </div>
 
@@ -175,7 +181,13 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
               981 : NOUVELLE CALEDONIE<br>
               982 : POLYNESIE FRANCAISE<br>
               99 : ETRANGER<br>
-              </small>
+              </small>';
+              if (isset($_GET['wrongdepartement'])){
+                echo '<div class="invalid-feedback">
+                  Ne vous amusez pas à sélectionner un département non listé.
+                </div>';
+              }
+              echo '
             </div>
 
 
@@ -209,34 +221,34 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
 
 }else{
 
-  $mail_fetch = $bdd->prepare('SELECT * FROM utilisateurs WHERE email = ?;');
+  $mail_fetch = $bdd->prepare('SELECT * FROM individual WHERE email = ?;');
   $mail_fetch->execute(array($_POST['email']));
   $mail = $mail_fetch->fetch();
 
-  $pseudo_fetch = $bdd->prepare('SELECT * FROM utilisateurs WHERE pseudo = ?;');
-  $pseudo_fetch->execute(array($_POST['pseudo']));
-  $pseudo = $pseudo_fetch->fetch();
+  $departement_fetch = $bdd->prepare('SELECT * FROM departements WHERE id = ?;');
+  $departement_fetch->execute(array($_POST['birthplace']));
+  $departement = $departement_fetch->fetch();
 
   if ($mail) {
     header( "refresh:0;url=register.php?emailexists=true" );
-  } else if ($pseudo) {
-    header( "refresh:0;url=register.php?pseudoexists=true" );
+  } else if (!$departement_fetch) {
+    header( "refresh:0;url=register.php?wrongdepartement=true" );
   } else {
     if (!empty($_POST['mdp']) AND !empty($_POST['vmdp']) AND $_POST['mdp'] == $_POST['vmdp']) {
       $hash=password_hash($_POST['mdp'], PASSWORD_DEFAULT);
       $date = date('Y-m-d H:i:s');
-      $req=$bdd->prepare('INSERT INTO utilisateurs(pseudo, email, mdp, role, annee, majeure, inscription) VALUES(:pseudo, :email, :mdp, :role, :annee, :majeure, :inscription);');
+      $req=$bdd->prepare('INSERT INTO individual(email, password, name, surname, birthdate, birthplace) VALUES(:email, :password, :name, :surname, :birthdate, :birthplace);');
       $req->execute(array(
-        'pseudo'=> $_POST['pseudo'],
         'email'=> $_POST['email'],
-        'mdp'=> $hash,
-        'role'=> $_POST['role'],
-        'annee'=> $_POST['annee'],
-        'majeure'=> $_POST['majeure'],
-        'inscription'=> $date
+        'password'=> $hash,
+        'name'=> $_POST['nom'],
+        'surname'=> $_POST['prenom'],
+        'birthdate'=> $_POST['birthdate'],
+        'birthplace' => $_POST['birthplace'],
+        'registered'=> $date
       ));
 
-      $req = $bdd->prepare('SELECT * FROM utilisateurs WHERE email = ?;');
+      $req = $bdd->prepare('SELECT * FROM individual WHERE email = ?;');
       $req->execute(array($_POST['email']));
       $test = $req->fetch();
 
@@ -245,17 +257,11 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
       {
           session_start();
           $_SESSION['id'] = $test['id'];
-          $_SESSION['pseudo'] = $test['pseudo'];
-          $_SESSION['email'] = $test['email'];
-          $_SESSION['role'] = $test['role'];
-          $_SESSION['annee'] = $test['annee'];
-          $_SESSION['majeure'] = $test['majeure'];
-          $_SESSION['validation'] = $test['validation'];
-          $_SESSION['karma'] = $test['karma'];
-          $_SESSION['inscription'] = $test['inscription'];
-          $_SESSION['photo'] = $test['photo'];
-          $_SESSION['linkedin'] = $test['linkedin'];
-          $_SESSION['ban'] = $test['ban'];
+          $_SESSION['name'] = $test['name'];
+          $_SESSION['surname'] = $test['surname'];
+          $_SESSION['birthday'] = $test['birthday'];
+          $_SESSION['birthplace'] = $test['birthplace'];
+          $_SESSION['registered'] = $test['registered'];
 
           header( "refresh:0;url=index.php" );
       } else {
