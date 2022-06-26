@@ -117,7 +117,6 @@ if (isset($_SESSION['id'])){
     </html>
 ';
 
-}
 else {
   header( "refresh:0;url=login.php?expired=true" );
 }
