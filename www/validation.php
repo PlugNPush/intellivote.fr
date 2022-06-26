@@ -80,7 +80,7 @@ if (isset($_SESSION['id'])){
 
             if (isset($_GET['invalidmail'])) {
               echo '<div class="alert alert-danger fade show" role="alert">
-                <strong>Adresse e-mail invalide !</strong><br> Il semblerait que l\'adresse email fournie ne soit pas fournie par l\'Efrei.
+                <strong>Adresse e-mail invalide !</strong><br> Il semblerait que l\'adresse email fournie ne soit pas correcte.
               </div>';
             }
 
@@ -124,14 +124,14 @@ if (isset($_SESSION['id'])){
 
             if (isset($_SESSION['verified']) && $_SESSION['verified'] == 1 && $data) {
               echo '<div class="alert alert-success fade show" role="alert">
-                <strong>Félicitations, votre compte Intellivote est validé !</strong><br>Votre identité numérique a été certifiée avec une signature numérique le ', $data['date'], ' via l\'adresse email Efrei suivante : <a href="mailto:', $data['email'] ,'">', $data['email'] ,'</a>.
+                <strong>Félicitations, votre compte Intellivote est validé !</strong><br>Votre identité numérique a été certifiée avec une signature numérique le ', $data['date'], ' via l\'adresse email suivante : <a href="mailto:', $data['email'] ,'">', $data['email'] ,'</a>.
               </div>
-              <a href="index.php" class="btn btn-success btn-lg btn-block">Accéder à Efrei Dynamo</a><br><br>';
+              <a href="index.php" class="btn btn-success btn-lg btn-block">Continuer sur Intellivote</a><br><br>';
             } else if (isset($_SESSION['verified']) && $_SESSION['verified'] == 1) {
               echo '<div class="alert alert-success fade show" role="alert">
                 <strong>Votre compte est validé manuellement par un représentant du Gouvernement !</strong><br>Vous n\'avez rien d\'autre à faire.
               </div>
-              <a href="index.php" class="btn btn-success btn-lg btn-block">Accéder à Efrei Dynamo</a><br><br>';
+              <a href="index.php" class="btn btn-success btn-lg btn-block">Continuer sur Intellivote</a><br><br>';
             } else if ($data) {
               echo '<div class="alert alert-info fade show" role="alert">
                 <strong>Un processus de vérification est en cours...</strong><br> Votre code d\'authentification vous a été envoyé sur votre adresse mail. Le mail de validation se trouve dans votre dossier de spams, aussi appelé courrier indésirable. En cas de problème, contactez un modérateur.
