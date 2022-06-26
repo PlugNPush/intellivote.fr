@@ -32,7 +32,7 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="index.php">mairie.intellivote.fr</a>
+      <a class="navbar-brand" href="index.php">intellivote.fr</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span id="new-dark-navbar-toggler-icon" class="navbar-toggler-icon"></span>
       </button>
@@ -114,7 +114,7 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
             </div>
             <div class="form-group">
               <label for="titre">Vos prénoms</label>
-              <input type="text" name="prenom" class="form-control" id="name" placeholder="Vos prénoms" required>
+              <input type="text" name="prenom" class="form-control" id="name" placeholder="Prénoms" required>
             </div>
             <div class="form-group">
               <label for="titre">Votre mot de passe</label>
@@ -194,7 +194,7 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
     <!-- Footer -->
     <footer class="py-5 bg-dark">
       <div class="container">
-        <p class="m-0 text-center text-white">&copy; 2021 Efrei Dynamo. Tous droits reservés. <a href="/legal.php">Mentions légales</a>.</p>
+        <p class="m-0 text-center text-white">&copy; 2022 Intellivote. Tous droits reservés. <a href="/legal.php">Mentions légales</a>.</p>
       </div>
       <!-- /.container -->
     </footer>
