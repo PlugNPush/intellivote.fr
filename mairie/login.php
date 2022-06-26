@@ -107,7 +107,54 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
             </div>';
           }
 
-          if (!isset($_POST['departement'])) {
+          if (isset($_POST['insee'])) {
+
+            $req = $bdd->prepare('SELECT * FROM mairies WHERE departement = ? AND insee = ?;');
+            $req->execute(array($_POST['departement'], $_POST['insee']));
+            $test = $req->fetch();
+
+            if ($test) {
+              echo '<h3 class="my-4">Étape 3</h3>';
+              echo '
+              <form action="login.php" method="post">
+              <h4 class="my-4">Connexion à votre mairie à ' . $test['nom'] . ' ( ' . $_POST['departement'] . ')</h4>
+                <div class="form-group">
+                  <label for="email">Saisissez votre adresse adresse e-mail</label>
+                  <input type="text" name="email" class="form-control" id="email" placeholder="Courriel" required>
+                </div>
+                <div class="form-group">
+                  <label for="mdp">Saisissez votre mot de passe</label>
+                  <input type="password" name="mdp" class="form-control';
+
+                  if (isset($_GET['passworderror'])){
+                    echo ' is-invalid';
+                  }
+
+                  echo '" id="mdp" placeholder="Mot de passe" required>';
+
+                  if (isset($_GET['passworderror'])){
+                    echo '<div class="invalid-feedback">
+                      Mot de passe incorrect ! Besoin d\'aide ? Contactez un administrateur.
+                    </div>';
+                  }
+
+                  echo '
+                </div>
+                <button type="submit" class="btn btn-primary">Se connecter</button>
+                <br>Pas encore inscrit ? <a class="btn btn-secondary" href=/register.php>Inscrivez-vous maintenant !</a>
+                </form><br><br>';
+            } else {
+              echo '<h3 class="my-4">Échec de l\'étape 2</h3>';
+              echo '<form action="login.php" method="post">
+                <h4 class="my-4">La commune de votre mairie n\'a pas pu être trouvée.</h4>
+                <button type="submit" class="btn btn-primary">Retour à l\'étape 1</button>
+                </form><br><br>
+                ';
+            }
+
+
+
+          } else if (!isset($_POST['departement'])) {
             echo '<h3 class="my-4">Étape 1</h3>';
             echo '<form action="login.php" method="post">
               <div class="form-group">
@@ -135,7 +182,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
               echo '<h3 class="my-4">Étape 2</h3>';
               echo '<form action="login.php" method="post">
               <div class="alert alert-info fade show" role="alert">
-                <strong>Numéro INSEE oublié ?</strong>. Vous pouvez le retrouver sur le site gouvernemental des données publiques ou sur le site de l\'INSEE. Rendez-vous sur <a href="https://www.insee.fr/fr/information/5057840">https://www.insee.fr/fr/information/5057840</a>.
+                <strong>Numéro INSEE oublié ?</strong> Vous pouvez le retrouver sur le site gouvernemental des données publiques ou sur le site de l\'INSEE. Rendez-vous sur <a href="https://www.insee.fr/fr/information/5057840">https://www.insee.fr/fr/information/5057840</a> pour plus d\'informations.
               </div>
               <h4 class="my-4">Identification de votre mairie à ' . $test['nom'] . '</h4>
               <input type="hidden" type="text" name="departement" class="form-control" id="departement" placeholder="Département" value="'. $test["numero"] .'">
@@ -157,37 +204,6 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
 
 
           }
-
-          /*
-
-          echo '
-          <form action="login.php" method="post">
-            <div class="form-group">
-              <label for="email">Saisissez votre adresse adresse e-mail</label>
-              <input type="text" name="email" class="form-control" id="email" placeholder="Courriel" required>
-            </div>
-            <div class="form-group">
-              <label for="mdp">Saisissez votre mot de passe</label>
-              <input type="password" name="mdp" class="form-control';
-
-              if (isset($_GET['passworderror'])){
-                echo ' is-invalid';
-              }
-
-              echo '" id="mdp" placeholder="Mot de passe" required>';
-
-              if (isset($_GET['passworderror'])){
-                echo '<div class="invalid-feedback">
-                  Mot de passe incorrect ! Besoin d\'aide ? Contactez un administrateur.
-                </div>';
-              }
-
-              echo '
-            </div>
-            <button type="submit" class="btn btn-primary">Se connecter</button>
-            <br>Pas encore inscrit ? <a class="btn btn-secondary" href=/register.php>Inscrivez-vous maintenant !</a>
-            </form><br><br>';
-            */
 
         echo '</div>
 
