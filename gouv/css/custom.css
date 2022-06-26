@@ -1,0 +1,7 @@
+#new-dark-navbar-toggler-icon {
+  background-image: url("/css/dark-menu-item.svg");
+}
+
+#new-light-navbar-toggler-icon {
+  background-image: url("/css/light-menu-item.svg");
+}
