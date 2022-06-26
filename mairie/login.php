@@ -100,11 +100,18 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
             </div>';
           }
 
-          if (isset($_POST['insee']) && isset($_POST['departement'])) {
+          if ((isset($_POST['insee']) && isset($_POST['departement'])) || isset($_POST['idmairie'])) {
 
-            $req = $bdd->prepare('SELECT * FROM mairies WHERE departement = ? AND insee = ?;');
-            $req->execute(array($_POST['departement'], $_POST['insee']));
-            $test = $req->fetch();
+            if (isset($_POST['idmairie'])) {
+              $req = $bdd->prepare('SELECT * FROM mairies WHERE id = ?;');
+              $req->execute(array($_POST['idmairie']));
+              $test = $req->fetch();
+            } else {
+              $req = $bdd->prepare('SELECT * FROM mairies WHERE departement = ? AND insee = ?;');
+              $req->execute(array($_POST['departement'], $_POST['insee']));
+              $test = $req->fetch();
+            }
+
 
             if ($test) {
               echo '<h3 class="my-4">Étape 3</h3>';
@@ -152,6 +159,19 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
 
 
           } else if (!isset($_POST['departement'])) {
+
+            echo '
+            <form action="login.php" method="post">
+            <h4 class="my-4">Connexion Rapide</h4>
+              <div class="form-group">
+                <label for="email">Saisissez l\'identifiant de votre mairie</label>
+                <input type="text" name="idmairie" class="form-control" id="idmairie" placeholder="Identifiant mairie" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Connexion rapide</button>
+              </form><br><br>';
+
+            echo '<h4 class="my-4">Vous n\'avez pas l\'identifiant ? Laissez vous guider.</h4>';
+
             echo '<h3 class="my-4">Étape 1</h3>';
             echo '<form action="login.php" method="post">
               <div class="form-group">
