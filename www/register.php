@@ -248,18 +248,6 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
         'registered'=> $date
       ));
 
-      echo '
-      DIAG
-      email => ' . $_POST['email'] . ',
-      password => '. $hash . ' ,
-      name => ' . $_POST['name'] . ',
-      surname => ' . $_POST['surname'] . ',
-      birthdate => ' . $_POST['birthdate'] . ',
-      birthplace => ' . $_POST['birthplace'] .',
-      registered => '.$date . '
-      END DIAG
-      ';
-
       $req = $bdd->prepare('SELECT * FROM individual WHERE email = ?;');
       $req->execute(array($_POST['email']));
       $test = $req->fetch();
