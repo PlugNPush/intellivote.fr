@@ -216,10 +216,12 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
               echo '<h3 class="my-4">Étape 2</h3>';
 
               if ($_POST['departement'] == 99) {
-                echo '
+                echo '<form action="login.php" method="post">
                 <div class="alert alert-warning fade show" role="alert">
-                  <strong>Vote à l\'étranger</strong>. Les français de l\'étranger ne votent pas sur Intellivote mais sur une plateforme en ligne dédiée, sous la tutelle du Ministère des Afffaires Étrangères. Rendez-vous sur <a href="https://www.diplomatie.gouv.fr/fr/services-aux-francais/voter-a-l-etranger/elections-legislatives-2022/consulter-les-circulaires-des-candidats-et-voter-par-internet/">https://www.diplomatie.gouv.fr/fr/services-aux-francais/voter-a-l-etranger/elections-legislatives-2022/consulter-les-circulaires-des-candidats-et-voter-par-internet/</a> pour plus d\'informations.
-                </div><br><br>';
+                  <strong>Vote à l\'étranger</strong>. Les français de l\'étranger ne votent pas sur Intellivote mais sur une plateforme en ligne dédiée, sous la tutelle du Ministère des Afffaires Étrangères. Rendez-vous sur <a href="https://www.diplomatie.gouv.fr/fr/services-aux-francais/voter-a-l-etranger/">https://www.diplomatie.gouv.fr/fr/services-aux-francais/voter-a-l-etranger/</a> pour plus d\'informations.
+                </div>
+                  <button type="submit" class="btn btn-primary">Retour à l\'étape 1</button>
+                  </form><br><br>';
               } else {
                 echo '<form action="login.php" method="post">
                 <div class="alert alert-info fade show" role="alert">
