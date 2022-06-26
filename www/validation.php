@@ -293,7 +293,7 @@ if (isset($_SESSION['id'])){
       $newmail->execute(array($_POST['email'], $_SESSION['id']));
 
       $token = generateRandomString(256);
-      $date = date('Y-m-d H:i:s', strtotime('+1 day'));
+      $date = date('Y-m-d H:i:s');
 
       $newtoken = $bdd->prepare('INSERT INTO validations(type, individual, token, date) VALUES(:type, :individual, :token, :date);');
       $newtoken->execute(array(
