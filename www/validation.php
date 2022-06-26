@@ -329,39 +329,39 @@ if (isset($_SESSION['id'])){
         ';
 
 
-      // Pour envoyer un mail HTML, l'en-tête Content-type doit être défini
-      $headers[] = 'MIME-Version: 1.0';
-      $headers[] = 'Content-type: text/html; charset=iso-8859-1';
+        // Pour envoyer un mail HTML, l'en-tête Content-type doit être défini
+        $headers[] = 'MIME-Version: 1.0';
+        $headers[] = 'Content-type: text/html; charset=iso-8859-1';
 
-      // En-têtes additionnels
-      $headers[] = 'To: <' . $_POST['email'] . '>';
-      $headers[] = 'From: Validation Intellivote <noreply@intellivote.fr>';
+        // En-têtes additionnels
+        $headers[] = 'To: <' . $_SESSION['email'] . '>';
+        $headers[] = 'From: Validation Intellivote <noreply@intellivote.fr>';
 
-      $mail = new PHPMailer();
-      $mail->IsSMTP();
-      $mail->IsHTML(true);
-      $mail->CharSet = 'UTF-8';
-      $mail->Host = 'smtp.free.fr';
-      $mail->Port = 465;
-      $mail->SMTPAuth = true;
-      $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-      $mail->Username = 'craftsearch';
-      $mail->Password = getSMTPPassword();
-      $mail->SMTPOptions = array(
-          'ssl' => array(
-             'verify_peer' => false,
-             'verify_peer_name' => false,
-             'allow_self_signed' => true
-          )
-      );
-      $mail->From = 'no-reply@intellivote.fr';
-      $mail->FromName = 'Validation Intellivote';
-      $mail->AddAddress($to);
-      $mail->Subject = $subject;
-      $mail->Body = $message;
+        $mail = new PHPmailer();
+        $mail->IsSMTP();
+        $mail->IsHTML(true);
+        $mail->CharSet = 'UTF-8';
+        $mail->Host = 'mail.groupe-minaste.org';
+        $mail->Port = 587;
+        $mail->SMTPAuth = true;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Username = 'no-reply@efrei-dynamo.fr';
+        $mail->Password = getSMTPPassword();
+        $mail->SMTPOptions = array(
+            'ssl' => array(
+               'verify_peer' => false,
+               'verify_peer_name' => false,
+               'allow_self_signed' => true
+            )
+        );
+        $mail->From = 'no-reply@intellivote.fr';
+        $mail->FromName = 'Validation Intellivote';
+        $mail->AddAddress($to);
+        $mail->Subject = $subject;
+        $mail->Body = $message;
 
-      // Send the mail
-      $sent = $mail->send();
+          // Send the mail
+          $sent = $mail->send();
       // Envoi
       //$sent = mail($to, $subject, $message, implode("\r\n", $headers));
 
