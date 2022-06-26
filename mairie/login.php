@@ -214,29 +214,40 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
 
             if ($test) {
               echo '<h3 class="my-4">Étape 2</h3>';
-              echo '<form action="login.php" method="post">
-              <div class="alert alert-info fade show" role="alert">
-                <strong>Numéro INSEE oublié ?</strong> Vous pouvez le retrouver sur le site gouvernemental des données publiques ou sur le site de l\'INSEE. Rendez-vous sur <a href="https://www.insee.fr/fr/information/5057840">https://www.insee.fr/fr/information/5057840</a> pour plus d\'informations.
-              </div>
-              <h4 class="my-4">Identification de votre mairie à ' . $test['nom'] . '</h4>
-              <input type="hidden" type="text" name="departement" class="form-control" id="departement" placeholder="Département" value="'. $test["id"] .'">
-                <div class="form-group">
-                  <label for="insee">Saisissez le numéro INSEE de la commune de votre mairie</label>
-                  <select name="insee" class="form-control" id="insee" required>';
 
-                  $insee_fetch = $bdd->prepare('SELECT * FROM mairies WHERE departement = ? ORDER BY id ASC;');
-                  $insee_fetch->execute(array($test['id']));
-
-                  while ($insee = $insee_fetch->fetch()) {
-                    echo '<option value="', $insee['insee'] ,'">', $insee['insee'], ' - ', $insee['nom'] ,'</option>';
-                  }
-
-                  echo '
-                  </select>
+              if ($_POST['departement'] == 99) {
+                echo '
+                <div class="alert alert-warning fade show" role="alert">
+                  <strong>Vote à l\'étranger</strong>. Les français de l\'étranger ne votent pas sur Intellivote mais sur une plateforme en ligne dédiée, sous la tutelle du Ministère des Afffaires Étrangères. Rendez-vous sur <a href="https://www.diplomatie.gouv.fr/fr/services-aux-francais/voter-a-l-etranger/elections-legislatives-2022/consulter-les-circulaires-des-candidats-et-voter-par-internet/">https://www.diplomatie.gouv.fr/fr/services-aux-francais/voter-a-l-etranger/elections-legislatives-2022/consulter-les-circulaires-des-candidats-et-voter-par-internet/</a> pour plus d\'informations.
+                </div><br><br>
+                '
+              } else {
+                echo '<form action="login.php" method="post">
+                <div class="alert alert-info fade show" role="alert">
+                  <strong>Numéro INSEE oublié ?</strong> Vous pouvez le retrouver sur le site gouvernemental des données publiques ou sur le site de l\'INSEE. Rendez-vous sur <a href="https://www.insee.fr/fr/information/5057840">https://www.insee.fr/fr/information/5057840</a> pour plus d\'informations.
                 </div>
-                <button type="submit" class="btn btn-primary">Suivant</button>
-                </form><br><br>
-                ';
+                <h4 class="my-4">Identification de votre mairie à ' . $test['nom'] . '</h4>
+                <input type="hidden" type="text" name="departement" class="form-control" id="departement" placeholder="Département" value="'. $test["id"] .'">
+                  <div class="form-group">
+                    <label for="insee">Saisissez le numéro INSEE de la commune de votre mairie</label>
+                    <select name="insee" class="form-control" id="insee" required>';
+
+                    $insee_fetch = $bdd->prepare('SELECT * FROM mairies WHERE departement = ? ORDER BY id ASC;');
+                    $insee_fetch->execute(array($test['id']));
+
+                    while ($insee = $insee_fetch->fetch()) {
+                      echo '<option value="', $insee['insee'] ,'">', $insee['insee'], ' - ', $insee['nom'] ,'</option>';
+                    }
+
+                    echo '
+                    </select>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Suivant</button>
+                  </form><br><br>
+                  ';
+
+              }
+
             } else {
               echo '<h3 class="my-4">Échec de l\'étape 1</h3>';
               echo '<form action="login.php" method="post">
