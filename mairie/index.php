@@ -65,7 +65,15 @@ if (!isset($_SESSION['id'])) {
         <!-- Blog Entries Column -->
         <div class="col-md-8">';
 
-          echo '<h1 class="my-4">Espace Mairie</h1>';
+        $req = $bdd->prepare('SELECT * FROM mairies WHERE id = ?;');
+        $req->execute(array($_SESSION['idmairie']));
+        $test = $req->fetch();
+          if ($test) {
+            echo '<h1 class="my-4">Espace Mairie de ' . $test['nom'] . '</h1>';
+          } else {
+            echo '<h1 class="my-4">Espace Mairie</h1>';
+          }
+
 
           if ($_SESSION['verified'] != 1) {
             echo '
@@ -88,9 +96,6 @@ if (!isset($_SESSION['id'])) {
                 <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Pas d\'élections à venir.<br>
               </div>';
             } else {
-              $req = $bdd->prepare('SELECT * FROM mairies WHERE id = ?;');
-              $req->execute(array($_SESSION['idmairie']));
-              $test = $req->fetch();
 
               echo '
               <div class="alert alert-warning fade show" role="alert">
