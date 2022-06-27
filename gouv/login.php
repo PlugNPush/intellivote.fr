@@ -32,7 +32,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
       header( "refresh:0;url=login.php?passworderror=true" );
   }
 
-} else if (isset($_GET['resend'])){
+} else if (!empty($_POST['email']) AND isset($_GET['resend'])){
 
   $gatherdata = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 0;');
   $gatherdata->execute(array($_SESSION['id']));
@@ -51,7 +51,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
           <p>Certification demandée le</p>
           <h4>' . $data['date'] . '</h4>
           <br>
-          <h3><a href="https://www.intellivote.fr/validation.php?token=' . $data['token'] . '">Cliquez ici pour activer automatiquement votre compte</a>.</h3>
+          <h3><a href="https://www.intellivote.fr/login.php?token=' . $data['token'] . '">Cliquez ici pour activer automatiquement votre compte</a>.</h3>
           <br>
           <p>En cas de problème avec le lien ci-dessus, vous pouvez aussi copier votre code d\'authentification à usage unique :</p>
           <h4>' . $data['token'] . '</h4>
@@ -104,23 +104,23 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
       //$sent = mail($to, $subject, $message, implode("\r\n", $headers));
 
       if ($sent) {
-        header( "refresh:0;url=validation.php?resent=true" );
+        header( "refresh:0;url=login.php?resent=true" );
       } else {
-        header( "refresh:0;url=validation.php?serror=true" );
+        header( "refresh:0;url=login.php?serror=true" );
       }
 
   } else {
-    header( "refresh:0;url=validation.php?ierror=true" );
+    header( "refresh:0;url=login.php?ierror=true" );
   }
 
-} else if (isset($_GET['cancel'])){
+} else if (!empty($_POST['email']) AND isset($_GET['cancel'])){
 
   $deletetoken = $bdd->prepare('DELETE FROM validations WHERE individual = ? AND type = 0');
   $deletetoken->execute(array($_SESSION['id']));
 
-  header( "refresh:0;url=validation.php" );
+  header( "refresh:0;url=login.php" );
 
-} else if (!isset($_GET['token'])){
+} else if (!empty($_POST['email']) AND !isset($_GET['token'])){
 
     $mailchange = $bdd->prepare('UPDATE individual SET email = ? WHERE id = ?');
     $mailchange->execute(array($_POST['email'], $_SESSION['id']));
@@ -131,7 +131,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
     $mail = $mail_fetch->fetch();
 
     if ($mail) {
-      header( "refresh:0;url=validation.php?emailexists=true" );
+      header( "refresh:0;url=login.php?emailexists=true" );
     } else {
       $newmail = $bdd->prepare('UPDATE individual SET email = ? WHERE id = ?;');
       $newmail->execute(array($_POST['email'], $_SESSION['id']));
@@ -160,7 +160,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
             <p>Certification demandée le</p>
             <h4>' . $date . '</h4>
             <br>
-            <h3><a href="https://www.intellivote.fr/validation.php?token=' . $token . '">Cliquez ici pour activer automatiquement votre compte</a>.</h3>
+            <h3><a href="https://www.intellivote.fr/login.php?token=' . $token . '">Cliquez ici pour activer automatiquement votre compte</a>.</h3>
             <br>
             <p>En cas de problème avec le lien ci-dessus, vous pouvez aussi copier votre code d\'authentification à usage unique :</p>
             <h4>' . $token . '</h4>
@@ -210,9 +210,9 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
       //$sent = mail($to, $subject, $message, implode("\r\n", $headers));
 
       if ($sent) {
-        header( "refresh:0;url=validation.php?pending=true" );
+        header( "refresh:0;url=login.php?pending=true" );
       } else {
-        header( "refresh:0;url=validation.php?serror=true" );
+        header( "refresh:0;url=login.php?serror=true" );
       }
     }
 
@@ -228,9 +228,9 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
     $validation = $bdd->prepare('UPDATE validations SET validated = 1 WHERE token = ?;');
     $validation->execute(array($_GET['token']));
 
-    header( "refresh:0;url=validation.php" );
+    header( "refresh:0;url=login.php" );
   } else {
-    header( "refresh:0;url=validation.php?invalidtoken=true" );
+    header( "refresh:0;url=login.php?invalidtoken=true" );
   }
 
 
