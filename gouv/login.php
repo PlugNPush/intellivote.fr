@@ -32,6 +32,208 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
       header( "refresh:0;url=login.php?passworderror=true" );
   }
 
+} else if (isset($_GET['resend'])){
+
+  $gatherdata = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 0;');
+  $gatherdata->execute(array($_SESSION['id']));
+  $data = $gatherdata->fetch();
+
+  if ($data) {
+    $to = $_SESSION['email']; // $_POST['email']
+    $subject = 'Verification automatique Intellivote';
+    $message = '
+        <html>
+         <body>
+          <h1>Vérification automatique de votre compte.</h1>
+          <p>Bonjour ' . $_SESSION['surname'] . ' ' . $_SESSION['name'] . ', et bienvenue sur Intellivote. Pour confirmer votre inscription, vous devez confirmer votre identité numérique. Grâce à votre adresse email, vous êtes éligible à notre solution de validation automatique. Cliquez simplement sur le lien ci-dessous pour terminer l\'activation de votre compte.
+          <p>Adresse email utilisée</p>
+          <h4>' . $_SESSION['email'] . '</h4>
+          <p>Certification demandée le</p>
+          <h4>' . $data['date'] . '</h4>
+          <br>
+          <h3><a href="https://www.intellivote.fr/validation.php?token=' . $data['token'] . '">Cliquez ici pour activer automatiquement votre compte</a>.</h3>
+          <br>
+          <p>En cas de problème avec le lien ci-dessus, vous pouvez aussi copier votre code d\'authentification à usage unique :</p>
+          <h4>' . $data['token'] . '</h4>
+          <br>
+          <p>À très vite !</p>
+          <p>- L\'équipe Intellivote.</p><br><br>
+          <p>P.S.: Ce courriel est automatique, veuillez ne pas y répondre.</p>
+       </body>
+      </html>
+      ';
+
+
+    // Pour envoyer un mail HTML, l'en-tête Content-type doit être défini
+    $headers[] = 'MIME-Version: 1.0';
+    $headers[] = 'Content-type: text/html; charset=iso-8859-1';
+
+    // En-têtes additionnels
+    $headers[] = 'To: <' . $_SESSION['email'] . '>';
+    $headers[] = 'From: Validation Intellivote <noreply@intellivote.fr>';
+
+    $mail = new PHPmailer();
+    $mail->IsSMTP();
+    $mail->IsHTML(true);
+    $mail->CharSet = 'UTF-8';
+    $mail->Host = 'mail.groupe-minaste.org';
+    $mail->Port = 587;
+    $mail->SMTPAuth = true;
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Username = 'no-reply@efrei-dynamo.fr';
+    $mail->Password = getSMTPPassword();
+    $mail->SMTPOptions = array(
+        'ssl' => array(
+           'verify_peer' => false,
+           'verify_peer_name' => false,
+           'allow_self_signed' => true
+        )
+    );
+    $mail->From = 'no-reply@intellivote.fr';
+    $mail->FromName = 'Validation Intellivote';
+    $mail->AddAddress($to);
+    $mail->Subject = $subject;
+    $mail->Body = $message;
+
+      // Send the mail
+      $sent = $mail->send();
+
+
+
+      // Envoi
+      //$sent = mail($to, $subject, $message, implode("\r\n", $headers));
+
+      if ($sent) {
+        header( "refresh:0;url=validation.php?resent=true" );
+      } else {
+        header( "refresh:0;url=validation.php?serror=true" );
+      }
+
+  } else {
+    header( "refresh:0;url=validation.php?ierror=true" );
+  }
+
+} else if (isset($_GET['cancel'])){
+
+  $deletetoken = $bdd->prepare('DELETE FROM validations WHERE individual = ? AND type = 0');
+  $deletetoken->execute(array($_SESSION['id']));
+
+  header( "refresh:0;url=validation.php" );
+
+} else if (!isset($_GET['token'])){
+
+    $mailchange = $bdd->prepare('UPDATE individual SET email = ? WHERE id = ?');
+    $mailchange->execute(array($_POST['email'], $_SESSION['id']));
+
+
+    $mail_fetch = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 0;');
+    $mail_fetch->execute(array($_SESSION['id']));
+    $mail = $mail_fetch->fetch();
+
+    if ($mail) {
+      header( "refresh:0;url=validation.php?emailexists=true" );
+    } else {
+      $newmail = $bdd->prepare('UPDATE individual SET email = ? WHERE id = ?;');
+      $newmail->execute(array($_POST['email'], $_SESSION['id']));
+
+      $token = generateRandomString(256);
+      $date = date('Y-m-d H:i:s');
+
+      $newtoken = $bdd->prepare('INSERT INTO validations(type, individual, token, date) VALUES(:type, :individual, :token, :date);');
+      $newtoken->execute(array(
+        'type' => 0,
+        'individual' => $_SESSION['id'],
+        'token' => $token,
+        'date' => $date
+      ));
+
+
+      $to = $_SESSION['email']; // $_POST['email']
+      $subject = 'Verification automatique Intellivote';
+      $message = '
+          <html>
+           <body>
+            <h1>Vérification automatique de votre compte.</h1>
+            <p>Bonjour ' . $_SESSION['surname'] . ' ' . $_SESSION['name'] . ', et bienvenue sur Intellivote. Pour confirmer votre inscription, vous devez confirmer votre identité numérique. Grâce à votre adresse email, vous êtes éligible à notre solution de validation automatique. Cliquez simplement sur le lien ci-dessous pour terminer l\'activation de votre compte.
+            <p>Adresse email utilisée</p>
+            <h4>' . $_POST['email'] . '</h4>
+            <p>Certification demandée le</p>
+            <h4>' . $date . '</h4>
+            <br>
+            <h3><a href="https://www.intellivote.fr/validation.php?token=' . $token . '">Cliquez ici pour activer automatiquement votre compte</a>.</h3>
+            <br>
+            <p>En cas de problème avec le lien ci-dessus, vous pouvez aussi copier votre code d\'authentification à usage unique :</p>
+            <h4>' . $token . '</h4>
+            <br>
+            <p>À très vite !</p>
+            <p>- L\'équipe Intellivote.</p><br><br>
+            <p>P.S.: Ce courriel est automatique, veuillez ne pas y répondre.</p>
+         </body>
+        </html>
+        ';
+
+
+        // Pour envoyer un mail HTML, l'en-tête Content-type doit être défini
+        $headers[] = 'MIME-Version: 1.0';
+        $headers[] = 'Content-type: text/html; charset=iso-8859-1';
+
+        // En-têtes additionnels
+        $headers[] = 'To: <' . $_SESSION['email'] . '>';
+        $headers[] = 'From: Validation Intellivote <noreply@intellivote.fr>';
+
+        $mail = new PHPmailer();
+        $mail->IsSMTP();
+        $mail->IsHTML(true);
+        $mail->CharSet = 'UTF-8';
+        $mail->Host = 'mail.groupe-minaste.org';
+        $mail->Port = 587;
+        $mail->SMTPAuth = true;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Username = 'no-reply@efrei-dynamo.fr';
+        $mail->Password = getSMTPPassword();
+        $mail->SMTPOptions = array(
+            'ssl' => array(
+               'verify_peer' => false,
+               'verify_peer_name' => false,
+               'allow_self_signed' => true
+            )
+        );
+        $mail->From = 'no-reply@intellivote.fr';
+        $mail->FromName = 'Validation Intellivote';
+        $mail->AddAddress($to);
+        $mail->Subject = $subject;
+        $mail->Body = $message;
+
+          // Send the mail
+          $sent = $mail->send();
+      // Envoi
+      //$sent = mail($to, $subject, $message, implode("\r\n", $headers));
+
+      if ($sent) {
+        header( "refresh:0;url=validation.php?pending=true" );
+      } else {
+        header( "refresh:0;url=validation.php?serror=true" );
+      }
+    }
+
+} elseif (!empty($_POST['email']) AND !empty($_GET['token']) AND !isset($_POST['mdp'])) {
+  $vtoken = $bdd->prepare('SELECT * FROM validations WHERE token = ?;');
+  $vtoken->execute(array($_GET['token']));
+  $token = $vtoken->fetch();
+
+  if ($token) {
+    $validation = $bdd->prepare('UPDATE individual SET verified = 1 WHERE id = ?;');
+    $validation->execute(array($_SESSION['id']));
+
+    $validation = $bdd->prepare('UPDATE validations SET validated = 1 WHERE token = ?;');
+    $validation->execute(array($_GET['token']));
+
+    header( "refresh:0;url=validation.php" );
+  } else {
+    header( "refresh:0;url=validation.php?invalidtoken=true" );
+  }
+
+
 } else {
   echo '<!DOCTYPE html>
   <html lang="fr">
