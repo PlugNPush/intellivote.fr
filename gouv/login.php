@@ -121,6 +121,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
   header( "refresh:0;url=login.php" );
 
 } else if (!empty($_POST['email']) AND !isset($_GET['token'])){
+  echo 2;
 
     $mailchange = $bdd->prepare('UPDATE individual SET email = ? WHERE id = ?');
     $mailchange->execute(array($_POST['email'], $_SESSION['id']));
@@ -217,6 +218,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
     }
 
 } elseif (!empty($_POST['email']) AND !empty($_GET['token']) AND !isset($_POST['mdp'])) {
+  echo 3;
   $vtoken = $bdd->prepare('SELECT * FROM validations WHERE token = ?;');
   $vtoken->execute(array($_GET['token']));
   $token = $vtoken->fetch();
@@ -235,7 +237,6 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
 
 
 } else {
-  echo els;
   echo '<!DOCTYPE html>
   <html lang="fr">
 
