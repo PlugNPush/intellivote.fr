@@ -1,4 +1,8 @@
 <?php
+require_once dirname(__FILE__).'/../config.php';
+
+
+if (isset($_SESSION['id'])){
 
   echo '<!DOCTYPE html>
   <html lang="fr">
@@ -90,5 +94,9 @@
   </body>
 
   </html>';
+
+} else {
+  header( "refresh:0;url=login.php?expired=true" );
+}
 
 ?>
