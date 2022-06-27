@@ -32,7 +32,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
       header( "refresh:0;url=login.php?passworderror=true" );
   }
 
-} else if (!empty($_POST['email']) AND isset($_GET['resend'])){
+} else if (isset($_GET['resend'])){
 
   $gatherdata = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 0;');
   $gatherdata->execute(array($_SESSION['id']));
@@ -113,7 +113,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
     header( "refresh:0;url=login.php?ierror=true" );
   }
 
-} else if (!empty($_POST['email']) AND isset($_GET['cancel'])){
+} else if (isset($_GET['cancel'])){
 
   $deletetoken = $bdd->prepare('DELETE FROM validations WHERE individual = ? AND type = 0');
   $deletetoken->execute(array($_SESSION['id']));
