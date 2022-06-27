@@ -235,6 +235,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
 
 
 } else {
+  echo els;
   echo '<!DOCTYPE html>
   <html lang="fr">
 
