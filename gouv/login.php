@@ -121,13 +121,12 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
   header( "refresh:0;url=login.php" );
 
 } else if (!empty($_POST['email']) AND !isset($_GET['token'])){
-  echo 2;
 
     $mailchange = $bdd->prepare('UPDATE individual SET email = ? WHERE id = ?');
     $mailchange->execute(array($_POST['email'], $_SESSION['id']));
 
 
-    $mail_fetch = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 0;');
+    $mail_fetch = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 10;');
     $mail_fetch->execute(array($_SESSION['id']));
     $mail = $mail_fetch->fetch();
 
@@ -142,7 +141,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
 
       $newtoken = $bdd->prepare('INSERT INTO validations(type, individual, token, date) VALUES(:type, :individual, :token, :date);');
       $newtoken->execute(array(
-        'type' => 0,
+        'type' => 10,
         'individual' => $_SESSION['id'],
         'token' => $token,
         'date' => $date
