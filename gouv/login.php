@@ -25,7 +25,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
   } else {
       header( "refresh:0;url=login.php?passworderror=true" );
   }
-} elseif (!empty($_POST['email']) AND !empty($_POST['token'])){
+//} elseif (!empty($_POST['email']) AND !empty($_POST['token'])){
 
 } else {
   echo '<!DOCTYPE html>
