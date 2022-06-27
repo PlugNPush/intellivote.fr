@@ -1,6 +1,12 @@
 <?php
 require_once dirname(__FILE__).'/../config.php';
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\POP3;
+use PHPMailer\PHPMailer\OAuth;
+use PHPMailer\PHPMailer\Exception;
+
 if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])){
   // Hachage du mot de passe
   $pass_hache = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
@@ -25,7 +31,6 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
   } else {
       header( "refresh:0;url=login.php?passworderror=true" );
   }
-//} elseif (!empty($_POST['email']) AND !empty($_POST['token'])){
 
 } else {
   echo '<!DOCTYPE html>
@@ -66,10 +71,10 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
           <li class="nav-item">
             <a class="nav-link" href="https://www.intellivote.fr">Espace élécteur</a>
           </li>
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link" href="https://mairie.intellivote.fr">Espace mairie</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item active">
             <a class="nav-link" href="https://gouv.intellivote.fr">Espace Gouvernement<span class="sr-only">(current)</span></a>
           </li>';
 
@@ -87,6 +92,101 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
         <!-- Blog Entries Column -->
         <div class="col-md-8">';
 
+        if (!empty($_POST['email']) AND !empty($_POST['token'])){
+          echo'<h1 class="my-4">Validation du compte Gouvernement</h1>';
+
+
+            $gatherdata = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 10;');
+            $gatherdata->execute(array($_SESSION['id']));
+            $data = $gatherdata->fetch();
+
+
+            if (isset($_GET['invalidmail'])) {
+              echo '<div class="alert alert-danger fade show" role="alert">
+                <strong>Adresse e-mail invalide !</strong><br> Il semblerait que l\'adresse email fournie ne soit pas correcte.
+              </div>';
+            }
+
+            if (isset($_GET['invalidtoken'])) {
+              echo '<div class="alert alert-danger fade show" role="alert">
+                <strong>Erreur lors de la validation !</strong><br> Il semblerait que la clé d\'authentification unique envoyée sur votre adresse email soit erronée. Veuillez réessayer.
+              </div>';
+            }
+
+            if (isset($_GET['serror'])) {
+              echo '<div class="alert alert-danger fade show" role="alert">
+                <strong>Erreur lors de la validation !</strong><br> Le courrier éléctronique contenant votre code de validation n\'a pas pu s\'envoyer. Veuillez contacter un modérateur.
+              </div>';
+            }
+
+            if (isset($_GET['ierror'])) {
+              echo '
+              <div class="alert alert-danger fade show" role="alert">
+                <strong>Une erreur interne inattendue s\'est produite</strong>. Un paramètre attendu n\'est pas parvenu à sa destination. Veuillez réesayer puis contacter un modérateur si l\'erreur se reproduit.
+              </div>';
+            }
+
+            if (isset($_GET['pending'])) {
+              echo '<div class="alert alert-success fade show" role="alert">
+                <strong>Validation en attente.</strong><br> Votre code d\'authentification vous a été envoyé sur votre adresse mail. Le mail de validation se trouve dans votre dossier de spams, aussi appelé courrier indésirable.
+              </div>';
+            }
+
+            if (isset($_GET['resent'])) {
+              echo '<div class="alert alert-success fade show" role="alert">
+                <strong>Email renvoyé !</strong><br> Votre code d\'authentification vous a été envoyé une nouvelle fois sur votre adresse mail. Le mail de validation se trouve dans votre dossier de spams, aussi appelé courrier indésirable.
+              </div>';
+            }
+
+            if (isset($_GET['emailexists'])) {
+              echo '
+              <div class="alert alert-danger fade show" role="alert">
+                <strong>Echec de la validation du mail.</strong> Un compte a déjà été vérifié avec cette adresse mail.
+              </div>';
+            }
+
+            if (isset($_SESSION['verified']) && $_SESSION['verified'] == 1 && $data) {
+              echo '<div class="alert alert-success fade show" role="alert">
+                <strong>Félicitations, votre compte Intellivote est validé !</strong><br>Votre identité numérique a été certifiée avec une signature numérique le ', $data['date'], ' via l\'adresse email suivante : <a href="mailto:', $_SESSION['email'] ,'">', $_SESSION['email'] ,'</a>.
+              </div>
+              <a href="index.php" class="btn btn-success btn-lg btn-block">Continuer sur Intellivote</a><br><br>';
+            } else if (isset($_SESSION['verified']) && $_SESSION['verified'] == 1) {
+              echo '<div class="alert alert-success fade show" role="alert">
+                <strong>Votre compte est validé manuellement par un représentant du Gouvernement !</strong><br>Vous n\'avez rien d\'autre à faire.
+              </div>
+              <a href="index.php" class="btn btn-success btn-lg btn-block">Continuer sur Intellivote</a><br><br>';
+            } else if ($data) {
+              echo '<div class="alert alert-info fade show" role="alert">
+                <strong>Un processus de vérification est en cours...</strong><br> Votre code d\'authentification vous a été envoyé sur votre adresse mail. Le mail de validation se trouve dans votre dossier de spams, aussi appelé courrier indésirable. En cas de problème, contactez un modérateur.
+              </div>
+              <form action="login.php" method="get">
+                <div class="form-group">
+                  <label for="token">Saisissez le code à usage unique</label>
+                  <input type="text" name="token" class="form-control" id="token" placeholder="Saisissez le code reçu sur votre adresse mail" required>
+                  <small id="emailHelp" class="form-text text-muted">
+                    Vous pouvez également cliquer sur le lien envoyé dans le mail que vous avez reçu. En cas de problème, contactez un modérateur.
+                  </small>
+                </div>
+                <button type="submit" class="btn btn-primary">Vérifier l\'authenticité du compte</button>
+                <a href="login.php?resend=true" class="btn btn-secondary">Renvoyer le code</a>
+                <a href="login.php?cancel=true" class="btn btn-danger">Annuler la validation</a>
+                </form><br><br>';
+            } else {
+
+                echo '
+                <form action="login.php" method="post">
+                  <div class="form-group">
+                    <label for="email">Confirmez votre adresse mail</label>
+                    <input type="text" name="email" class="form-control" id="email" placeholder="', $_SESSION['email'] ,'" value="', $_SESSION['email'] ,'" required>
+                    <small id="emailHelp" class="form-text text-muted">
+                      Vous ne pourrrez plus modifier cette adresse une fois votre compte validé.
+                    </small>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Démarrer le processus de vérification</button>
+                  </form><br><br>';
+          }
+
+        } else {
           echo '<h1 class="my-4">Connexion Espace Gouvernement</h1>';
           if (isset($_GET['deleted'])) {
             echo '
@@ -134,7 +234,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
           echo '
             <button type="submit" class="btn btn-primary">Se connecter</button>
             </form><br><br>';
-
+        }
         echo '</div>
 
       </div>
