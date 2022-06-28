@@ -248,7 +248,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
 
     <meta http-equiv="Content-Security-Policy" content="default-src \'self\'; img-src https://* \'self\' data:; child-src \'none\';">
 
-    <title>Intellivote - Espace Gouvernement</title>
+    <title>Intellivote - Espace Administrateur</title>
 
     <link href="css/custom.css" rel="stylesheet">
 
@@ -265,7 +265,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="index.php">gouv.intellivote.fr</a>
+      <a class="navbar-brand" href="index.php">admin.intellivote.fr</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span id="new-dark-navbar-toggler-icon" class="navbar-toggler-icon"></span>
       </button>
@@ -278,7 +278,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
             <a class="nav-link" href="https://mairie.intellivote.fr">Espace mairie</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="https://gouv.intellivote.fr">Espace Gouvernement<span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="https://admin.intellivote.fr">Espace Administrateur<span class="sr-only">(current)</span></a>
           </li>';
 
           echo '
@@ -296,7 +296,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
         <div class="col-md-8">';
 
         if (!empty($_POST['email']) AND !empty($_POST['token'])){
-          echo'<h1 class="my-4">Validation du compte Gouvernement</h1>';
+          echo'<h1 class="my-4">Validation du compte Administrateur</h1>';
 
 
             $gatherdata = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 10;');
@@ -390,7 +390,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
           }
 
         } else {
-          echo '<h1 class="my-4">Connexion Espace Gouvernement</h1>';
+          echo '<h1 class="my-4">Connexion Espace Administrateur</h1>';
           if (isset($_GET['deleted'])) {
             echo '
             <div class="alert alert-success fade show" role="alert">
