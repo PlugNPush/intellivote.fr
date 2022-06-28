@@ -133,6 +133,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
     if ($mail) {
       header( "refresh:0;url=login.php?emailexists=true" );
     } else {
+      echo 2;
       $newmail = $bdd->prepare('UPDATE individual SET email = ? WHERE id = ?;');
       $newmail->execute(array($_POST['email'], $_SESSION['id']));
 
