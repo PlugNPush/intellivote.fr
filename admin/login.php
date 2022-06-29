@@ -44,7 +44,6 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
     if (isset($_GET['resend'])){
       $_POST['email']=$_SESSION['verifmail'];
     } else {
-      echo in;
       $_SESSION['verifmail']=$_POST['email'];
     }
 
@@ -54,7 +53,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
     $mailcheck = $mailcheck_fetch->fetch();
 
     // vérification de la validation admin
-    $mail_fetch = $bdd->prepare('SELECT *, individual.id as indv FROM individual JOIN admin ON indv = admin.individual HAVING email = ? AND admin.verified = 1;');
+    $mail_fetch = $bdd->prepare('SELECT *, individual.id as indv FROM individual JOIN admin ON individual.id = admin.individual HAVING email = ? AND admin.verified = 1;');
     $mail_fetch->execute(array($_POST['email']));
     $mail = $mail_fetch->fetch();
 
