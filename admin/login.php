@@ -301,7 +301,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
         <!-- Blog Entries Column -->
         <div class="col-md-8">';
 
-        if (!empty($_POST['email']) AND !empty($_POST['token']) AND !empty($_POST['password'])){ //étape 3
+        if (isset($_SESSION['pending']) OR isset($_SESSION['resent'])){ //étape 3 !empty($_POST['email']) AND !empty($_POST['token']) AND !empty($_POST['password']
           echo'<h1 class="my-4">Validation du compte Administrateur</h1>';
 
 
@@ -310,34 +310,15 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
             $data = $gatherdata->fetch();
 
 
-            if (isset($_GET['invalidtoken'])) {
-              echo '<div class="alert alert-danger fade show" role="alert">
-                <strong>Erreur lors de la validation !</strong><br> Il semblerait que la clé d\'authentification unique envoyée sur votre adresse email soit erronée. Veuillez réessayer.
-              </div>';
-            }
-
-            if (isset($_GET['serror'])) {
-              echo '<div class="alert alert-danger fade show" role="alert">
-                <strong>Erreur lors de la validation !</strong><br> Le courrier éléctronique contenant votre code de validation n\'a pas pu s\'envoyer. Veuillez contacter un modérateur.
-              </div>';
-            }
-
-            if (isset($_GET['ierror'])) {
-              echo '
-              <div class="alert alert-danger fade show" role="alert">
-                <strong>Une erreur interne inattendue s\'est produite</strong>. Un paramètre attendu n\'est pas parvenu à sa destination. Veuillez réesayer puis contacter un modérateur si l\'erreur se reproduit.
-              </div>';
-            }
-
             if (isset($_GET['pending'])) {
               echo '<div class="alert alert-success fade show" role="alert">
-                <strong>Validation en attente.</strong><br> Votre code d\'authentification vous a été envoyé sur votre adresse mail. Le mail de validation se trouve dans votre dossier de spams, aussi appelé courrier indésirable.
+                <strong>Validation en attente.</strong><br> Votre lien d\'authentification vous a été envoyé sur votre adresse mail. Le mail de validation se trouve dans votre dossier de spams, aussi appelé courrier indésirable.
               </div>';
             }
 
             if (isset($_GET['resent'])) {
               echo '<div class="alert alert-success fade show" role="alert">
-                <strong>Email renvoyé !</strong><br> Votre code d\'authentification vous a été envoyé une nouvelle fois sur votre adresse mail. Le mail de validation se trouve dans votre dossier de spams, aussi appelé courrier indésirable.
+                <strong>Email renvoyé !</strong><br> Votre lien d\'authentification vous a été envoyé une nouvelle fois sur votre adresse mail. Le mail de validation se trouve dans votre dossier de spams, aussi appelé courrier indésirable.
               </div>';
             }
 
@@ -353,18 +334,10 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
               <a href="index.php" class="btn btn-success btn-lg btn-block">Continuer sur Intellivote</a><br><br>';
             } else if ($data) {
               echo '<div class="alert alert-info fade show" role="alert">
-                <strong>Un processus de vérification est en cours...</strong><br> Votre code d\'authentification vous a été envoyé sur votre adresse mail. Le mail de validation se trouve dans votre dossier de spams, aussi appelé courrier indésirable. En cas de problème, contactez un modérateur.
+                <strong>Un processus de vérification est en cours...</strong><br> Votre lien d\'authentification vous a été envoyé sur votre adresse mail. Le mail de validation se trouve dans votre dossier de spams, aussi appelé courrier indésirable. En cas de problème, contactez un modérateur.
               </div>
               <form action="login.php" method="get">
-                <div class="form-group">
-                  <label for="token">Saisissez le code à usage unique</label>
-                  <input type="text" name="token" class="form-control" id="token" placeholder="Saisissez le code reçu sur votre adresse mail" required>
-                  <small id="emailHelp" class="form-text text-muted">
-                    Vous pouvez également cliquer sur le lien envoyé dans le mail que vous avez reçu. En cas de problème, contactez un modérateur.
-                  </small>
-                </div>
-                <button type="submit" class="btn btn-primary">Vérifier l\'authenticité du compte</button>
-                <a href="login.php?resend=true" class="btn btn-secondary">Renvoyer le code</a>
+                <a href="login.php?resend=true" class="btn btn-secondary">Renvoyer le mail</a>
                 <a href="login.php?cancel=true" class="btn btn-danger">Annuler la validation</a>
                 </form><br><br>';
             } else {
@@ -406,6 +379,22 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
             echo '
             <div class="alert alert-info fade show" role="alert">
               <strong>Echec de la validation du mail</strong>. Ce mail n\'est pas éligible à l\'espace Administration.
+            </div>';
+          }
+          if (isset($_GET['invalidtoken'])) {
+            echo '<div class="alert alert-danger fade show" role="alert">
+              <strong>Erreur lors de la validation !</strong><br> Il semblerait que la clé d\'authentification unique envoyée sur votre adresse email soit erronée. Veuillez réessayer.
+            </div>';
+          }
+          if (isset($_GET['serror'])) {
+            echo '<div class="alert alert-danger fade show" role="alert">
+              <strong>Erreur lors de la validation !</strong><br> Le courrier éléctronique contenant votre code de validation n\'a pas pu s\'envoyer. Veuillez contacter un modérateur.
+            </div>';
+          }
+          if (isset($_GET['ierror'])) {
+            echo '
+            <div class="alert alert-danger fade show" role="alert">
+              <strong>Une erreur interne inattendue s\'est produite</strong>. Un paramètre attendu n\'est pas parvenu à sa destination. Veuillez réesayer puis contacter un modérateur si l\'erreur se reproduit.
             </div>';
           }
 
