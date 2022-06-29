@@ -91,6 +91,34 @@ if (!isset($_SESSION['id'])) {
             $data = $gatherdata->fetch();
 
             if ($data) {
+              if (empty($_POST['token'])){
+                echo '
+                <form action="index.php" method="get">
+                  <div class="form-group">
+                    <label for="token">Saisissez le code à usage unique</label>
+                    <input type="text" name="token" class="form-control" id="token" placeholder="Saisissez le code reçu sur votre adresse mail" required>
+                    <small id="emailHelp" class="form-text text-muted">
+                      Vous pouvez également cliquer sur le lien envoyé dans le mail que vous avez reçu. En cas de problème, contactez un modérateur.
+                    </small>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Vérifier l\'authenticité du compte</button>
+                  <a href="validation.php?resend=true" class="btn btn-secondary">Renvoyer le code</a>
+                  <a href="validation.php?cancel=true" class="btn btn-danger">Annuler la validation</a>
+                  </form><br><br>';
+              } else {
+                $req = $db->prepare('SELECT * FROM validations WHERE token = ?;');
+                $req->execute(array($_POST['token']));
+                $test = $req->fetch();
+                if (!$test){
+                  $errors[]='token_not_exists';
+                } else {
+                  $req=$bdd->prepare('INSERT INTO elector(number, individual, mairie, verified, verifiedon) VALUES(:number, :individual, :mairie, :verified, :verifiedon)');
+                  $req->execute(array($_POST['token']));
+
+                }
+              }
+
+
               echo '
               <div class="alert alert-info fade show" role="alert">
                 <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Pas d\'élections à venir.<br>
