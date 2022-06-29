@@ -123,13 +123,13 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
 } else if (!empty($_POST['email']) AND !isset($_GET['token']) AND !isset($_GET['emailexists']) AND !isset($_GET['serror'])){ // étape 2
 
     // vérification de l'existence du mail
-    $mailcheck_fetch = $bdd->prepare('SELECT * FROM individual WHERE email = ? AND verified = 1)');
+    $mailcheck_fetch = $bdd->prepare('SELECT * FROM individual WHERE email = ? AND verified = 1');
     //$mailchange = $bdd->prepare('UPDATE individual SET email = ? WHERE id = ?');
     $mailcheck_fetch->execute(array($_POST['email']));
     $mailcheck = $mailcheck_fetch->fetch();
 
     // vérification de la validation admin
-    $mail_fetch = $bdd->prepare('SELECT * FROM individual JOIN admin ON individual.id==admin.individual HAVING email = ? AND admin.verified = 1;');
+    $mail_fetch = $bdd->prepare('SELECT * FROM individual JOIN admin ON individual.id = admin.individual HAVING email = ? AND admin.verified = 1;');
     //$mail_fetch = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 10;');
     $mail_fetch->execute(array($_POST['email']));
     $mail = $mail_fetch->fetch();
@@ -405,7 +405,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
           if (isset($_GET['emailexists'])) { //emailexists=false
             echo '
             <div class="alert alert-info fade show" role="alert">
-              <strong>Echec de la validation du mail.</strong>. Ce mail n\'est pas éligible à l\'espace Administration.
+              <strong>Echec de la validation du mail</strong>. Ce mail n\'est pas éligible à l\'espace Administration.
             </div>';
           }
 
