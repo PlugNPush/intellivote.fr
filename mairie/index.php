@@ -106,7 +106,7 @@ if (!isset($_SESSION['id'])) {
                   <a href="validation.php?cancel=true" class="btn btn-danger">Annuler la validation</a>
                   </form><br><br>';
               } else {
-                $req = $db->prepare('SELECT * FROM validations WHERE token = ?;');
+                $req = $db->prepare('SELECT * FROM validations WHERE token = ? AND verify = 0;');
                 $req->execute(array($_POST['token']));
                 $test = $req->fetch();
                 if (!$test){
@@ -121,6 +121,8 @@ if (!isset($_SESSION['id'])) {
                     'verified'=> 1,
                     'verifiedon' => $date
                   ));
+                  $validation = $bdd->prepare('UPDATE validations SET verified = 1 WHERE id = ?;');
+                  $validation->execute(array($test['id']));
 
                 }
               }
