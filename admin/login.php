@@ -7,7 +7,7 @@ use PHPMailer\PHPMailer\POP3;
 use PHPMailer\PHPMailer\OAuth;
 use PHPMailer\PHPMailer\Exception;
 
-if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])){
+if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
   // Hachage du mot de passe
   $pass_hache = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
 
@@ -19,7 +19,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
 
   $verify = password_verify($_POST['mdp'], $test['password']);
   if ($verify)
-  {
+  { // connexion
       session_start();
       $_SESSION['id'] = $test['id'];
       $_SESSION['registered'] = $test['registered'];
@@ -32,7 +32,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
       header( "refresh:0;url=login.php?passworderror=true" );
   }
 
-} else if (isset($_GET['resend'])){
+} else if (isset($_GET['resend'])){ // étape 4 bonus
 
   $gatherdata = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 0;');
   $gatherdata->execute(array($_SESSION['id']));
@@ -57,7 +57,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
           <h4>' . $data['token'] . '</h4>
           <br>
           <p>À très vite !</p>
-          <p>- L\'équipe Intellivote.</p><br><br>
+          <p>- L\'équipe Intellivote.</p><br><bpasswordr>
           <p>P.S.: Ce courriel est automatique, veuillez ne pas y répondre.</p>
        </body>
       </html>
@@ -113,26 +113,32 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
     header( "refresh:0;url=login.php?ierror=true" );
   }
 
-} else if (isset($_GET['cancel'])){
+} else if (isset($_GET['cancel'])){ // étape 4 bonus
 
   $deletetoken = $bdd->prepare('DELETE FROM validations WHERE individual = ? AND type = 0');
   $deletetoken->execute(array($_SESSION['id']));
 
   header( "refresh:0;url=login.php" );
 
-} else if (!empty($_POST['email']) AND !isset($_GET['token'])){
+} else if (!empty($_POST['email']) AND !isset($_GET['token']) AND !isset($_GET['emailexists']) AND !isset($_GET['serror'])){ // étape 2
 
-    $mailchange = $bdd->prepare('UPDATE individual SET email = ? WHERE id = ?');
-    $mailchange->execute(array($_POST['email'], $_SESSION['id']));
+    // vérification de l'existence du mail
+    $mailcheck_fetch = $bdd->prepare('SELECT * FROM individual WHERE email = ? AND verified = 1)');
+    //$mailchange = $bdd->prepare('UPDATE individual SET email = ? WHERE id = ?');
+    $mailcheck_fetch->execute(array($_POST['email']));
+    $mailcheck = $mailcheck_fetch->fetch();
 
-
-    $mail_fetch = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 10;');
-    $mail_fetch->execute(array($_SESSION['id']));
+    // vérification de la validation admin
+    $mail_fetch = $bdd->prepare('SELECT * FROM individual JOIN admin ON individual.id==admin.individual HAVING email = ? AND admin.verified = 1;');
+    //$mail_fetch = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 10;');
+    $mail_fetch->execute(array($_POST['email']));
     $mail = $mail_fetch->fetch();
 
-    if ($mail) {
-      header( "refresh:0;url=login.php?emailexists=true" );
-    } else {
+    if (!$mailcheck) { // non présent dans la bdd
+      header( "refresh:0;url=login.php?emailexists=false" );
+    } elseif (!$mail) { // non valide comme admin
+      header( "refresh:0;url=login.php?invalidmail=false" );
+    } else { // ok, envoie la demande de code
       $newmail = $bdd->prepare('UPDATE individual SET email = ? WHERE id = ?;');
       $newmail->execute(array($_POST['email'], $_SESSION['id']));
 
@@ -295,7 +301,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
         <!-- Blog Entries Column -->
         <div class="col-md-8">';
 
-        if (!empty($_POST['email']) AND !empty($_POST['token'])){
+        if (!empty($_POST['email']) AND !empty($_POST['token']) AND !empty($_POST['password'])){ //étape 3
           echo'<h1 class="my-4">Validation du compte Administrateur</h1>';
 
 
@@ -303,12 +309,6 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
             $gatherdata->execute(array($_SESSION['id']));
             $data = $gatherdata->fetch();
 
-
-            if (isset($_GET['invalidmail'])) {
-              echo '<div class="alert alert-danger fade show" role="alert">
-                <strong>Adresse e-mail invalide !</strong><br> Il semblerait que l\'adresse email fournie ne soit pas correcte.
-              </div>';
-            }
 
             if (isset($_GET['invalidtoken'])) {
               echo '<div class="alert alert-danger fade show" role="alert">
@@ -338,13 +338,6 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
             if (isset($_GET['resent'])) {
               echo '<div class="alert alert-success fade show" role="alert">
                 <strong>Email renvoyé !</strong><br> Votre code d\'authentification vous a été envoyé une nouvelle fois sur votre adresse mail. Le mail de validation se trouve dans votre dossier de spams, aussi appelé courrier indésirable.
-              </div>';
-            }
-
-            if (isset($_GET['emailexists'])) {
-              echo '
-              <div class="alert alert-danger fade show" role="alert">
-                <strong>Echec de la validation du mail.</strong> Un compte a déjà été vérifié avec cette adresse mail.
               </div>';
             }
 
@@ -389,7 +382,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
                   </form><br><br>';
           }
 
-        } else {
+        } else { // étape 1 (mail)/ étape 4 (mdp)
           echo '<h1 class="my-4">Connexion Espace Administrateur</h1>';
           if (isset($_GET['deleted'])) {
             echo '
@@ -401,6 +394,18 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
             echo '
             <div class="alert alert-info fade show" role="alert">
               <strong>Votre session a expiré</strong>. Pour votre sécurité, votre session a expiré. Veuillez vous reconnecter pour continuer.
+            </div>';
+          }
+          if (isset($_GET['invalidmail'])) { //invalidmail=false
+            echo '
+            <div class="alert alert-info fade show" role="alert">
+              <strong>Adresse e-mail invalide !</strong><br> Il semblerait que l\'adresse email fournie ne soit pas correcte.
+            </div>';
+          }
+          if (isset($_GET['emailexists'])) { //emailexists=false
+            echo '
+            <div class="alert alert-info fade show" role="alert">
+              <strong>Echec de la validation du mail.</strong>. Ce mail n\'est pas éligible à l\'espace Administration.
             </div>';
           }
 
