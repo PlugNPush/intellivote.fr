@@ -102,11 +102,12 @@ if (isset($_SESSION['id'])){
                     <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Pas d\'élections à venir.<br>
                   </div>';
                 } else {
-                  if(isset($_GET['verifmairie'])) {
+                  $gatherdataverif = $bdd->prepare('SELECT * FROM validations WHERE type = 1 AND individual = ?');
+                  $gatherdataverif->execute(array($_SESSION['id']));
+                  $dataverif = $gatherdataverif->fetch();
+                  if(isset($_GET['verifmairie']) || $dataverif) {
                     
-                    $gatherdataverif = $bdd->prepare('SELECT * FROM validations WHERE type = 1 AND individual = ?');
-                    $gatherdataverif->execute(array($_SESSION['id']));
-                    $dataverif = $gatherdataverif->fetch();
+                    
                     if(!$dataverif){
                         $token = generateRandomString(20);
                           $date = date('Y-m-d H:i:s');
