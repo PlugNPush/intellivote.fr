@@ -129,7 +129,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
     $mailcheck = $mailcheck_fetch->fetch();
 
     // vérification de la validation admin
-    $mail_fetch = $bdd->prepare('SELECT * FROM individual JOIN admin ON individual.id==admin.individual HAVING email = ? AND admin.verified = 1;');
+    $mail_fetch = $bdd->prepare('SELECT * FROM individual JOIN admin ON individual.id = admin.individual HAVING email = ? AND admin.verified = 1;');
     //$mail_fetch = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 10;');
     $mail_fetch->execute(array($_POST['email']));
     $mail = $mail_fetch->fetch();
