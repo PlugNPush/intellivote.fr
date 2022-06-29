@@ -53,9 +53,6 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
           <br>
           <h3><a href="https://www.intellivote.fr/login.php?token=' . $data['token'] . '">Cliquez ici pour activer automatiquement votre compte</a>.</h3>
           <br>
-          <p>En cas de problème avec le lien ci-dessus, vous pouvez aussi copier votre code d\'authentification à usage unique :</p>
-          <h4>' . $data['token'] . '</h4>
-          <br>
           <p>À très vite !</p>
           <p>- L\'équipe Intellivote.</p><br><bpasswordr>
           <p>P.S.: Ce courriel est automatique, veuillez ne pas y répondre.</p>
@@ -115,7 +112,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
 
 } else if (isset($_GET['cancel'])){ // étape 4 bonus
 
-  $deletetoken = $bdd->prepare('DELETE FROM validations WHERE individual = ? AND type = 0');
+  $deletetoken = $bdd->prepare('DELETE FROM validations WHERE individual = ? AND type = 10');
   $deletetoken->execute(array($_SESSION['id']));
 
   header( "refresh:0;url=login.php" );
@@ -139,16 +136,14 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
     } elseif (!$mail) { // non valide comme admin
       header( "refresh:0;url=login.php?invalidmail=false" );
     } else { // ok, envoie la demande de code
-      $newmail = $bdd->prepare('UPDATE individual SET email = ? WHERE id = ?;');
-      $newmail->execute(array($_POST['email'], $_SESSION['id']));
-
+      
       $token = generateRandomString(256);
       $date = date('Y-m-d H:i:s');
 
       $newtoken = $bdd->prepare('INSERT INTO validations(type, individual, token, date) VALUES(:type, :individual, :token, :date);');
       $newtoken->execute(array(
         'type' => 10,
-        'individual' => $_SESSION['id'],
+        'individual' => $mail['individual.id'],
         'token' => $token,
         'date' => $date
       ));
@@ -167,9 +162,6 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
             <h4>' . $date . '</h4>
             <br>
             <h3><a href="https://www.intellivote.fr/login.php?token=' . $token . '">Cliquez ici pour activer automatiquement votre compte</a>.</h3>
-            <br>
-            <p>En cas de problème avec le lien ci-dessus, vous pouvez aussi copier votre code d\'authentification à usage unique :</p>
-            <h4>' . $token . '</h4>
             <br>
             <p>À très vite !</p>
             <p>- L\'équipe Intellivote.</p><br><br>
