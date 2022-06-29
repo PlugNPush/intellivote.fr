@@ -104,7 +104,7 @@ if (isset($_SESSION['id'])){
                 } else {
                   if(isset($_GET['verifmairie'])) {
                     
-                    $gatherdataverif = $bdd->prepare('SELECT * FROM elector WHERE type = 1 AND individual = ?');
+                    $gatherdataverif = $bdd->prepare('SELECT * FROM validations WHERE type = 1 AND individual = ?');
                     $gatherdataverif->execute(array($_SESSION['id']));
                     $dataverif = $gatherdataverif->fetch();
                     if(!$dataverif){
