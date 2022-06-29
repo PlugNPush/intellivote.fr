@@ -46,7 +46,6 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
 
     if (isset($_GET['resend'])){
       $_POST['email']=$_SESSION['verifmail'];
-      echo $_POST['email'] . $_SESSION['verifmail'];
     } else {
       $_SESSION['verifmail']=$_POST['email'];
     }
@@ -79,11 +78,11 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
           'date' => $date
         ));
       } else {
-        $resend_fetch = $bdd->prepare('SELECT validations.token,validations.date as indv FROM individual JOIN validations ON individual.id = validations.individual HAVING email = ?;');
+        $resend_fetch = $bdd->prepare('SELECT validations.token,validations.date FROM individual JOIN validations ON individual.id = validations.individual HAVING email = ?;');
         $resend_fetch->execute(array($_POST['email']));
         $resend = $resend_fetch->fetch();
-        $token = $resend['token'];
-        $date = $resend['date'];
+        $token = $resend['validations.token'];
+        $date = $resend['validations.date'];
       }
       
 
