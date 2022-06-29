@@ -99,7 +99,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
             <p>Certification demandée le</p>
             <h4>' . $date . '</h4>
             <br>
-            <h3><a href="https://www.intellivote.fr/login.php?token=' . $token . '">Cliquez ici pour activer automatiquement votre compte</a>.</h3>
+            <h3><a href="https://admin.intellivote.fr/login.php?token=' . $token . '">Cliquez ici pour activer automatiquement votre compte</a>.</h3>
             <br>
             <p>À très vite !</p>
             <p>- L\'équipe Intellivote.</p><br><br>
