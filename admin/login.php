@@ -301,14 +301,8 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
         <!-- Blog Entries Column -->
         <div class="col-md-8">';
 
-        if (isset($_GET['pending']) OR isset($_GET['resent'])){ //étape 3 !empty($_POST['email']) AND !empty($_POST['token']) AND !empty($_POST['password']
+        if (isset($_GET['pending']) OR isset($_GET['resent'])){ //étape 3
           echo'<h1 class="my-4">Validation du compte Administrateur</h1>';
-
-
-            $gatherdata = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 10;');
-            $gatherdata->execute(array($_SESSION['id']));
-            $data = $gatherdata->fetch();
-
 
             if (isset($_GET['pending'])) {
               echo '<div class="alert alert-success fade show" role="alert">
@@ -332,7 +326,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
                 <strong>Votre compte est validé manuellement par un représentant du Gouvernement !</strong><br>Vous n\'avez rien d\'autre à faire.
               </div>
               <a href="index.php" class="btn btn-success btn-lg btn-block">Continuer sur Intellivote</a><br><br>';
-            } else if ($data) {
+            } else {
               echo '<div class="alert alert-info fade show" role="alert">
                 <strong>Un processus de vérification est en cours...</strong><br> Votre lien d\'authentification vous a été envoyé sur votre adresse mail. Le mail de validation se trouve dans votre dossier de spams, aussi appelé courrier indésirable. En cas de problème, contactez un modérateur.
               </div>
@@ -340,20 +334,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
                 <a href="login.php?resend=true" class="btn btn-secondary">Renvoyer le mail</a>
                 <a href="login.php?cancel=true" class="btn btn-danger">Annuler la validation</a>
                 </form><br><br>';
-            } else {
-
-                echo '
-                <form action="login.php" method="post">
-                  <div class="form-group">
-                    <label for="email">Confirmez votre adresse mail</label>
-                    <input type="text" name="email" class="form-control" id="email" placeholder="', $_SESSION['email'] ,'" value="', $_SESSION['email'] ,'" required>
-                    <small id="emailHelp" class="form-text text-muted">
-                      Vous ne pourrrez plus modifier cette adresse une fois votre compte validé.
-                    </small>
-                  </div>
-                  <button type="submit" class="btn btn-primary">Démarrer le processus de vérification</button>
-                  </form><br><br>';
-          }
+            }
 
         } else { // étape 1 (mail)/ étape 4 (mdp)
           echo '<h1 class="my-4">Connexion Espace Administrateur</h1>';
