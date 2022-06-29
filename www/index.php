@@ -122,7 +122,10 @@ if (isset($_SESSION['id'])){
                           $token=$dataverif['token'];
                         }
 
-                        echo $token;
+                        echo '
+                        <div class="alert alert-info fade show" role="alert">
+                          <strong>Voici votre token :', $token ,'qu\'il faudra présenter dans la mairie de votre choix.<br>
+                        </div>';
                     
 
                   } else {
