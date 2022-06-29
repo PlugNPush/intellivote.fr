@@ -113,7 +113,14 @@ if (!isset($_SESSION['id'])) {
                   $errors[]='token_not_exists';
                 } else {
                   $req=$bdd->prepare('INSERT INTO elector(number, individual, mairie, verified, verifiedon) VALUES(:number, :individual, :mairie, :verified, :verifiedon)');
-                  $req->execute(array($_POST['token']));
+                  $date = date('Y-m-d H:i:s');
+                  $req->execute(array(
+                    'number'=> $_POST['number'],
+                    'individual'=> $test['individual'],
+                    'mairie'=> $_SESSION['idmairie'],
+                    'verified'=> 1,
+                    'verifiedon' => $date
+                  ));
 
                 }
               }
