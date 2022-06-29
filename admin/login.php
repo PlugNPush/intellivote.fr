@@ -42,21 +42,19 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
 } else if ((isset($_GET['resend'])) OR (!empty($_POST['email']) AND !isset($_GET['token']) AND !isset($_GET['emailexists']) AND !isset($_GET['serror']))){ // étape 2 et étape 4 bonus
 
     if (isset($_GET['resend'])){
-      $resend_fetch = $bdd->prepare('SELECT email FROM individual WHERE id = ?');
-      $resend_fetch->execute(array($_SESSION['id']));
-      $tmp_email = $resend_fetch->fetch();
+      $_POST['email']=$_SESSION['verifmail'];
     } else {
-      $tmp_email=$_POST['email'];
+      $_SESSION['verifmail']=$_POST['email'];
     }
 
     // vérification de l'existence du mail
     $mailcheck_fetch = $bdd->prepare('SELECT * FROM individual WHERE email = ? AND verified = 1');
-    $mailcheck_fetch->execute(array($tmp_email));
+    $mailcheck_fetch->execute(array($_POST['email']));
     $mailcheck = $mailcheck_fetch->fetch();
 
     // vérification de la validation admin
     $mail_fetch = $bdd->prepare('SELECT *, individual.id as indv FROM individual JOIN admin ON indv = admin.individual HAVING email = ? AND admin.verified = 1;');
-    $mail_fetch->execute(array($tmp_email));
+    $mail_fetch->execute(array($_POST['email']));
     $mail = $mail_fetch->fetch();
 
     if (!$mailcheck) { // non présent dans la bdd
@@ -85,7 +83,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
       
 
 
-      $to = $tmp_email;
+      $to = $_POST['email'];
       $subject = 'Verification automatique Intellivote';
       $message = '
           <html>
@@ -93,7 +91,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
             <h1>Vérification automatique de votre compte.</h1>
             <p>Bonjour ' . $_SESSION['surname'] . ' ' . $_SESSION['name'] . ', et bienvenue sur Intellivote. Pour confirmer votre inscription, vous devez confirmer votre identité numérique. Grâce à votre adresse email, vous êtes éligible à notre solution de validation automatique. Cliquez simplement sur le lien ci-dessous pour terminer l\'activation de votre compte.
             <p>Adresse email utilisée</p>
-            <h4>' . $tmp_email . '</h4>
+            <h4>' . $_POST['email'] . '</h4>
             <p>Certification demandée le</p>
             <h4>' . $date . '</h4>
             <br>
@@ -317,6 +315,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
             </div>';
           }
           else {
+            $_SESSION['verifmail']="";
             echo '
             <div class="form-group">
               <label for="mdp">Saisissez votre mot de passe</label>
