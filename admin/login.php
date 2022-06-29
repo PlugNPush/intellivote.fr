@@ -63,20 +63,15 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
       header( "refresh:0;url=login.php?invalidmail=false" );
     } else { // ok, envoie la demande de code
       
-      $token = generateRandomString(256);
-      $date = date('Y-m-d H:i:s');
+      
       if (!isset($_GET['resend'])){
+        $token = generateRandomString(256);
+        $date = date('Y-m-d H:i:s');
         $newtoken = $bdd->prepare('INSERT INTO validations(type, individual, token, date) VALUES(:type, :individual, :token, :date);');
         $newtoken->execute(array(
           'type' => 10,
           'individual' => $mail['indv'],
           'token' => $token,
-          'date' => $date
-        ));
-      } else {
-        $newtoken = $bdd->prepare('UPDATE validations SET(date=:date) WHERE individual=:individual;');
-        $newtoken->execute(array(
-          'individual' => $mail['indv'],
           'date' => $date
         ));
       }
