@@ -301,7 +301,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
         <!-- Blog Entries Column -->
         <div class="col-md-8">';
 
-        if (isset($_SESSION['pending']) OR isset($_SESSION['resent'])){ //étape 3 !empty($_POST['email']) AND !empty($_POST['token']) AND !empty($_POST['password']
+        if (isset($_GET['pending']) OR isset($_GET['resent'])){ //étape 3 !empty($_POST['email']) AND !empty($_POST['token']) AND !empty($_POST['password']
           echo'<h1 class="my-4">Validation du compte Administrateur</h1>';
 
 
