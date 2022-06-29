@@ -143,7 +143,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
       $newtoken = $bdd->prepare('INSERT INTO validations(type, individual, token, date) VALUES(:type, :individual, :token, :date);');
       $newtoken->execute(array(
         'type' => 10,
-        'individual' => $mail['id'],
+        'individual' => $mail['individual.id'],
         'token' => $token,
         'date' => $date
       ));
@@ -162,9 +162,6 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
             <h4>' . $date . '</h4>
             <br>
             <h3><a href="https://www.intellivote.fr/login.php?token=' . $token . '">Cliquez ici pour activer automatiquement votre compte</a>.</h3>
-            <br>
-            <p>En cas de problème avec le lien ci-dessus, vous pouvez aussi copier votre code d\'authentification à usage unique :</p>
-            <h4>' . $token . '</h4>
             <br>
             <p>À très vite !</p>
             <p>- L\'équipe Intellivote.</p><br><br>
