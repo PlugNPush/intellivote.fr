@@ -84,7 +84,7 @@ if (isset($_SESSION['id'])){
               if ($_SESSION['verified'] != 1) {
                 echo '
                 <div class="alert alert-danger fade show" role="alert">
-                  <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Vous devez confirmer votre compte pour accéder au site. Celui-ci n\'a pas encore pu être vérifié.<br><a class = "btn btn-primary" href = "index.php?verifmairie=true">Lancer ou vérifier la procédure de validation</a>
+                  <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Vous devez confirmer votre compte pour accéder au site. Celui-ci n\'a pas encore pu être vérifié.<br><a class = "btn btn-primary" href = "validation.php">Lancer ou vérifier la procédure de validation</a>
                 </div>';
               } else {
                 echo '
@@ -128,7 +128,7 @@ if (isset($_SESSION['id'])){
                   } else {
                     echo '
                   <div class="alert alert-warning fade show" role="alert">
-                    <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Vous devez maintenant vous authentifier en tant qu\'électeur, donc relier votre identité numérique à votre identité physique. Lancez une pré-demande en ligne ou rendez-vous en mairie.<br><a class = "btn btn-primary" href = "validation.php">Relier mon identité physique</a><br>
+                    <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Vous devez maintenant vous authentifier en tant qu\'électeur, donc relier votre identité numérique à votre identité physique. Lancez une pré-demande en ligne ou rendez-vous en mairie.<br><a class = "btn btn-primary" href = "index.php?verifmairie=true">Relier mon identité physique</a><br>
                     <br>Vous representez une mairie ? Votre demande devra être traitée par <a href="https://admin.intellivote.fr">un représentant de l\'État</a>.
                   </div>';
                   }
