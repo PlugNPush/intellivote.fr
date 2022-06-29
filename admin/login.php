@@ -34,8 +34,11 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
 
 } else if (isset($_GET['cancel'])){ // étape 4 bonus
 
-  $deletetoken = $bdd->prepare('DELETE FROM validations WHERE individual = ? AND type = 10');
-  $deletetoken->execute(array($_SESSION['id']));
+  $indv_fetch = $bdd->prepare('SELECT * FROM individual WHERE email = ?;');
+  $indv_fetch->execute(array($_SESSION['verifmail']));
+  $indv = $indv_fetch->fetch();
+  $deletetoken = $bdd->prepare('DELETE FROM validations WHERE individual = ?;');
+  $deletetoken->execute(array($indv['id']));
 
   header( "refresh:0;url=login.php" );
 
@@ -48,7 +51,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
     }
 
     // vérification de l'existence du mail
-    $mailcheck_fetch = $bdd->prepare('SELECT * FROM individual WHERE email = ? AND verified = 1');
+    $mailcheck_fetch = $bdd->prepare('SELECT * FROM individual WHERE email = ? AND verified = 1;');
     $mailcheck_fetch->execute(array($_POST['email']));
     $mailcheck = $mailcheck_fetch->fetch();
 
@@ -74,6 +77,12 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
           'token' => $token,
           'date' => $date
         ));
+      } else {
+        $resend_fetch = $bdd->prepare('SELECT validations.token,validations.date as indv FROM individual JOIN validations ON individual.id = validations.individual HAVING email = ?;');
+        $resend_fetch->execute(array($_POST['email']));
+        $resend = $resend_fetch->fetch();
+        $token = $resend['token'];
+        $date = $resend['date'];
       }
       
 
@@ -300,10 +309,9 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
             </div>';
           }
 
-          echo '
-          <form action="login.php" method="post">';
           if (empty($_POST['email'])){
             echo '
+            <form action="login.php" method="post">
             <div class="form-group">
               <label for="email">Saisissez votre adresse e-mail</label>
               <input type="text" name="email" class="form-control" id="email" placeholder="Courriel" required>
@@ -312,6 +320,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
           else {
             $_SESSION['verifmail']="";
             echo '
+            <form action="login.php?token=' . $_GET['token'] . '" method="post">
             <div class="form-group">
               <label for="mdp">Saisissez votre mot de passe</label>
               <input type="password" name="mdp" class="form-control';
