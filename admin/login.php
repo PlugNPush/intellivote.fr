@@ -34,7 +34,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
 
 } else if (isset($_GET['resend'])){ // étape 4 bonus
 
-  $gatherdata = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 0;');
+  $gatherdata = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 10;');
   $gatherdata->execute(array($_SESSION['id']));
   $data = $gatherdata->fetch();
 
