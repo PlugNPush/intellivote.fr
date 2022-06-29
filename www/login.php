@@ -65,7 +65,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="https://www.intellivote.fr">Espace élécteur<span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="https://www.intellivote.fr">Espace électeur<span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="https://mairie.intellivote.fr">Espace mairie</a>
