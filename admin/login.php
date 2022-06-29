@@ -122,16 +122,22 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
 
 } else if (!empty($_POST['email']) AND !isset($_GET['token']) AND !isset($_GET['emailexists']) AND !isset($_GET['serror'])){ // étape 2
 
-    $mailchange = $bdd->prepare('UPDATE individual SET email = ? WHERE id = ?');
-    $mailchange->execute(array($_POST['email'], $_SESSION['id']));
+    // vérification de l'existence du mail
+    $mailcheck_fetch = $bdd->prepare('SELECT * FROM individual WHERE email = ? AND verified = 1)');
+    //$mailchange = $bdd->prepare('UPDATE individual SET email = ? WHERE id = ?');
+    $mailcheck_fetch->execute(array($_POST['email']));
+    $mailcheck = $mailcheck_fetch->fetch();
 
-
-    $mail_fetch = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 10;');
-    $mail_fetch->execute(array($_SESSION['id']));
+    // vérification de la validation admin
+    $mail_fetch = $bdd->prepare('SELECT * FROM individual JOIN admin ON individual.id==admin.individual HAVING email = ? AND admin.verified = 1;');
+    //$mail_fetch = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 10;');
+    $mail_fetch->execute(array($_POST['email']));
     $mail = $mail_fetch->fetch();
 
-    if (!$mail) { // non présent dans la bdd
+    if (!$mailcheck) { // non présent dans la bdd
       header( "refresh:0;url=login.php?emailexists=false" );
+    } elseif (!$mail) { // non valide comme admin
+      header( "refresh:0;url=login.php?invalidmail=false" );
     } else { // ok, envoie la demande de code
       $newmail = $bdd->prepare('UPDATE individual SET email = ? WHERE id = ?;');
       $newmail->execute(array($_POST['email'], $_SESSION['id']));
@@ -304,12 +310,6 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
             $data = $gatherdata->fetch();
 
 
-            if (isset($_GET['invalidmail'])) {
-              echo '<div class="alert alert-danger fade show" role="alert">
-                <strong>Adresse e-mail invalide !</strong><br> Il semblerait que l\'adresse email fournie ne soit pas correcte.
-              </div>';
-            }
-
             if (isset($_GET['invalidtoken'])) {
               echo '<div class="alert alert-danger fade show" role="alert">
                 <strong>Erreur lors de la validation !</strong><br> Il semblerait que la clé d\'authentification unique envoyée sur votre adresse email soit erronée. Veuillez réessayer.
@@ -394,6 +394,12 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
             echo '
             <div class="alert alert-info fade show" role="alert">
               <strong>Votre session a expiré</strong>. Pour votre sécurité, votre session a expiré. Veuillez vous reconnecter pour continuer.
+            </div>';
+          }
+          if (isset($_GET['invalidmail'])) { //invalidmail=false
+            echo '
+            <div class="alert alert-info fade show" role="alert">
+              <strong>Adresse e-mail invalide !</strong><br> Il semblerait que l\'adresse email fournie ne soit pas correcte.
             </div>';
           }
           if (isset($_GET['emailexists'])) { //emailexists=false
