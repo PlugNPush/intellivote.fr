@@ -46,6 +46,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
 
     if (isset($_GET['resend'])){
       $_POST['email']=$_SESSION['verifmail'];
+      echo $_POST['email'] . $_SESSION['verifmail'];
     } else {
       $_SESSION['verifmail']=$_POST['email'];
     }
