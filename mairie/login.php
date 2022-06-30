@@ -73,7 +73,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'] AND !empty($_POST['idmairie
             <a class="nav-link" href="https://mairie.intellivote.fr">Espace mairie<span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://admin.intellivote.fr">Espace Administrateur</a>
+            <a class="nav-link" href="https://gouv.intellivote.fr">Espace Gouvernement</a>
           </li>';
 
           echo '

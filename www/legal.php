@@ -42,7 +42,7 @@ echo '<!DOCTYPE html>
           <a class="nav-link" href="https://mairie.intellivote.fr">Espace mairie</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="https://admin.intellivote.fr">Espace Administrateur</a>
+          <a class="nav-link" href="https://gouv.intellivote.fr">Espace Gouvernement</a>
         </li>';
 
         echo '

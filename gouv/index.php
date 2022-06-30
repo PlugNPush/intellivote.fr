@@ -16,7 +16,7 @@ if (isset($_SESSION['id'])){
 
     <meta http-equiv="Content-Security-Policy" content="default-src \'self\'; img-src https://* \'self\' data:; child-src \'none\';">
 
-    <title>Intellivote - Espace Administrateur</title>
+    <title>Intellivote - Espace Gouvernement</title>
 
     <link href="css/custom.css" rel="stylesheet">
 
@@ -33,20 +33,20 @@ if (isset($_SESSION['id'])){
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="index.php">admin.intellivote.fr</a>
+        <a class="navbar-brand" href="index.php">gouv.intellivote.fr</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span id="new-dark-navbar-toggler-icon" class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="https://www.intellivote.fr">Espace électeur</a>
+              <a class="nav-link" href="https://www.intellivote.fr">Espace élécteur</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="https://mairie.intellivote.fr">Espace mairie</a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="https://admin.intellivote.fr">Espace Administrateur<span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="https://gouv.intellivote.fr">Espace Gouvernement<span class="sr-only">(current)</span></a>
             </li>';
 
             echo '
@@ -63,10 +63,10 @@ if (isset($_SESSION['id'])){
         <!-- Blog Entries Column -->
         <div class="col-md-8">';
 
-          echo '<h1 class="my-4">Espace Administrateur</h1>';
+          echo '<h1 class="my-4">Espace Gouvernement</h1>';
 
           echo '<div class="alert alert-danger fade show" role="alert">
-            <strong>L\'espace Administrateur n\'est pas accessible depuis l\'extérieur.</strong> Par sécurité, vous devez utiliser l\'interface de gestion interne d\'Intellivote pour pouvoir administrer le service, la connexion à distance n\'est pas possible. Intellivote ne vous demandera jamais vos identifiants ni codes de vérifications, ne les communiquez jamais.
+            <strong>L\'espace Gouvernement n\'est pas accessible depuis l\'extérieur.</strong> Par sécurité, vous devez utiliser l\'interface de gestion interne d\'Intellivote pour pouvoir administrer le service, la connexion à distance n\'est pas possible. Intellivote ne vous demandera jamais vos identifiants ni codes de vérifications, ne les communiquez jamais.
           </div>';
 
           echo '<br><br>';
