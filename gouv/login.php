@@ -81,10 +81,10 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
         ));
       } else {
         $resend_fetch = $bdd->prepare('SELECT validations.token,validations.date FROM individual JOIN validations ON individual.id = validations.individual HAVING email = ?;');
-        $resend_fetch->execute(array($_SESSION['verifmail']));
+        $resend_fetch->execute(array($_POST['email'])); //$_SESSION['verifmail']
         $resend = $resend_fetch->fetch();
-        $token = $resend['validations.token'];
-        $date = $resend['validations.date'];
+        $token = $resend['token'];
+        $date = $resend['date'];
         echo 'cc ' . $token . $date;
       }
 
