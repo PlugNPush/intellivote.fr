@@ -85,6 +85,7 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
         $resend = $resend_fetch->fetch();
         $token = $resend['validations.token'];
         $date = $resend['validations.date'];
+        echo $token . $date;
       }
 
 
