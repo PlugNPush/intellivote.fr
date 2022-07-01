@@ -39,7 +39,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <meta http-equiv="Content-Security-Policy" content="default-src \'self\'; img-src https://* \'self\' data:; child-src \'none\';">
+    <meta http-equiv="Content-Security-Policy" content="default-src \'self\'; img-src https://* \'self\' data:; style-src https://* \'self\' \'unsafe-inline\' child-src \'none\';">
 
     <title>Intellivote - Espace électeur</title>
 
@@ -141,7 +141,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
     <!-- Footer -->
     <footer class="py-5 bg-primary">
       <div class="container">
-        <p class="m-0 text-center text-white">&copy; 2022 Intellivote. Tous droits reservés. <a href="/legal.php" class="link-light">Mentions légales</a>.</p>
+        <p class="m-0 text-center text-white">&copy; 2022 Intellivote. Tous droits reservés. <a href="/legal.php" style="color: lightcyan;">Mentions légales</a>.</p>
       </div>
       <!-- /.container -->
     </footer>
