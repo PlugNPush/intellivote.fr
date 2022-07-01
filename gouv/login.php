@@ -7,8 +7,6 @@ use PHPMailer\PHPMailer\POP3;
 use PHPMailer\PHPMailer\OAuth;
 use PHPMailer\PHPMailer\Exception;
 
-session_start();
-
 if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
   // Hachage du mot de passe
   $pass_hache = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
@@ -80,7 +78,7 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
           'date' => $date
         ));
       } else {
-        $resend_fetch = $bdd->prepare('SELECT validations.token,validations.date FROM individual JOIN validations ON individual.id = validations.individual HAVING email = ?;');
+        $resend_fetch = $bdd->prepare('SELECT validations.token,validations.date FROM individual JOIN validations ON individual.id = validations.individual WHERE email = ? AND type = 10 AND validated = 0 ORDER BY date DESC LIMIT 1;');
         $resend_fetch->execute(array($_POST['email'])); //$_SESSION['verifmail']
         $resend = $resend_fetch->fetch();
         $token = $resend['token'];
