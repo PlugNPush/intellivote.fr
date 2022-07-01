@@ -100,9 +100,9 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
                     $election_fetch->execute();
 
                     while ($election = $election_fetch->fetch()) {
-                      if (strtotime('+90 days')>$election['begindate'] && $date<$election['enddate']){//si la date du jour +90 est apres l'élection et si l'election n'est pas fini
+                      if (strtotime('+90 days')>strtotime($election['begindate']) && $date<$election['enddate']){//si la date du jour +90 est apres l'élection et si l'election n'est pas fini
                         $electionEnCours = true;
-                        echo strtotime('+90 days').'>'.$election['begindate'].'&&'.$date.'<'.$election['enddate'];
+                        echo strtotime('+90 days').'>'.strtotime($election['begindate']).'&&'.$date.'<'.$election['enddate'];
                       }
 
                     }
