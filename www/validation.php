@@ -173,7 +173,7 @@ if (isset($_SESSION['id'])){
       <!-- /.container -->
 
       <!-- Footer -->
-      <footer class="py-5 bg-primary">
+      <footer class="py-5" style="background-color: #336db5;">
         <div class="container">
           <p class="m-0 text-center text-white">&copy; 2022 Intellivote. Tous droits reservés. <a href="/legal.php" style="color: lightcyan;">Mentions légales</a>.</p>
         </div>

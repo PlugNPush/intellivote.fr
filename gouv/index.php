@@ -31,7 +31,7 @@ if (isset($_SESSION['id'])){
   <body>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #e04a51;">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-danger">
       <div class="container">
         <a class="navbar-brand" href="index.php"><img src="image/logo.png" width="160" height="30"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
