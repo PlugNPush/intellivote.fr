@@ -153,7 +153,7 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <meta http-equiv="Content-Security-Policy" content="default-src \'self\'; img-src https://* \'self\' data:; child-src \'none\';">
+    <meta http-equiv="Content-Security-Policy" content="default-src \'self\'; img-src https://* \'self\' data:; style-src https://* \'self\' \'unsafe-inline\' child-src \'none\';">
 
     <title>Intellivote - Espace Gouvernement</title>
 

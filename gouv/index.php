@@ -14,7 +14,7 @@ if (isset($_SESSION['id'])){
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <meta http-equiv="Content-Security-Policy" content="default-src \'self\'; img-src https://* \'self\' data:; child-src \'none\';">
+    <meta http-equiv="Content-Security-Policy" content="default-src \'self\'; img-src https://* \'self\' data:; style-src https://* \'self\' \'unsafe-inline\' child-src \'none\';">
 
     <title>Intellivote - Espace Gouvernement</title>
 
