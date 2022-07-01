@@ -71,6 +71,10 @@ if (isset($_SESSION['id'])){
 
           echo '<br><br>';
 
+          echo '
+          <a class = "btn btn-secondary" href = "logout.php">Se déconnecter</a>
+          <br><br>';
+
         echo '</div>
 
       </div>
