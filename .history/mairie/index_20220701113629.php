@@ -4,8 +4,7 @@ require_once dirname(__FILE__).'/../config.php';
 
 if (!isset($_SESSION['id'])) {
   header( "refresh:0;url=login.php?expired=true" );
-} else if(!isset($_POST['token'])){
-
+} else {
 
   echo '<!DOCTYPE html>
   <html lang="fr">
@@ -95,13 +94,7 @@ if (!isset($_SESSION['id'])) {
             $data = $gatherdata->fetch();
 
             if ($data) {
-
-              if (isset($_GET['success'])) {
-                echo '
-                <div class="alert alert-success fade show" role="alert">
-                  <strong>L\'électeur a bien été rajouté dans votre mairie.</strong>
-                </div>';
-              }
+              if (!isset($_POST['token'])){
 
                 echo '
                 <form action="index.php" method="post">
@@ -131,7 +124,31 @@ if (!isset($_SESSION['id'])) {
 
                 </form><br><br>';
 
-              
+              } else {
+
+                $req = $db->prepare('SELECT * FROM validations WHERE token = ? AND verify = 0 AND type = 1;');
+                $req->execute(array($_POST['token']));
+                $test = $req->fetch();
+
+                if (!$test){
+                  header( "refresh:0;url=index.php?tokenerror=true" );
+                } else {
+
+                  $req=$bdd->prepare('INSERT INTO elector(number, individual, mairie, verified, verifiedon) VALUES(:number, :individual, :mairie, :verified, :verifiedon)');
+                  $date = date('Y-m-d H:i:s');
+                  $req->execute(array(
+                    'number'=> $_POST['number'],
+                    'individual'=> $test['individual'],
+                    'mairie'=> $_SESSION['idmairie'],
+                    'verified'=> 1,
+                    'verifiedon' => $date
+                  ));
+                  $validation = $bdd->prepare('UPDATE validations SET verified = 1 WHERE id = ?;');
+                  $validation->execute(array($test['id']));
+
+                }
+
+              }
 
 
               echo '
@@ -177,31 +194,6 @@ if (!isset($_SESSION['id'])) {
   </body>
 
   </html>';
-
-}else{
-
-    $req = $bdd->prepare('SELECT * FROM validations WHERE token = ? AND verify = 0 AND type = 1;');
-    $req->execute(array($_POST['token']));
-    $test = $req->fetch();
-
-    if (!$test){
-      header( "refresh:0;url=index.php?tokenerror=true" );
-    } else {
-
-      $req=$bdd->prepare('INSERT INTO elector(number, individual, mairie, verified, verifiedon) VALUES(:number, :individual, :mairie, :verified, :verifiedon)');
-      $date = date('Y-m-d H:i:s');
-      $req->execute(array(
-        'number'=> $_POST['number'],
-        'individual'=> $test['individual'],
-        'mairie'=> $_SESSION['idmairie'],
-        'verified'=> 1,
-        'verifiedon' => $date
-      ));
-      $validation = $bdd->prepare('UPDATE validations SET verified = 1 WHERE id = ?;');
-      $validation->execute(array($test['id']));
-
-      header( "refresh:0;url=index.php?success=true" );
-    }
 
 }
 ?>

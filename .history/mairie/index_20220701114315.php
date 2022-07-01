@@ -4,7 +4,7 @@ require_once dirname(__FILE__).'/../config.php';
 
 if (!isset($_SESSION['id'])) {
   header( "refresh:0;url=login.php?expired=true" );
-} else if(!isset($_POST['token'])){
+} else if(isset($_POST['token'])){
 
 
   echo '<!DOCTYPE html>
@@ -96,13 +96,6 @@ if (!isset($_SESSION['id'])) {
 
             if ($data) {
 
-              if (isset($_GET['success'])) {
-                echo '
-                <div class="alert alert-success fade show" role="alert">
-                  <strong>L\'électeur a bien été rajouté dans votre mairie.</strong>
-                </div>';
-              }
-
                 echo '
                 <form action="index.php" method="post">
 
@@ -180,7 +173,7 @@ if (!isset($_SESSION['id'])) {
 
 }else{
 
-    $req = $bdd->prepare('SELECT * FROM validations WHERE token = ? AND verify = 0 AND type = 1;');
+    $req = $db->prepare('SELECT * FROM validations WHERE token = ? AND verify = 0 AND type = 1;');
     $req->execute(array($_POST['token']));
     $test = $req->fetch();
 
@@ -200,7 +193,6 @@ if (!isset($_SESSION['id'])) {
       $validation = $bdd->prepare('UPDATE validations SET verified = 1 WHERE id = ?;');
       $validation->execute(array($test['id']));
 
-      header( "refresh:0;url=index.php?success=true" );
     }
 
 }

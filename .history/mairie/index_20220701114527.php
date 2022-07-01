@@ -4,7 +4,7 @@ require_once dirname(__FILE__).'/../config.php';
 
 if (!isset($_SESSION['id'])) {
   header( "refresh:0;url=login.php?expired=true" );
-} else if(!isset($_POST['token'])){
+} else if(isset($_POST['token'])){
 
 
   echo '<!DOCTYPE html>
@@ -180,7 +180,7 @@ if (!isset($_SESSION['id'])) {
 
 }else{
 
-    $req = $bdd->prepare('SELECT * FROM validations WHERE token = ? AND verify = 0 AND type = 1;');
+    $req = $db->prepare('SELECT * FROM validations WHERE token = ? AND verify = 0 AND type = 1;');
     $req->execute(array($_POST['token']));
     $test = $req->fetch();
 

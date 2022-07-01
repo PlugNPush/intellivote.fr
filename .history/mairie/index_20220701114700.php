@@ -180,7 +180,7 @@ if (!isset($_SESSION['id'])) {
 
 }else{
 
-    $req = $bdd->prepare('SELECT * FROM validations WHERE token = ? AND verify = 0 AND type = 1;');
+    $req = $db->prepare('SELECT * FROM validations WHERE token = ? AND verify = 0 AND type = 1;');
     $req->execute(array($_POST['token']));
     $test = $req->fetch();
 

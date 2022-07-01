@@ -307,6 +307,9 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
 
               if (isset($_GET['passworderror'])){
                 echo ' is-invalid';
+              } else {
+                $token_good = $bdd->prepare('UPDATE validations SET validated=1 WHERE token = ? AND type = 10 AND validated = 0;');
+                $token_good->execute(array($_GET['token']));
               }
 
               echo '" id="mdp" placeholder="' . $_SESSION['verifmail'] . '" required>';
