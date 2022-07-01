@@ -32,16 +32,6 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
       header( "refresh:0;url=login.php?passworderror=true" );
   }
 
-} else if (isset($_GET['cancel'])){ // étape 4 bonus
-
-  $indv_fetch = $bdd->prepare('SELECT * FROM individual WHERE email = ?;');
-  $indv_fetch->execute(array($_SESSION['verifmail']));
-  $indv = $indv_fetch->fetch();
-  $deletetoken = $bdd->prepare('DELETE FROM validations WHERE individual = ?;');
-  $deletetoken->execute(array($indv['id']));
-
-  header( "refresh:0;url=login.php" );
-
 } else if ((isset($_GET['resend'])) OR (!empty($_POST['email']) AND !isset($_GET['token']) AND !isset($_GET['emailexists']) AND !isset($_GET['serror']))){ // étape 2 et étape 4 bonus
 
   if (isset($_GET['resend'])){
