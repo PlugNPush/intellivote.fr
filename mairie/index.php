@@ -126,7 +126,7 @@ if (!isset($_SESSION['id'])) {
                       echo ' is-invalid';
                     }
 
-                    echo '" id="token" placeholder="Token de confirmation (20 caractères)" required>';
+                    echo '" id="token" placeholder="Token de confirmation" required>';
 
                     if (isset($_GET['tokenerror'])){
                       echo '<div class="invalid-feedback">
@@ -135,7 +135,7 @@ if (!isset($_SESSION['id'])) {
                     }
 
                     echo ' <small id="emailHelp" class="form-text text-muted">
-                      Vous pouvez récupérer la clé dans votre espace électeur après sa vérification. En cas de problème, contactez un modérateur.
+                      Le token de confirmation doit vous être communiqué par le demandeur suite à sa pré-demande sur son espace Intellivote. En cas de difficultés, pensez à lui proposer une assistance dans votre mairie.
                     </small>
 
                     <label for="number">Saisissez le numéro d\'électeur</label>
@@ -144,11 +144,11 @@ if (!isset($_SESSION['id'])) {
                     echo '" id="number" placeholder="Saisissez le numéro électoral." required>
 
                     <small id="emailHelp" class="form-text text-muted">
-                      Vérifiez le numéro sur les listes électorales avant.
+                      Vérifiez bien la correspondance du numéro d\'électeur sur votre liste électorale
                     </small>
                   </div>
 
-                  <button type="submit" class="btn btn-primary">Vérifier l\'authenticité du compte</button>
+                  <button type="submit" class="btn btn-primary">Inscrire l\'électeur à '. $test['nom'] . '</button>
 
                 </form><br><br>';
 
