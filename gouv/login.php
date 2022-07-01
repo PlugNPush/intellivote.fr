@@ -7,7 +7,7 @@ use PHPMailer\PHPMailer\POP3;
 use PHPMailer\PHPMailer\OAuth;
 use PHPMailer\PHPMailer\Exception;
 
-if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
+if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
   // Hachage du mot de passe
   $pass_hache = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
 
@@ -151,25 +151,6 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
         header( "refresh:0;url=login.php?serror=true" );
       }
     }
-
-} elseif (!empty($_POST['email']) AND !empty($_GET['token']) AND !isset($_POST['mdp'])) {
-  echo 3;
-  $vtoken = $bdd->prepare('SELECT * FROM validations WHERE token = ?;');
-  $vtoken->execute(array($_GET['token']));
-  $token = $vtoken->fetch();
-
-  if ($token) {
-    $validation = $bdd->prepare('UPDATE individual SET verified = 1 WHERE id = ?;');
-    $validation->execute(array($_SESSION['id']));
-
-    $validation = $bdd->prepare('UPDATE validations SET validated = 1 WHERE token = ?;');
-    $validation->execute(array($_GET['token']));
-
-    header( "refresh:0;url=login.php" );
-  } else {
-    header( "refresh:0;url=login.php?invalidtoken=true" );
-  }
-
 
 } else {
   echo '<!DOCTYPE html>
