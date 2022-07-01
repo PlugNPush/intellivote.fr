@@ -7,20 +7,22 @@ use PHPMailer\PHPMailer\POP3;
 use PHPMailer\PHPMailer\OAuth;
 use PHPMailer\PHPMailer\Exception;
 
+session_start();
+
 if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
   // Hachage du mot de passe
   $pass_hache = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
 
   // Vérification des identifiants
   $req = $bdd->prepare('SELECT * FROM individual WHERE email = ?;');
-  $req->execute(array($_POST['email']));
+  $req->execute(array($_SESSION['verifmail']));
   $test = $req->fetch();
 
 
   $verify = password_verify($_POST['mdp'], $test['password']);
   if ($verify)
   {  // connexion
-      session_start();
+      $_SESSION['verifmail']="";
       $_SESSION['id'] = $test['id'];
       $_SESSION['registered'] = $test['registered'];
       $_SESSION['email'] = $test['email'];
@@ -290,7 +292,7 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
             </div>';
           }
 
-          if (empty($_POST['email']) AND empty($_GET['token'])){
+          if (empty($_POST['email']) AND empty($_GET['token']) AND !isset($_GET['passworderror'])){
             echo '
             <form action="login.php" method="post">
             <div class="form-group">
@@ -299,7 +301,6 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
             </div>';
           }
           else {
-            $_SESSION['verifmail']="";
             echo '
             <form action="login.php?token=' . $_GET['token'] . '" method="post">
             <div class="form-group">
