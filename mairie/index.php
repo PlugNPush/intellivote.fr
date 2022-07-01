@@ -119,14 +119,14 @@ if (!isset($_SESSION['id'])) {
                 <form action="index.php" method="post">
 
                   <div class="form-group">
-                    <label for="token">Saisissez le code à usage unique.</label>
+                    <label for="token">Saisissez le code à usage unique</label>
                     <input type="text" name="token" class="form-control';
 
                     if (isset($_GET['tokenerror'])){
                       echo ' is-invalid';
                     }
 
-                    echo '" id="token" placeholder="Saisissez le code reçu sur votre adresse mail" required>';
+                    echo '" id="token" placeholder="Token de confirmation (20 caractères)" required>';
 
                     if (isset($_GET['tokenerror'])){
                       echo '<div class="invalid-feedback">
