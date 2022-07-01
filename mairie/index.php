@@ -98,7 +98,7 @@ if (!isset($_SESSION['id'])) {
             $date = date('Y-m-d H:i:s');
             $election_fetch = $bdd->prepare('SELECT * FROM election;');
             $election_fetch->execute();
-            
+
             while ($election = $election_fetch->fetch()) {
               if (strtotime('+7 days')>strtotime($election['begindate']) && $date<$election['enddate']){//si la date du jour +7 est apres l'élection et si l'election n'est pas fini
                 $electionEnCours = true;
@@ -152,14 +152,14 @@ if (!isset($_SESSION['id'])) {
 
                 </form><br><br>';
 
-              
+
 
 
               echo '
               <div class="alert alert-info fade show" role="alert">
                 <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Pas d\'élections à venir.<br>
               </div>';
-              
+
             } else if (!$data) {
 
               echo '
@@ -193,7 +193,7 @@ if (!isset($_SESSION['id'])) {
     <!-- Footer -->
     <footer class="py-5 bg-light">
       <div class="container">
-        <p class="m-0 text-center text-black">&copy; 2022 Intellivote.fr. Tous droits reservés. <a href="https://www.intellivote.fr/legal.php" style="color: black">Mentions légales</a>.</p>
+        <p class="m-0 text-center text-black">&copy; 2022 Intellivote.fr. Tous droits reservés. <a href="https://www.intellivote.fr/legal.php" class="link-dark">Mentions légales</a>.</p>
       </div>
       <!-- /.container -->
     </footer>

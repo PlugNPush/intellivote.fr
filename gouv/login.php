@@ -55,8 +55,8 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
   } elseif (!$mail) { // non valide comme admin
     header( "refresh:0;url=login.php?invalidmail=false" );
   } else { // ok, envoie la demande de code
-    
-    
+
+
       if (!isset($_GET['resend'])){
         $token = generateRandomString(256);
         $date = date('Y-m-d H:i:s');
@@ -216,7 +216,7 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
                 <strong>Email renvoyé !</strong><br> Votre lien d\'authentification vous a été envoyé une nouvelle fois sur votre adresse mail. Le mail de validation se trouve dans votre dossier de spams, aussi appelé courrier indésirable.
               </div>';
             }
-            
+
             if (isset($_SESSION['verified']) && $_SESSION['verified'] == 1 && $data) {
               echo '<div class="alert alert-success fade show" role="alert">
                 <strong>Félicitations, votre compte Intellivote est validé !</strong><br>Votre identité numérique a été certifiée avec une signature numérique le ', $data['date'], ' via l\'adresse email suivante : <a href="mailto:', $_SESSION['email'] ,'">', $_SESSION['email'] ,'</a>.
@@ -327,7 +327,7 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
     <!-- Footer -->
     <footer class="py-5 bg-danger">
       <div class="container">
-        <p class="m-0 text-center text-white">&copy; 2022 Intellivote. Tous droits reservés. <a href="https://www.intellivote.fr/legal.php" style="color: black">Mentions légales</a>.</p>
+        <p class="m-0 text-center text-white">&copy; 2022 Intellivote. Tous droits reservés. <a href="https://www.intellivote.fr/legal.php" class="link-light">Mentions légales</a>.</p>
       </div>
       <!-- /.container -->
     </footer>
