@@ -150,6 +150,14 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
     }
 
 } else {
+
+  if (!(empty($_POST['email']) AND empty($_GET['token']) AND !isset($_GET['passworderror']))){
+    if (!isset($_SESSION['verifmail'])){
+      header( "refresh:0;url=login.php?tokenexpired=true" );
+    }
+  }
+
+
   echo '<!DOCTYPE html>
   <html lang="fr">
 
@@ -307,9 +315,6 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
           }
           else {
 
-            if (!isset($_SESSION['verifmail'])){
-              header( "refresh:0;url=login.php?tokenexpired=true" );
-           } else {
             echo '
             <form action="login.php?token=' . $_GET['token'] . '" method="post">
             <div class="form-group">
@@ -334,7 +339,6 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
 
               echo '
             </div>';
-           }
             
           }
           echo '
