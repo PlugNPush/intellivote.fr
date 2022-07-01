@@ -290,7 +290,7 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
             </div>';
           }
 
-          if (empty($_POST['email']) AND empty($_GET['token'])){
+          if (empty($_POST['email']) AND empty($_GET['token']) AND !isset($_GET['passworderror'])){
             echo '
             <form action="login.php" method="post">
             <div class="form-group">
