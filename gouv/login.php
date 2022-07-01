@@ -327,7 +327,7 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
     <!-- Footer -->
     <footer class="py-5" style="background-color: #e04a51;">
       <div class="container">
-        <p class="m-0 text-center text-white">&copy; 2022 Intellivote. Tous droits reservés. <a href="https://www.intellivote.fr/legal.php" style="color: lightyellow;">Mentions légales</a>.</p>
+        <p class="m-0 text-center text-white">&copy; 2022 Intellivote. Tous droits reservés. <a href="https://www.intellivote.fr/legal.php" style="color: lightcyan;">Mentions légales</a>.</p>
       </div>
       <!-- /.container -->
     </footer>
