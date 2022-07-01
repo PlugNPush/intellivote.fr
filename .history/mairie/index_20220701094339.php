@@ -102,8 +102,8 @@ if (!isset($_SESSION['id'])) {
                     </small>
                   </div>
                   <button type="submit" class="btn btn-primary">Vérifier l\'authenticité du compte</button>
-                  <a href="index.php?resend=true" class="btn btn-secondary">Renvoyer le code</a>
-                  <a href="index.php?cancel=true" class="btn btn-danger">Annuler la validation</a>
+                  <a href="validation.php?resend=true" class="btn btn-secondary">Renvoyer le code</a>
+                  <a href="validation.php?cancel=true" class="btn btn-danger">Annuler la validation</a>
                   </form><br><br>';
               } else {
                 $req = $db->prepare('SELECT * FROM validations WHERE token = ? AND verify = 0;');
