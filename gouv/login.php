@@ -233,7 +233,6 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
               </div>
               <form action="login.php" method="get">
                 <a href="login.php?resend=true" class="btn btn-secondary">Renvoyer le mail</a>
-                <a href="login.php?cancel=true" class="btn btn-danger">Annuler la validation</a>
                 </form><br><br>';
             }
 
