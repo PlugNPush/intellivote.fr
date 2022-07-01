@@ -139,7 +139,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
     <!-- /.container -->
 
     <!-- Footer -->
-    <footer class="py-5 bg-dark">
+    <footer class="py-5 bg-primary">
       <div class="container">
         <p class="m-0 text-center text-white">&copy; 2022 Intellivote. Tous droits reservés. <a href="/legal.php">Mentions légales</a>.</p>
       </div>
