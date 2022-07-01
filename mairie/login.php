@@ -275,7 +275,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'] AND !empty($_POST['idmairie
     <!-- /.container -->
 
     <!-- Footer -->
-    <footer class="py-5" style="backgroundcolor:#ebecec;">
+    <footer class="py-5" style="background-color:#ebecec;">
       <div class="container">
         <p class="m-0 text-center text-black">&copy; 2022 Intellivote. Tous droits reservés. <a href="https://www.intellivote.fr/legal.php" style="color:darkslategray;">Mentions légales</a>.</p>
       </div>
