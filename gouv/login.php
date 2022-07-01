@@ -51,7 +51,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
           <p>Certification demandée le</p>
           <h4>' . $data['date'] . '</h4>
           <br>
-          <h3><a href="https://gouv.intellivote.fr/login.php?token=' . $data['token'] . '">Cliquez ici pour activer automatiquement votre compte</a>.</h3>
+          <h3><a href="https://www.intellivote.fr/login.php?token=' . $data['token'] . '">Cliquez ici pour activer automatiquement votre compte</a>.</h3>
           <br>
           <p>En cas de problème avec le lien ci-dessus, vous pouvez aussi copier votre code d\'authentification à usage unique :</p>
           <h4>' . $data['token'] . '</h4>
