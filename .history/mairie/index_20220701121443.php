@@ -104,7 +104,7 @@ if (!isset($_SESSION['id'])) {
               }
 
                 echo '
-                <h2><a>Inscrire un électeur :</a></h2>
+                <h2><a>Inscrire un électeur.</a></h2>
                 <form action="index.php" method="post">
 
                   <div class="form-group">

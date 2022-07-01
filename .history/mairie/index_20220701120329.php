@@ -104,7 +104,6 @@ if (!isset($_SESSION['id'])) {
               }
 
                 echo '
-                <h2><a>Inscrire un électeur :</a></h2>
                 <form action="index.php" method="post">
 
                   <div class="form-group">
@@ -125,15 +124,6 @@ if (!isset($_SESSION['id'])) {
 
                     echo ' <small id="emailHelp" class="form-text text-muted">
                       Vous pouvez récupérer la clé dans votre espace électeur après sa vérification. En cas de problème, contactez un modérateur.
-                    </small>
-
-                    <label for="number">Saisissez le numéro d\'électeur</label>
-                    <input type="text" name="number" class="form-control';
-
-                    echo '" id="number" placeholder="Saisissez le numéro électoral." required>
-
-                    <small id="emailHelp" class="form-text text-muted">
-                      Vérifiez le numéro sur les listes électorales avant.
                     </small>
                   </div>
 
@@ -207,7 +197,7 @@ if (!isset($_SESSION['id'])) {
         'verified'=> 1,
         'verifiedon' => $date
       ));
-      $validation = $bdd->prepare('UPDATE validations SET validated = 1 WHERE id = ?;');
+      $validation = $bdd->prepare('UPDATE validations SET verified = 1 WHERE id = ?;');
       $validation->execute(array($test['id']));
 
       header( "refresh:0;url=index.php?success=true" );
