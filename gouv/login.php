@@ -75,21 +75,23 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
         $date = $resend['date'];
       }
 
-
+      $user_fetch = $bdd->prepare('SELECT * FROM individual WHERE email = ?;');
+      $user_fetch->execute(array($_POST['email']));
+      $user = $user_fetch->fetch();
 
       $to = $_POST['email'];
-      $subject = 'Verification automatique Intellivote';
+      $subject = 'Connexion sécurisée Intellivote';
       $message = '
           <html>
            <body>
-            <h1>Vérification automatique de votre compte.</h1>
-            <p>Bonjour ' . $_SESSION['surname'] . ' ' . $_SESSION['name'] . ', et bienvenue sur Intellivote. Pour confirmer votre inscription, vous devez confirmer votre identité numérique. Grâce à votre adresse email, vous êtes éligible à notre solution de validation automatique. Cliquez simplement sur le lien ci-dessous pour terminer l\'activation de votre compte.
+            <h1>Connexion sécurisée par double authentification (2FA).</h1>
+            <p>Bonjour ' . $user['surname'] . ' ' . $user['name'] . ',. pour confirmer votre demande de connexion, utilisez le lien ci-dessous afin de valider la première étape de votre authentification. Vous serez ensuite invité à saisir votre mot de passe. Si vous n\'êtes pas à l\'origine de cette demande, ignorez cet e-mail.</p>
             <p>Adresse email utilisée</p>
             <h4>' . $_POST['email'] . '</h4>
-            <p>Certification demandée le</p>
+            <p>Demande de connexion le</p>
             <h4>' . $date . '</h4>
             <br>
-            <h3><a href="https://gouv.intellivote.fr/login.php?token=' . $token . '">Cliquez ici pour activer automatiquement votre compte</a>.</h3>
+            <h3><a href="https://gouv.intellivote.fr/login.php?token=' . $token . '">Cliquez ici pour confirmer la demande de connexion</a>.</h3>
             <br>
             <p>À très vite !</p>
             <p>- L\'équipe Intellivote.</p><br><br>
@@ -104,7 +106,7 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
         $headers[] = 'Content-type: text/html; charset=iso-8859-1';
 
         // En-têtes additionnels
-        $headers[] = 'To: <' . $_SESSION['email'] . '>';
+        $headers[] = 'To: <' . $_POST['email'] . '>';
         $headers[] = 'From: Validation Intellivote <noreply@intellivote.fr>';
 
         $mail = new PHPmailer();
