@@ -125,7 +125,7 @@ if (isset($_SESSION['id'])){
 
                         echo '
                         <div class="alert alert-info fade show" role="alert">
-                          <strong>Voici votre token: ', $token ,' <br>Ce dernier devra être présenté dans votre mairie, ou par téléphone.<br>Pensez aux justificatifs habituels: pièce d\'identité, justificatif de domicile et carte d\'électeur<br>Si vous voulez voter aux prochaines élections, pensez à valider votre compte au moins 7 jours avant le vote
+                          <strong>Voici votre token: ', $token ,' <br>Ce dernier devra être présenté dans votre mairie, ou par téléphone.<br>Pensez aux justificatifs habituels: pièce d\'identité, justificatif de domicile et carte d\'électeur.<br>Si vous voulez voter aux prochaines élections, pensez à valider votre compte au moins 7 jours avant le vote.
                         </div>';
 
 
