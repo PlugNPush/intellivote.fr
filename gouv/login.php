@@ -29,7 +29,7 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
 
       header( "refresh:0;url=index.php" );
   } else {
-      header( "refresh:0;url=login.php?passworderror=true" );
+      header( "refresh:0;url=login.php?passworderror=true&token=". $_POST['token']);
   }
 
 } else if ((isset($_GET['resend'])) OR (!empty($_POST['email']) AND !isset($_GET['token']) AND !isset($_GET['emailexists']) AND !isset($_GET['serror']))){ // étape 2 et étape 4 bonus
@@ -294,6 +294,7 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
             <form action="login.php?token=' . $_GET['token'] . '" method="post">
             <div class="form-group">
               <label for="mdp">Saisissez votre mot de passe</label>
+              <input type="hidden" name="token" class="form-control" id="token" required value="' . $_GET['token'] . '">
               <input type="password" name="mdp" class="form-control';
 
               if (isset($_GET['passworderror'])){
