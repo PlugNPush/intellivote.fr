@@ -165,7 +165,7 @@ if (!isset($_SESSION['id'])) {
               echo '
               <div class="alert alert-warning fade show" role="alert">
                 <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Notre système ne vous a pas détecté en tant que responsable au sein de la mairie de ' . $test['nom'] . '. Votre demande de certification devra être traitée par <a href="https://gouv.intellivote.fr">un représentant de l\'État</a>. Cette procédure ne peut pas être automatisée pour des raisons de sécurité.<br>
-                  Veuillez communiquer à un représentant du gouvernement les informations suivantes, accompagnés de tous les justificatifs nécéssaires:<br><strong>Identifiant Unique :<strong>' . $_SESSION['id'] . '<br><strong>Identifiant Mairie :</strong> ' . $_SESSION['idmairie'] . '<br><br><a class = "btn btn-primary" href = "https://www.intellivote.fr/">Retour à l\'espace électeur</a>
+                  Veuillez communiquer à un représentant du gouvernement les informations suivantes, accompagnés de tous les justificatifs nécéssaires:<br><strong>Identifiant Unique :</strong> ' . $_SESSION['id'] . '<br><strong>Identifiant Mairie :</strong> ' . $_SESSION['idmairie'] . '<br><br><a class = "btn btn-primary" href = "https://www.intellivote.fr/">Retour à l\'espace électeur</a>
               </div>';
 
             } else if ($electionEnCours) {
