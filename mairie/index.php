@@ -193,7 +193,7 @@ if (!isset($_SESSION['id'])) {
     <!-- Footer -->
     <footer class="py-5 bg-light">
       <div class="container">
-        <p class="m-0 text-center text-black">&copy; 2022 Intellivote.fr. Tous droits reservés. <a href="https://www.intellivote.fr/legal.php" class="link-dark">Mentions légales</a>.</p>
+        <p class="m-0 text-center text-black">&copy; 2022 Intellivote.fr. Tous droits reservés. <a href="https://www.intellivote.fr/legal.php" style="color:darkslategray;">Mentions légales</a>.</p>
       </div>
       <!-- /.container -->
     </footer>

@@ -86,7 +86,7 @@ if (isset($_SESSION['id'])){
     <!-- Footer -->
     <footer class="py-5 bg-danger">
       <div class="container">
-        <p class="m-0 text-center text-white">&copy; 2022 Intellivote.fr. Tous droits reservés. <a href="https://www.intellivote.fr/legal.php" class="link-light">Mentions légales</a>.</p>
+        <p class="m-0 text-center text-white">&copy; 2022 Intellivote.fr. Tous droits reservés. <a href="https://www.intellivote.fr/legal.php" style="color: lightyellow;">Mentions légales</a>.</p>
       </div>
       <!-- /.container -->
     </footer>
