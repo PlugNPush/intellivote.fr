@@ -7,6 +7,8 @@ use PHPMailer\PHPMailer\POP3;
 use PHPMailer\PHPMailer\OAuth;
 use PHPMailer\PHPMailer\Exception;
 
+session_start();
+
 if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
   // Hachage du mot de passe
   $pass_hache = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
@@ -21,7 +23,6 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
   if ($verify)
   {  // connexion
       $_SESSION['verifmail']="";
-      session_start();
       $_SESSION['id'] = $test['id'];
       $_SESSION['registered'] = $test['registered'];
       $_SESSION['email'] = $test['email'];
