@@ -13,13 +13,14 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
 
   // Vérification des identifiants
   $req = $bdd->prepare('SELECT * FROM individual WHERE email = ?;');
-  $req->execute(array($_POST['email']));
+  $req->execute(array($_SESSION['verifmail']));
   $test = $req->fetch();
 
 
   $verify = password_verify($_POST['mdp'], $test['password']);
   if ($verify)
   {  // connexion
+      $_SESSION['verifmail']="";
       session_start();
       $_SESSION['id'] = $test['id'];
       $_SESSION['registered'] = $test['registered'];
@@ -299,7 +300,6 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
             </div>';
           }
           else {
-            $_SESSION['verifmail']="";
             echo '
             <form action="login.php?token=' . $_GET['token'] . '" method="post">
             <div class="form-group">
