@@ -94,7 +94,25 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
               <strong>Echec de la validation du département de naissance</strong>. Vérifiez votre saisie.
             </div>';
           }
+          $electionEnCours = false;
+          $date = date('Y-m-d H:i:s');
+          $election_fetch = $bdd->prepare('SELECT * FROM election;');
+                    $election_fetch->execute();
 
+                    while ($election = $election_fetch->fetch()) {
+                      if ($election['begindate']<strtotime('+90 days') && $election['enddate']>$date){//si la date du jour +90 est apres l'élection et si l'election n'est pas fini
+                        $electionEnCours = true;
+                        
+                      }
+
+                    }
+                    
+          if ($electionEnCours == true) {
+            echo'
+              <div class="alert alert-danger fade show" role="alert">
+              <strong>Echec de la création du compte</strong>. Le delai entre l\'inscription et la prochaine élection est inférieur à 90 jours
+              </div>';
+          }else{
           echo '
           <form action="register.php" method="post">
             <div class="form-group">
@@ -192,7 +210,7 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
 
 
             <button type="submit" class="btn btn-primary">S\'inscrire maintenant !</button>
-            </form><br><br>';
+            </form><br><br>'};
 
 
         echo '</div>
