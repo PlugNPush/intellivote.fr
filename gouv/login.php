@@ -56,7 +56,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
   $mailcheck = $mailcheck_fetch->fetch();
 
   // vérification de la validation admin
-  $mail_fetch = $bdd->prepare('SELECT *, individual.id as indv FROM individual JOIN admin ON individual.id = admin.individual HAVING email = ? AND admin.verified = 1;');
+  $mail_fetch = $bdd->prepare('SELECT *, individual.id as indv FROM individual JOIN governor ON individual.id = governor.individual HAVING email = ? AND governor.verified = 1;');
   $mail_fetch->execute(array($_POST['email']));
   $mail = $mail_fetch->fetch();
 
@@ -289,7 +289,7 @@ if (!empty($_POST['email']) AND !empty($_GET['token']) AND !empty($_POST['mdp'])
           if (isset($_GET['emailexists'])) { //emailexists=false
             echo '
             <div class="alert alert-info fade show" role="alert">
-              <strong>Echec de la validation du mail</strong>. Ce mail n\'est pas éligible à l\'espace Administration.
+              <strong>Echec de la validation du mail</strong>. Ce mail n\'est pas éligible à l\'espace Gouvernement.
             </div>';
           }
           if (isset($_GET['invalidtoken'])) {
