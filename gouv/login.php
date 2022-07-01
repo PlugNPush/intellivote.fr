@@ -69,8 +69,8 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
   } else { // ok, envoie la demande de code
     
     
-    if (!isset($_GET['resend'])){
-      $token = generateRandomString(256);
+      if (!isset($_GET['resend'])){
+        $token = generateRandomString(256);
         $date = date('Y-m-d H:i:s');
         $newtoken = $bdd->prepare('INSERT INTO validations(type, individual, token, date) VALUES(:type, :individual, :token, :date);');
         $newtoken->execute(array(
@@ -81,7 +81,7 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
         ));
       } else {
         $resend_fetch = $bdd->prepare('SELECT validations.token,validations.date FROM individual JOIN validations ON individual.id = validations.individual HAVING email = ?;');
-        $resend_fetch->execute(array($_POST['email']));
+        $resend_fetch->execute(array($_SESSION['verifmail']));
         $resend = $resend_fetch->fetch();
         $token = $resend['validations.token'];
         $date = $resend['validations.date'];
