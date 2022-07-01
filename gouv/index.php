@@ -31,7 +31,7 @@ if (isset($_SESSION['id'])){
   <body>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #ce0819;">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #da202a;">
       <div class="container">
         <a class="navbar-brand" href="index.php"><img src="image/logo.png" width="160" height="30"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,7 +84,7 @@ if (isset($_SESSION['id'])){
     <!-- /.container -->
 
     <!-- Footer -->
-    <footer class="py-5" style="background-color: #ce0819;">
+    <footer class="py-5" style="background-color: #da202a;">
       <div class="container">
         <p class="m-0 text-center text-white">&copy; 2022 Intellivote.fr. Tous droits reservés. <a href="https://www.intellivote.fr/legal.php" style="color: lightyellow;">Mentions légales</a>.</p>
       </div>
