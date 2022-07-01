@@ -100,7 +100,7 @@ if (!isset($_SESSION['id'])) {
             $election_fetch->execute();
             
             while ($election = $election_fetch->fetch()) {
-              if (strtotime('+7 days')>strtotime($election['begindate']) && $date<$election['enddate']){//si la date du jour +7 est apres l'élection et si l'election n'est pas fini
+              if (strtotime('+90 days')>strtotime($election['begindate']) && $date<$election['enddate']){//si la date du jour +90 est apres l'élection et si l'election n'est pas fini
                 $electionEnCours = true;
               }
             }
