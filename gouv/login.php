@@ -8,28 +8,33 @@ use PHPMailer\PHPMailer\OAuth;
 use PHPMailer\PHPMailer\Exception;
 
 if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
-  // Hachage du mot de passe
-  $pass_hache = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
 
-  // Vérification des identifiants
-  $req = $bdd->prepare('SELECT * FROM individual WHERE email = ?;');
-  $req->execute(array($_SESSION['verifmail']));
-  $test = $req->fetch();
-
-
-  $verify = password_verify($_POST['mdp'], $test['password']);
-  if ($verify)
-  {  // connexion
-      $_SESSION['verifmail']="";
-      $_SESSION['id'] = $test['id'];
-      $_SESSION['registered'] = $test['registered'];
-      $_SESSION['email'] = $test['email'];
-      $_SESSION['verified'] = $test['verified'];
-
-
-      header( "refresh:0;url=index.php" );
+  if (!isset($_SESSION['verifmail'])){
+    header( "refresh:0;url=login.php" );
   } else {
-      header( "refresh:0;url=login.php?passworderror=true&token=". $_POST['token']);
+    // Hachage du mot de passe
+    $pass_hache = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
+
+    // Vérification des identifiants
+    $req = $bdd->prepare('SELECT * FROM individual WHERE email = ?;');
+    $req->execute(array($_SESSION['verifmail']));
+    $test = $req->fetch();
+
+
+    $verify = password_verify($_POST['mdp'], $test['password']);
+    if ($verify)
+    {  // connexion
+        $_SESSION['verifmail']="";
+        $_SESSION['id'] = $test['id'];
+        $_SESSION['registered'] = $test['registered'];
+        $_SESSION['email'] = $test['email'];
+        $_SESSION['verified'] = $test['verified'];
+
+
+        header( "refresh:0;url=index.php" );
+    } else {
+        header( "refresh:0;url=login.php?passworderror=true&token=". $_POST['token']);
+    }
   }
 
 } else if ((isset($_GET['resend'])) OR (!empty($_POST['email']) AND !isset($_GET['token']) AND !isset($_GET['emailexists']) AND !isset($_GET['serror']))){ // étape 2 et étape 4 bonus
