@@ -106,14 +106,14 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
                       }
 
                     }
-                    
+
           if ($electionEnCours == true) {
-            
+
             echo'
               <div class="alert alert-danger fade show" role="alert">
               <strong>Echec de la création du compte</strong>. Le delai entre l\'inscription et la prochaine élection est inférieur à 90 jours
               </div>';
-              
+
           }else{
 
           echo '
@@ -225,7 +225,7 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
     <!-- /.container -->
 
     <!-- Footer -->
-    <footer class="py-5 bg-dark">
+    <footer class="py-5 bg-primary">
       <div class="container">
         <p class="m-0 text-center text-white">&copy; 2022 Intellivote. Tous droits reservés. <a href="/legal.php">Mentions légales</a>.</p>
       </div>
