@@ -252,14 +252,14 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
           }
           if (isset($_GET['invalidmail'])) { //invalidmail=false
             echo '
-            <div class="alert alert-info fade show" role="alert">
-              <strong>Adresse e-mail invalide !</strong><br> Il semblerait que l\'adresse email fournie ne soit pas correcte.
+            <div class="alert alert-danger fade show" role="alert">
+              <strong>Accès non autorisé !</strong><br> Ce compte n\'est pas autorisé à accéder à l\'espace Gouvernement.
             </div>';
           }
           if (isset($_GET['emailexists'])) { //emailexists=false
             echo '
-            <div class="alert alert-info fade show" role="alert">
-              <strong>Echec de la validation du mail</strong>. Ce mail n\'est pas éligible à l\'espace Gouvernement.
+            <div class="alert alert-danger fade show" role="alert">
+              <strong>Echec de la validation du mail</strong>. Votre compte n\'a pas été reconnu.
             </div>';
           }
           if (isset($_GET['invalidtoken'])) {
