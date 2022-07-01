@@ -10,7 +10,7 @@ use PHPMailer\PHPMailer\Exception;
 if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
 
   if (!isset($_SESSION['verifmail'])){
-    header( "refresh:0;url=login.php" );
+    header( "refresh:0;url=login.php?tokenexpired=true" );
   } else {
     // Hachage du mot de passe
     $pass_hache = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
@@ -218,6 +218,12 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
               </div>';
             }
 
+            if (isset($_GET['tokenexpired'])) {
+              echo '<div class="alert alert-danger fade show" role="alert">
+                <strong>Authentification 2FA échouée.</strong><br> Votre lien d\'authentification a été utilisé trop tardivement, ou par un tiers. Assurez-vous d\'utiliser le même appareil pour approuver la demande de connexion dans les 15 minutes suivant la récéption du mail.
+              </div>';
+            }
+
             if (isset($_GET['resent'])) {
               echo '<div class="alert alert-success fade show" role="alert">
                 <strong>Email renvoyé !</strong><br> Votre lien d\'authentification vous a été envoyé une nouvelle fois sur votre adresse mail. Le mail de validation se trouve dans votre dossier de spams, aussi appelé courrier indésirable.
@@ -274,6 +280,11 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
               <strong>Erreur lors de la validation !</strong><br> Il semblerait que la clé d\'authentification unique envoyée sur votre adresse email soit erronée. Veuillez réessayer.
             </div>';
           }
+          if (isset($_GET['tokenexpired'])) {
+            echo '<div class="alert alert-danger fade show" role="alert">
+              <strong>Authentification 2FA échouée.</strong><br> Votre lien d\'authentification a été utilisé trop tardivement, ou par un tiers. Assurez-vous d\'utiliser le même appareil pour approuver la demande de connexion dans les 15 minutes suivant la récéption du mail.
+            </div>';
+          }
           if (isset($_GET['serror'])) {
             echo '<div class="alert alert-danger fade show" role="alert">
               <strong>Erreur lors de la validation !</strong><br> Le courrier éléctronique contenant votre code de validation n\'a pas pu s\'envoyer. Veuillez contacter un modérateur.
@@ -295,6 +306,10 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
             </div>';
           }
           else {
+
+            if (!isset($_SESSION['verifmail'])){
+              header( "refresh:0;url=login.php?tokenexpired=true" );
+           } else {
             echo '
             <form action="login.php?token=' . $_GET['token'] . '" method="post">
             <div class="form-group">
@@ -319,6 +334,8 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
 
               echo '
             </div>';
+           }
+            
           }
           echo '
             <button type="submit" class="btn btn-primary">Se connecter</button>
