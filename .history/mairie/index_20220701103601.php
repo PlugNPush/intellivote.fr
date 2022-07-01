@@ -108,6 +108,8 @@ if (!isset($_SESSION['id'])) {
                   </div>
 
                   <button type="submit" class="btn btn-primary">Vérifier l\'authenticité du compte</button>
+                  <a href="index.php?resend=true" class="btn btn-secondary">Renvoyer le code</a>
+                  <a href="index.php?cancel=true" class="btn btn-danger">Annuler la validation</a>
 
                 </form><br><br>';
 

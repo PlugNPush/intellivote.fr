@@ -76,14 +76,11 @@ if (!isset($_SESSION['id'])) {
 
 
           if ($_SESSION['verified'] != 1) {
-
             echo '
             <div class="alert alert-danger fade show" role="alert">
-              <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Vous devez confirmer votre compte pour accéder au site. Celui-ci n\'a pas encore pu être vérifié.<br><a class = "btn btn-primary" href = "https://www.intellivote.fr/index.php">Lancer ou vérifier la procédure de validation</a>
+              <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Vous devez confirmer votre compte pour accéder au site. Celui-ci n\'a pas encore pu être vérifié.<br><a class = "btn btn-primary" href = "https://www.intellivote.fr/validation.php">Lancer ou vérifier la procédure de validation</a>
             </div>';
-
           } else {
-
             echo '
             <div class="alert alert-info fade show" role="alert">
               <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Votre compte est prêt.<br>
@@ -95,10 +92,8 @@ if (!isset($_SESSION['id'])) {
 
             if ($data) {
               if (empty($_POST['token'])){
-
                 echo '
                 <form action="index.php" method="get">
-
                   <div class="form-group">
                     <label for="token">Saisissez le code à usage unique</label>
                     <input type="text" name="token" class="form-control" id="token" placeholder="Saisissez le code reçu sur votre adresse mail" required>
@@ -106,21 +101,17 @@ if (!isset($_SESSION['id'])) {
                       Vous pouvez également cliquer sur le lien envoyé dans le mail que vous avez reçu. En cas de problème, contactez un modérateur.
                     </small>
                   </div>
-
                   <button type="submit" class="btn btn-primary">Vérifier l\'authenticité du compte</button>
-
-                </form><br><br>';
-
+                  <a href="validation.php?resend=true" class="btn btn-secondary">Renvoyer le code</a>
+                  <a href="validation.php?cancel=true" class="btn btn-danger">Annuler la validation</a>
+                  </form><br><br>';
               } else {
-
                 $req = $db->prepare('SELECT * FROM validations WHERE token = ? AND verify = 0;');
                 $req->execute(array($_POST['token']));
                 $test = $req->fetch();
-
                 if (!$test){
                   $errors[]='token_not_exists';
                 } else {
-
                   $req=$bdd->prepare('INSERT INTO elector(number, individual, mairie, verified, verifiedon) VALUES(:number, :individual, :mairie, :verified, :verifiedon)');
                   $date = date('Y-m-d H:i:s');
                   $req->execute(array(
@@ -134,7 +125,6 @@ if (!isset($_SESSION['id'])) {
                   $validation->execute(array($test['id']));
 
                 }
-
               }
 
 
@@ -142,16 +132,13 @@ if (!isset($_SESSION['id'])) {
               <div class="alert alert-info fade show" role="alert">
                 <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Pas d\'élections à venir.<br>
               </div>';
-              
             } else {
 
               echo '
               <div class="alert alert-warning fade show" role="alert">
-                <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Notre système ne vous a pas détecté en tant que responsable au sein de la mairie de ' . $test['nom'] . '. Votre demande de certification devra être traitée par <a href="https://gouv.intellivote.fr">un représentant de l\'État</a>. Cette procédure ne peut pas être automatisée pour des raisons de sécurité.<br><a class = "btn btn-primary" href = "https://www.intellivote.fr/">Retour à l\'espace électeur</a>
+                <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Notre système ne vous a pas détecté en tant que résponsable au sein de la mairie de ' . $test['nom'] . '. Votre demande de certification devra être traitée par <a href="https://gouv.intellivote.fr">un représentant de l\'État</a>. Cette procédure ne peut pas être automatisée pour des raisons de sécurité.<br><a class = "btn btn-primary" href = "https://www.intellivote.fr/">Retour à l\'espace électeur</a>
               </div>';
-
             }
-
           }
 
           echo '
@@ -182,5 +169,7 @@ if (!isset($_SESSION['id'])) {
 
   </html>';
 
+
 }
+
 ?>
