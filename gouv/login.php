@@ -85,7 +85,7 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
           <html>
            <body>
             <h1>Connexion sécurisée par double authentification (2FA).</h1>
-            <p>Bonjour ' . $user['surname'] . ' ' . $user['name'] . ',. pour confirmer votre demande de connexion, utilisez le lien ci-dessous afin de valider la première étape de votre authentification. Vous serez ensuite invité à saisir votre mot de passe. Si vous n\'êtes pas à l\'origine de cette demande, ignorez cet e-mail.</p>
+            <p>Bonjour ' . $user['surname'] . ' ' . $user['name'] . ', pour confirmer votre demande de connexion, utilisez le lien ci-dessous afin de valider la première étape de votre authentification. Vous serez ensuite invité à saisir votre mot de passe. Si vous n\'êtes pas à l\'origine de cette demande, ignorez cet e-mail.</p>
             <p>Adresse email utilisée</p>
             <h4>' . $_POST['email'] . '</h4>
             <p>Demande de connexion le</p>
@@ -303,7 +303,7 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
                 $token_good->execute(array($_GET['token']));
               }
 
-              echo '" id="mdp" placeholder="' . $_SESSION['verifmail'] . '" required>';
+              echo '" id="mdp" placeholder="Mot de passe" required>';
 
               if (isset($_GET['passworderror'])){
                 echo '<div class="invalid-feedback">
