@@ -113,7 +113,7 @@ if (!isset($_SESSION['id'])) {
 
               } else {
 
-                echo($_POST['token']);exit();
+                echo($_POST['token']);
 
                 $req = $db->prepare('SELECT * FROM validations WHERE token = ? AND verify = 0;');
                 $req->execute(array($_POST['token']));
