@@ -56,7 +56,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
   <body>
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #274fa2;">
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #281aff;">
     <div class="container">
       <a class="navbar-brand" href="index.php"><img src="image/logo.png" width="160" height="30"></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -139,7 +139,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
     <!-- /.container -->
 
     <!-- Footer -->
-    <footer class="py-5" style="background-color: #274fa2;">
+    <footer class="py-5" style="background-color: #281aff;">
       <div class="container">
         <p class="m-0 text-center text-white">&copy; 2022 Intellivote. Tous droits reservés. <a href="/legal.php" style="color: lightcyan;">Mentions légales</a>.</p>
       </div>
