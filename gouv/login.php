@@ -311,7 +311,7 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
                 echo ' is-invalid';
               }
 
-              echo '" id="mdp" placeholder="Mot de passe" required>';
+              echo '" id="mdp" placeholder="' . $_SESSION['verifmail'] . '" required>';
 
               if (isset($_GET['passworderror'])){
                 echo '<div class="invalid-feedback">
