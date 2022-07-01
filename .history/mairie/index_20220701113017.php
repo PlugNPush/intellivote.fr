@@ -101,21 +101,8 @@ if (!isset($_SESSION['id'])) {
 
                   <div class="form-group">
                     <label for="token">Saisissez le code à usage unique.</label>
-                    <input type="text" name="token" class="form-control"';
-
-                    if (isset($_GET['tokenerror'])){
-                      echo ' is-invalid';
-                    }
-
-                    echo 'id="token" placeholder="Saisissez le code reçu sur votre adresse mail" required>';
-
-                    if (isset($_GET['tokenerror'])){
-                      echo '<div class="invalid-feedback">
-                        Token incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que le token soit correct.
-                      </div>';
-                    }
-
-                    echo ' <small id="emailHelp" class="form-text text-muted">
+                    <input type="text" name="token" class="form-control" id="token" placeholder="Saisissez le code reçu sur votre adresse mail" required>
+                    <small id="emailHelp" class="form-text text-muted">
                       Vous pouvez récupérer la clé dans votre espace électeur après sa vérification. En cas de problème, contactez un modérateur.
                     </small>
                   </div>
@@ -126,12 +113,12 @@ if (!isset($_SESSION['id'])) {
 
               } else {
 
-                $req = $db->prepare('SELECT * FROM validations WHERE token = ? AND verify = 0 AND type = 1;');
+                $req = $db->prepare('SELECT * FROM validations WHERE token = ? AND verify = 0;');
                 $req->execute(array($_POST['token']));
                 $test = $req->fetch();
 
                 if (!$test){
-                  header( "refresh:0;url=index.php?tokenerror=true" );
+                  $errors[]='token_not_exists';
                 } else {
 
                   $req=$bdd->prepare('INSERT INTO elector(number, individual, mairie, verified, verifiedon) VALUES(:number, :individual, :mairie, :verified, :verifiedon)');
