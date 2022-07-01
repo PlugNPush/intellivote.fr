@@ -137,7 +137,7 @@ if (!isset($_SESSION['id'])) {
                     echo ' <small id="emailHelp" class="form-text text-muted">
                       Le token de confirmation doit vous être communiqué par le demandeur suite à sa pré-demande sur son espace Intellivote. En cas de difficultés, pensez à lui proposer une assistance dans votre mairie.
                     </small>
-
+                    <br>
                     <label for="number">Saisissez le numéro d\'électeur</label>
                     <input type="text" name="number" class="form-control';
 
