@@ -83,7 +83,6 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
         $resend = $resend_fetch->fetch();
         $token = $resend['token'];
         $date = $resend['date'];
-        echo 'cc ' . $token . $date;
       }
 
 
