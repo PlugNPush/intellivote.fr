@@ -76,6 +76,45 @@ if (isset($_SESSION['id'])){
               </div><br><br>';
             } else {
               echo '
+                  <h2><a>Inscrire un électeur :</a></h2>
+                  <form action="index.php" method="post">
+
+                    <div class="form-group">
+                      <label for="token">Saisissez le code à usage unique</label>
+                      <input type="text" name="token" class="form-control';
+
+                      if (isset($_GET['tokenerror'])){
+                        echo ' is-invalid';
+                      }
+
+                      echo '" id="token" placeholder="Token de confirmation (20 caractères)" required>';
+
+                      if (isset($_GET['tokenerror'])){
+                        echo '<div class="invalid-feedback">
+                          Token incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que le token soit correct.
+                        </div>';
+                      }
+
+                      echo ' <small id="emailHelp" class="form-text text-muted">
+                        Vous pouvez récupérer la clé dans votre espace électeur après sa vérification. En cas de problème, contactez un modérateur.
+                      </small>
+
+                      <label for="number">Saisissez le numéro d\'électeur</label>
+                      <input type="text" name="number" class="form-control';
+
+                      echo '" id="number" placeholder="Saisissez le numéro électoral." required>
+
+                      <small id="emailHelp" class="form-text text-muted">
+                        Vérifiez le numéro sur les listes électorales avant.
+                      </small>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Vérifier l\'authenticité du compte</button>
+
+                  </form><br><br>';
+
+
+                  echo '
                   <h2><a>Inscrire un maire :</a></h2>
                   <form action="index.php" method="post">
 
@@ -148,7 +187,7 @@ if (isset($_SESSION['id'])){
     if (!$test){
       header( "refresh:0;url=index.php?individualerror=true" );
     }
-    else if (!isset($_GET['verify'])){
+    else if (){
       header( "refresh:0;url=index.php?verify=true" );
 
     }
