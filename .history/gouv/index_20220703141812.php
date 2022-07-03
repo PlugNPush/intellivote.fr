@@ -125,7 +125,7 @@ if (isset($_SESSION['id'])){
                       echo ' is-invalid';
                     }
 
-                    echo ' "id="individual" placeholder="Saisissez votre ID de maire" required> ';
+                    echo ' "id="individual" placeholder="Saisissez votre ID de maire" ';
 
                     if (isset($_GET['individualerror'])){
                       echo '<div class="invalid-feedback">
