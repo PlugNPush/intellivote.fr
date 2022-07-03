@@ -177,14 +177,8 @@ if (isset($_SESSION['id'])){
               }
 
               echo '
-                  <h2><a>Gestion des élections :</a></h2>
-
-                  <form action="index.php" method="post">
-
-                    <button type="submit" class="btn btn-primary">Confirmer les données</button>
-
-                  </form><br><br>';
-                  header( "refresh:0;url=election.php" );
+              <a class = "btn btn-secondary" href = "index.php">Retour</a>
+              <br>';
 
             }
 
