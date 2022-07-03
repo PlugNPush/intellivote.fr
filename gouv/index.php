@@ -80,7 +80,7 @@ if (isset($_SESSION['id'])){
                 if (isset($_GET['success'])) {
                   echo '
                   <div class="alert alert-success fade show" role="alert">
-                    <strong>LE maire a bien été affilié à la mairie.</strong>
+                    <strong>Le maire a bien été affilié à la mairie.</strong>
                   </div>';
                 }
 

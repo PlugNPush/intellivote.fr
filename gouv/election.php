@@ -3,7 +3,6 @@ require_once dirname(__FILE__).'/../config.php';
 
 
 if (isset($_SESSION['id'])){
-  if(!isset($_POST['individual'])){
 
     echo '<!DOCTYPE html>
     <html lang="fr">
@@ -17,7 +16,7 @@ if (isset($_SESSION['id'])){
 
       <meta http-equiv="Content-Security-Policy" content="default-src \'self\'; img-src https://* \'self\' data:; style-src https://* \'self\' \'unsafe-inline\' child-src \'none\';">
 
-      <title>Intellivote - Espace Gouvernement</title>
+      <title>Intellivote - Espace Gouvernement - Election</title>
 
       <link href="css/custom.css" rel="stylesheet">
 
@@ -64,7 +63,7 @@ if (isset($_SESSION['id'])){
           <!-- Blog Entries Column -->
           <div class="col-md-8">';
 
-            echo '<h1 class="my-4">Espace Gouvernement</h1>';
+            echo '<h1 class="my-4">Espace Gouvernement - Election</h1>';
 
             $gouv_fetch = $bdd->prepare('SELECT * FROM governor WHERE individual = ? AND verified = 1;');
             $gouv_fetch->execute(array($_SESSION['id']));
@@ -77,12 +76,12 @@ if (isset($_SESSION['id'])){
             } else {
               if (!isset($_GET['verify'])){
 
-                if (isset($_GET['success'])) {
+                /*if (isset($_GET['success'])) {
                   echo '
                   <div class="alert alert-success fade show" role="alert">
                     <strong>LE maire a bien été affilié à la mairie.</strong>
                   </div>';
-                }
+                }*/
 
                 echo '
                   <h2><a>Inscrire un maire :</a></h2>
@@ -208,37 +207,6 @@ if (isset($_SESSION['id'])){
 
     </html>';
 
-  } else{
-
-    $req = $bdd->prepare('SELECT * FROM mairies WHERE id = ?;');
-    $req->execute(array($_POST['idmairie']));
-    $test = $req->fetch();
-
-    $req = $bdd->prepare('SELECT * FROM individual WHERE id = ?;');
-    $req->execute(array($_POST['individual']));
-    $test2 = $req->fetch();
-
-    if (!$test OR !$test2){
-      header( "refresh:0;url=index.php?individualerror=true" );
-    }
-    else if (!isset($_POST['verify'])){
-      header( "refresh:0;url=index.php?verify=true" );
-    }
-    else{
-
-      $req=$bdd->prepare('INSERT INTO mayor(mairie, individual, verified, verifiedon) VALUES(:mairie, :individual, :verified, :verifiedon)');
-      $date = date('Y-m-d H:i:s');
-      $req->execute(array(
-        'mairie'=> $_POST['idmairie'],
-        'individual'=> $_POST['individual'],
-        'verified'=> 1,
-        'verifiedon' => $date
-      ));
-
-      header( "refresh:0;url=index.php?success=true" );
-      
-    }
-  }
 
 } else {
   header( "refresh:0;url=login.php?expired=true" );
