@@ -84,37 +84,46 @@ if (isset($_SESSION['id'])){
                 }*/
 
                 echo '
-                  <h2><a>Inscrire un maire :</a></h2>
-                  <form action="index.php" method="post">
+                  <h2><a>Ajouter une élection :</a></h2>
+                  <form action="election.php" method="post">
 
                     <div class="form-group">
-                      <label for="individual">Saisissez l\'ID de l\'individu maire</label>
-                      <input type="text" name="individual" class="form-control';
+                      <label for="name_election">Saisissez le nom de l\'élection</label>
+                      <input type="text" name="name_election" class="form-control';
 
-                      if (isset($_GET['individualerror'])){
+                      if (isset($_GET['nameerror'])){
                         echo ' is-invalid';
                       }
 
-                      echo ' "id="individual" placeholder="Saisissez votre ID de maire" required> ';
+                      echo ' "id="name_election" placeholder="Saisissez le nom de l\'élection" required> ';
 
-                      if (isset($_GET['individualerror'])){
+                      if (isset($_GET['nameerror'])){
                         echo '<div class="invalid-feedback">
-                          ID du maire incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
+                          Nom de l\'élection incorrect ! Une élection à ce nom est déjà en cours.
                         </div>';
                       }
 
                       echo ' <small id="IDHelp" class="form-text text-muted">
-                        Vous pouvez récupérer la clé dans votre espace électeur après sa vérification. En cas de problème, contactez un modérateur.
+                        Vous ne pouvez pas utiliser le nom d\'une élection déjà en cours.
                       </small>
 
-                      <label for="idmairie">Saisissez l\'ID de la mairie correspondante</label>
-                      <input type="text" name="idmairie" class="form-control';
+                      <label for="dates">Choisissez les dates de l\'élection</label>
 
-                      echo '" id="idmairie" placeholder="Saisissez l\'ID de votre mairie." required>
+                      <input type="text" name="begindate" class="form-control';
+                      if (isset($_GET['beginerror'])){
+                        echo ' is-invalid';
+                      }
+                      echo '" id="begindate" placeholder="Saisissez la date de début." required>
+
+                      <input type="text" name="enddate" class="form-control';
+                      if (isset($_GET['enderror'])){
+                        echo ' is-invalid';
+                      }
+                      echo '" id="enddate" placeholder="Saisissez la date de fin." required>
 
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Envoyer vos identifiants de maire</button>
+                    <button type="submit" class="btn btn-primary">Créer l\'élection</button>
 
                   </form><br><br>';
               } else {
@@ -124,16 +133,16 @@ if (isset($_SESSION['id'])){
                   <form action="index.php" method="post">
 
                     <div class="form-group">
-                      <label for="individual">Confirmez vous les données ?</label>
-                      <input type="hidden" name="individual" class="form-control';
+                      <label for="name_election">Confirmez vous les données ?</label>
+                      <input type="hidden" name="name_election" class="form-control';
 
-                      if (isset($_GET['individualerror'])){
+                      if (isset($_GET['nameerror'])){
                         echo ' is-invalid';
                       }
                       
-                      echo '" id="individual" value="';echo(array($_POST['individual']));echo'" required>';
+                      echo '" id="name_election" value="';echo(array($_POST['name_election']));echo'" required>';
 
-                      if (isset($_GET['individualerror'])){
+                      if (isset($_GET['nameerror'])){
                         echo '<div class="invalid-feedback">
                           ID du maire incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
                         </div>';
@@ -141,13 +150,13 @@ if (isset($_SESSION['id'])){
 
                       echo '<input type="hidden" name="idmairie" class="form-control';
 
-                      if (isset($_GET['individualerror'])){
+                      if (isset($_GET['nameerror'])){
                         echo ' is-invalid';
                       }
                       
                       echo '" id="idmairie" value="';echo(array($_POST['idmairie']));echo'" required>';
 
-                      if (isset($_GET['individualerror'])){
+                      if (isset($_GET['inameerror'])){
                         echo '<div class="invalid-feedback">
                           ID du maire incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
                         </div>';
