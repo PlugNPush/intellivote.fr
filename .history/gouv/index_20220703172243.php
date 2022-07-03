@@ -138,7 +138,7 @@ if (isset($_SESSION['id'])){
                         echo ' is-invalid';
                       }
                       
-                      echo '" id="idmairie" value="xm234jq" required>';
+                      echo '" id="confirmidmairie" value="xm234jq" required>';
 
                       if (isset($_GET['individualerror'])){
                         echo '<div class="invalid-feedback">
@@ -190,15 +190,11 @@ if (isset($_SESSION['id'])){
 
   } else{
 
-    $req = $bdd->prepare('SELECT * FROM mairies WHERE id = ?;');
-    $req->execute(array($_POST['indmairie']));
+    $req = $bdd->prepare('SELECT id FROM mayor WHERE id = ?;');
+    $req->execute(array($_POST['individual']));
     $test = $req->fetch();
 
-    $req = $bdd->prepare('SELECT * FROM individual WHERE id = ?;');
-    $req->execute(array($_POST['individual']));
-    $test2 = $req->fetch();
-
-    if (!$test OR !$test2){
+    if (!$test){
       header( "refresh:0;url=index.php?individualerror=true" );
     }
     else if (!isset($_POST['verify'])){

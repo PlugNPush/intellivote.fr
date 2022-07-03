@@ -198,7 +198,7 @@ if (isset($_SESSION['id'])){
     $req->execute(array($_POST['individual']));
     $test2 = $req->fetch();
 
-    if (!$test OR !$test2){
+    if (!$test){
       header( "refresh:0;url=index.php?individualerror=true" );
     }
     else if (!isset($_POST['verify'])){

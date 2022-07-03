@@ -118,7 +118,7 @@ if (isset($_SESSION['id'])){
 
                     <div class="form-group">
                       <label for="individual">Confirmez vous les données ?</label>
-                      <input type="hidden" name="individual" class="form-control';
+                      <input type="hidden" name="confirmindividual" class="form-control';
 
                       if (isset($_GET['individualerror'])){
                         echo ' is-invalid';
@@ -132,13 +132,13 @@ if (isset($_SESSION['id'])){
                         </div>';
                       }
 
-                      echo '<input type="hidden" name="idmairie" class="form-control';
+                      echo '<input type="hidden" name="confirmidmairie" class="form-control';
 
                       if (isset($_GET['individualerror'])){
                         echo ' is-invalid';
                       }
                       
-                      echo '" id="idmairie" value="xm234jq" required>';
+                      echo '" id="confirmidmairie" value="xm234jq" required>';
 
                       if (isset($_GET['individualerror'])){
                         echo '<div class="invalid-feedback">
@@ -190,15 +190,11 @@ if (isset($_SESSION['id'])){
 
   } else{
 
-    $req = $bdd->prepare('SELECT * FROM mairies WHERE id = ?;');
-    $req->execute(array($_POST['indmairie']));
+    $req = $bdd->prepare('SELECT id FROM mayor WHERE id = ?;');
+    $req->execute(array($_POST['individual']));
     $test = $req->fetch();
 
-    $req = $bdd->prepare('SELECT * FROM individual WHERE id = ?;');
-    $req->execute(array($_POST['individual']));
-    $test2 = $req->fetch();
-
-    if (!$test OR !$test2){
+    if (!$test){
       header( "refresh:0;url=index.php?individualerror=true" );
     }
     else if (!isset($_POST['verify'])){
@@ -207,6 +203,7 @@ if (isset($_SESSION['id'])){
     else{
       header( "refresh:0;url=index.php?success=true" );
     }
+
   }
 
 } else {
