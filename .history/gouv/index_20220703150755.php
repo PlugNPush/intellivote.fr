@@ -74,7 +74,7 @@ if (isset($_SESSION['id'])){
               echo '<div class="alert alert-danger fade show" role="alert">
                 <strong>L\'espace Gouvernement n\'est pas accessible depuis l\'extérieur.</strong> Par sécurité, vous devez utiliser l\'interface de gestion interne d\'Intellivote pour pouvoir administrer le service, la connexion à distance n\'est pas possible. Intellivote ne vous demandera jamais vos identifiants ni codes de vérifications, ne les communiquez jamais.
               </div><br><br>';
-            } else if (!isset($_POST['verify'])){
+            } else {
               echo '
                   <h2><a>Inscrire un maire :</a></h2>
                   <form action="index.php" method="post">
@@ -109,44 +109,6 @@ if (isset($_SESSION['id'])){
                     <button type="submit" class="btn btn-primary">Envoyer vos identifiants de maire</button>
 
                   </form><br><br>';
-            }
-            else {
-
-              echo '
-                  <h2><a>Vérification :</a></h2>
-                  <form action="index.php" method="post">
-
-                    <div class="form-group">
-                      <label for="individual">Saisissez le code à usage unique</label>
-                      <input type="text" name="individual" class="form-control';
-
-                      if (isset($_GET['individualerror'])){
-                        echo ' is-invalid';
-                      }
-
-                      echo ' "id="individual" placeholder="Saisissez votre ID de maire" required> ';
-
-                      if (isset($_GET['individualerror'])){
-                        echo '<div class="invalid-feedback">
-                          ID du maire incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
-                        </div>';
-                      }
-
-                      echo ' <small id="IDHelp" class="form-text text-muted">
-                        Vous pouvez récupérer la clé dans votre espace électeur après sa vérification. En cas de problème, contactez un modérateur.
-                      </small>
-
-                      <label for="idmairie">Saisissez le numéro d\'électeur</label>
-                      <input type="text" name="idmairie" class="form-control';
-
-                      echo '" id="idmairie" placeholder="Saisissez l\'ID de votre mairie." required>
-
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Envoyer vos identifiants de maire</button>
-
-                  </form><br><br>';
-
             }
 
             echo '
