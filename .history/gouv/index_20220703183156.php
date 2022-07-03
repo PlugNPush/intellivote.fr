@@ -224,7 +224,6 @@ if (isset($_SESSION['id'])){
       ));
 
       header( "refresh:0;url=index.php?success=true" );
-      
     }
   }
 
