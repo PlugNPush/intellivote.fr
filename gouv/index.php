@@ -171,12 +171,11 @@ if (isset($_SESSION['id'])){
               echo '
                   <h2><a>Gestion des élections :</a></h2>
 
-                  <form action="index.php" method="post">
+                  <form action="election.php" method="post">
 
-                    <button type="submit" class="btn btn-primary">Confirmer les données</button>
+                    <button type="submit" class="btn btn-primary">Ajouter ou modifier une élection</button>
 
                   </form><br><br>';
-                  header( "refresh:0;url=election.php" );
 
             }
 
