@@ -121,6 +121,22 @@ if (isset($_SESSION['id'])){
                       }
                       echo '" id="enddate" placeholder="Saisissez la date de fin." required>
 
+                      <label for="description">Saisissez une description</label>
+                      <input type="text" name="description" class="form-control';
+
+                      if (isset($_GET['descriptionerror'])){
+                        echo ' is-invalid';
+                      }
+
+                      echo ' "id="description" placeholder="Saisissez une description" required> ';
+
+                      if (isset($_GET['descriptionerror'])){
+                        echo '<div class="invalid-feedback">
+                          La description est trop longue ! Vous n\'avez le droit qu\'à 255 caractères.
+                        </div>';
+                      }
+
+                    echo '
                     </div>
 
                     <button type="submit" class="btn btn-primary">Créer l\'élection</button>
@@ -178,7 +194,7 @@ if (isset($_SESSION['id'])){
 
               echo '
               <a class = "btn btn-secondary" href = "index.php">Retour</a>
-              <br>';
+              <br><br>';
 
             }
 
