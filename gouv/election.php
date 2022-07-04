@@ -75,7 +75,7 @@ if (isset($_SESSION['id'])){
                     <strong>L\'espace Gouvernement n\'est pas accessible depuis l\'extérieur.</strong> Par sécurité, vous devez utiliser l\'interface de gestion interne d\'Intellivote pour pouvoir administrer le service, la connexion à distance n\'est pas possible. Intellivote ne vous demandera jamais vos identifiants ni codes de vérifications, ne les communiquez jamais.
                 </div><br><br>';
                 } else {
-                    if (isset($_GET['ajout']) OR isset($_GET['descriptionerror']) OR isset($_GET['beginerror']) OR isset($_GET['enderror'])){
+                    if (isset($_GET['ajout']) OR isset($_POST['description']) OR isset($_GET['descriptionerror']) OR isset($_GET['beginerror']) OR isset($_GET['enderror'])){
 
                         echo '
                         <h2><a>Ajouter une élection :</a></h2>
@@ -133,7 +133,7 @@ if (isset($_SESSION['id'])){
                     
 
                     echo '
-                    <a class = "btn btn-secondary" href = "index.php">Retour</a>
+                    <a class = "btn btn-danger" href = "index.php">Retour en arrière</a>
                     <br><br>';
 
                 }
