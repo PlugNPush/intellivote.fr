@@ -191,7 +191,7 @@ if (isset($_SESSION['id'])){
             'enddate'=> $_POST['enddate']
           ));
     
-          header( "refresh:0;url=index.php?successelection=true");
+          header( "refresh:0;url=index.php?successelection=true&test=".$_POST['begindate'] );
           
         }
       
