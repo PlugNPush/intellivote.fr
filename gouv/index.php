@@ -84,6 +84,13 @@ if (isset($_SESSION['id'])){
                   </div>';
                 }
 
+                if (isset($_GET['successelection'])) {
+                  echo '
+                  <div class="alert alert-success fade show" role="alert">
+                    <strong>L\'élection a bien été ajouté. Pensez à remplir les candidats.</strong>
+                  </div>';
+                }
+
                 echo '
                   <h2><a>Inscrire un maire :</a></h2>
                   <form action="index.php" method="post">
