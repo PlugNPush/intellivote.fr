@@ -337,15 +337,10 @@ if (isset($_SESSION['id'])){
         $req->execute(array($_POST['description']));
         $test = $req->fetch();
     
-        
-        $req = $bdd->prepare('SELECT * FROM election WHERE id = ?;');
-        $req->execute(array($_POST['begindate']));
-        $test2 = $req->fetch();
-    
         if ($test){
           header( "refresh:0;url=election.php?descriptionerror=true" );
         }
-        else if ($_POST['begindate']<=date('Y/m/d')){ // Date de début qu'à partir de demain
+        else if ($_POST['begindate']<=date('d/m/Y')){ // Date de début qu'à partir de demain
           header( "refresh:0;url=election.php?beginerror=true" );
         }
         else if ($_POST['begindate']>$_POST['enddate']){ // Date de fin qu'à partir de la date de début
