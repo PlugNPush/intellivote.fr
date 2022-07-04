@@ -172,6 +172,7 @@ if (isset($_SESSION['id'])){
         $req = $bdd->prepare('SELECT * FROM election WHERE description = ?;');
         $req->execute(array($_POST['description']));
         $test = $req->fetch();
+        echo ($_POST['begindate']);
     
         if ($test){
           header( "refresh:0;url=election.php?descriptionerror=true" );
@@ -191,7 +192,7 @@ if (isset($_SESSION['id'])){
             'enddate'=> $_POST['enddate']
           ));
     
-          header( "refresh:0;url=index.php?successelection=true&test=".$_POST['begindate'] );
+          header( "refresh:0;url=index.php?successelection=true" );
           
         }
       
