@@ -85,51 +85,7 @@ if (isset($_SESSION['id'])){
 
                         echo '
                         <h2><a>Afficher une élection :</a></h2>
-                        <form action="election.php" method="post">
-
-                            <div class="form-group">
-                                <label for="description">Saisissez le nom de l\'élection</label>
-                                <input type="text" name="description" class="form-control';
-
-                                if (isset($_GET['descriptionerror'])){
-                                    echo ' is-invalid';
-                                }
-
-                                echo ' "id="description" placeholder="Saisissez le nom de l\'élection" required> ';
-
-                                if (isset($_GET['descriptionerror'])){
-                                    echo '<div class="invalid-feedback">
-                                    Nom de l\'élection incorrect ! Une élection à ce nom est déjà en cours.
-                                    </div>';
-                                }
-
-                                echo ' <small id="NameHelp" class="form-text text-muted">
-                                    Vous ne pouvez pas utiliser le nom d\'une élection déjà en cours.
-                                </small>
-
-                                <label for="dates">Choisissez les dates de l\'élection</label>
-
-                                <input type="date" name="begindate" class="form-control';
-                                if (isset($_GET['beginerror'])){
-                                    echo ' is-invalid';
-                                }
-                                echo '" id="begindate" placeholder="Saisissez la date de début." required>
-
-                                <input type="date" name="enddate" class="form-control';
-                                if (isset($_GET['enderror'])){
-                                    echo ' is-invalid';
-                                }
-                                echo '" id="enddate" placeholder="Saisissez la date de fin." required>
-
-                                <small id="DateHelp" class="form-text text-muted">
-                                    Date de début qu\'à partir de demain, et date de fin qu\'à partir de la date de début.
-                                </small>
-
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">Créer l\'élection</button>
-
-                        </form><br><br>';
+                        <br><br>';
                     }
 
                     echo '
