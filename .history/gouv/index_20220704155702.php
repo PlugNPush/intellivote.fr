@@ -144,15 +144,15 @@ if (isset($_SESSION['id'])){
                   <form action="index.php" method="post">
 
                     <div class="form-group">
-                      <label for="individual">Confirmez vous les données:<br> - Id du maire : ';echo(array($_GET['individual']));echo'
-                      <br> - ID de la mairie : ';echo(array($_GET['idmairie']));echo'</label>
+                      <label for="individual">Confirmez vous les données:<br> - Id du maire : ';echo(array($_POST['individual']));echo'
+                      <br> - ID de la mairie : ';echo(array($_POST['idmairie']));echo'</label>
                       <input type="hidden" name="individual" class="form-control';
 
                       if (isset($_GET['individualerror'])){
                         echo ' is-invalid';
                       }
                       
-                      echo '" id="individual" value="';echo(array($_GET['individual']));echo'" required>';
+                      echo '" id="individual" value="';echo(array($_POST['individual']));echo'" required>';
 
                       if (isset($_GET['individualerror'])){
                         echo '<div class="invalid-feedback">
@@ -166,7 +166,7 @@ if (isset($_SESSION['id'])){
                         echo ' is-invalid';
                       }
                       
-                      echo '" id="idmairie" value="';echo(array($_GET['idmairie']));echo'" required>';
+                      echo '" id="idmairie" value="';echo(array($_POST['idmairie']));echo'" required>';
 
                       if (isset($_GET['individualerror'])){
                         echo '<div class="invalid-feedback">
@@ -232,7 +232,7 @@ if (isset($_SESSION['id'])){
       header( "refresh:0;url=index.php?individualerror=true" );
     }
     else if (!isset($_POST['verify'])){
-      header( "refresh:0;url=index.php?verify=true?individual='.array($_POST[individual]).'?idmairie='.array($_POST[idmairie])'");
+      header( "refresh:0;url=index.php?verify=true" );
     }
     else{
 
