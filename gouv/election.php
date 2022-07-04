@@ -3,7 +3,7 @@ require_once dirname(__FILE__).'/../config.php';
 
 
 if (isset($_SESSION['id'])){
-    if (!isset($_GET['ajout'])){
+    if (!isset($_GET['ajout']) AND !isset($_GET['descriptionerror']) AND !isset($_GET['beginerror']) AND !isset($_GET['enderror'])){
         echo '<!DOCTYPE html>
         <html lang="fr">
 
