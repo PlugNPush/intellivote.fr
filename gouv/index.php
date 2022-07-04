@@ -171,10 +171,12 @@ if (isset($_SESSION['id'])){
               echo '
                   <h2><a>Gestion des élections :</a></h2>
 
+                  <form action="election.php?ajout=true" method="post">
+                    <button type="submit" class="btn btn-primary">Ajouter une élection</button>
+                  </form><br>
+
                   <form action="election.php" method="post">
-
-                    <button type="submit" class="btn btn-primary">Ajouter ou modifier une élection</button>
-
+                  <button type="submit" class="btn btn-primary">Afficher/Modifier une élection</button>
                   </form><br><br>';
 
             }
