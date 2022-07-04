@@ -144,8 +144,8 @@ if (isset($_SESSION['id'])){
                   <form action="index.php" method="post">
 
                     <div class="form-group">
-                      <label for="individual">Confirmez vous les données:<br> - Id du maire : ';echo($_GET['individual']);echo'
-                      <br> - ID de la mairie : ';echo($_GET['idmairie']);echo'</label>
+                      <label for="individual">Confirmez vous les données:<br> - Id du maire : ';echo(array($_GET['individual']));echo'
+                      <br> - ID de la mairie : ';echo(array($_GET['idmairie']));echo'</label>
                       <input type="hidden" name="individual" class="form-control';
 
                       if (isset($_GET['individualerror'])){
