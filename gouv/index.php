@@ -118,7 +118,7 @@ if (isset($_SESSION['id'])){
                       <label for="idmairie">Saisissez l\'ID de la mairie correspondante</label>
                       <input type="text" name="idmairie" class="form-control';
 
-                      echo '" id="idmairie" placeholder="Saisissez l\'ID de la mairie." required>
+                      echo '" id="idmairie" placeholder="Saisissez l\'ID de la mairie" required>
 
                     </div>
 
