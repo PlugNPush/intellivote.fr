@@ -263,7 +263,7 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
 
             if (isset($_SESSION['id'])) {
               echo '<div class="alert alert-success fade show" role="alert">
-                <strong>Vous êtes déjà connecté !</strong><br>Vous n\'avez rien d\'autre à faire.
+                <strong>Vous êtes déjà connecté, ' . $_SESSION['surname'] . " " . $_SESSION['name'] . ' !</strong><br>Si votre demande de connexion concernait un autre compte, vous allez recevoir votre lien d\'authentification 2FA par email. Vous pourrez vous connecter à l\'autre compte avec. Notez qu\'il est toujours préférable de se déconnecter avant d\'ouvrir une nouvelle session.
               </div>
               <a href="index.php" class="btn btn-success btn-lg btn-block">Continuer sur Intellivote</a><br><br>';
             } else {
