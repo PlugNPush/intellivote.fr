@@ -199,19 +199,19 @@ if (!isset($_SESSION['id'])) {
               }
               echo '
               </div>';
-
-              echo '
-              <div class="alert alert-info fade show" role="alert">
-
-                <strong>Liste des électeurs inscrits sur la e-liste électorale de la mairie de ' . $test['nom'] . '</strong><br>';
-                $getelecteurs=$bdd->prepare('SELECT * FROM elector JOIN individual ON elector.individual = individual.id WHERE mairie=?;');
-                $getelecteurs->execute(array($_SESSION['idmairie']));
-                while ($electeur=$getelecteurs->fetch()){
-                  echo $electeur['nom'] . " " . $electeur['surname'] . "<br>";
-                }
-                echo '
-                </div>';
           }
+
+          echo '
+          <div class="alert alert-info fade show" role="alert">
+
+            <strong>Liste des électeurs inscrits sur la e-liste électorale de la mairie de ' . $test['nom'] . '</strong><br>';
+            $getelecteurs=$bdd->prepare('SELECT * FROM elector JOIN individual ON elector.individual = individual.id WHERE mairie=?;');
+            $getelecteurs->execute(array($_SESSION['idmairie']));
+            while ($electeur=$getelecteurs->fetch()){
+              echo $electeur['nom'] . " " . $electeur['surname'] . "<br>";
+            }
+            echo '
+            </div>';
             }
 
           }
