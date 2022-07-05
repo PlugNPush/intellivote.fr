@@ -137,7 +137,7 @@ if (isset($_SESSION['id'])){
                     <button type="submit" class="btn btn-primary">Ajouter un candidat à une élection</button>
                   </form><br>
 
-                  <form action="election.php" method="post">
+                  <form action="election.php?affiche=true" method="post">
                   <button type="submit" class="btn btn-primary">Afficher/Supprimer une élection</button>
                   </form><br><br>';
 
