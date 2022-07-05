@@ -92,18 +92,18 @@ if (isset($_SESSION['id'])){
                 }
 
                 echo '
-                  <h2><a>Inscrire un maire :</a></h2>
+                  <h2><a>Inscrire un employé municipal :</a></h2>
                   <form action="index.php" method="post">
 
                     <div class="form-group">
-                      <label for="individual">Saisissez l\'ID de l\'individu maire</label>
+                      <label for="individual">Saisissez l\'ID de l\'individu employé à la mairie</label>
                       <input type="text" name="individual" class="form-control';
 
                       if (isset($_GET['individualerror'])){
                         echo ' is-invalid';
                       }
 
-                      echo ' "id="individual" placeholder="Saisissez l\'ID de maire à déclarer" required> ';
+                      echo ' "id="individual" placeholder="Saisissez l\'ID de l\'employé de la mairie à déclarer" required> ';
 
                       if (isset($_GET['individualerror'])){
                         echo '<div class="invalid-feedback">
@@ -112,17 +112,20 @@ if (isset($_SESSION['id'])){
                       }
 
                       echo ' <small id="IDHelp" class="form-text text-muted">
-                        Vous pouvez récupérer la clé dans l\'espace électeur après sa vérification. En cas de problème, contactez un modérateur.
+                        Vous pouvez récupérer la clé dans l\'espace électeur ou dans l\'espace mairie après sa vérification. En cas de problème, contactez un modérateur.
                       </small>
 
                       <label for="idmairie">Saisissez l\'ID de la mairie correspondante</label>
                       <input type="text" name="idmairie" class="form-control';
 
                       echo '" id="idmairie" placeholder="Saisissez l\'ID de la mairie" required>
+                      <small id="IDHelp" class="form-text text-muted">
+                        Vous pouvez récupérer la clé dans l\'espace mairie du demandeur. En cas de problème, contactez le demandeur ou un modérateur.
+                      </small>
 
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Déclarer un maire</button>
+                    <button type="submit" class="btn btn-primary">Déclarer un employé municipal</button>
 
                   </form><br><br>';
 
