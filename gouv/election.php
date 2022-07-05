@@ -245,7 +245,7 @@ if (isset($_SESSION['id'])){
                                 $getcandidates = $bdd->prepare('SELECT * FROM candidate WHERE id=?');
                                 $getcandidates->execute(array($result["candidate"]));
                                 if (!empty($result["candidate"])) {
-                                  echo '<p> Candidat ' . $getCandidates["name"] . ' ' . $getCandidates["surname"] . ' (' . $getCandidates["party"] . ') a obtenu ' . $result["score"] . ' voix</p>';
+                                  echo '<p> Candidat ' . $getcandidates["name"] . ' ' . $getcandidates["surname"] . ' (' . $getcandidates["party"] . ') a obtenu ' . $result["score"] . ' voix</p>';
                                 } else {
                                   echo '<p> Votes blancs: ' . $result["score"] . '</p>';
                                 }
