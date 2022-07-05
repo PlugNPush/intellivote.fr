@@ -24,11 +24,10 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
     $tokencheck_fetch->execute(array($_POST['token']));
     $tokencheck = $tokencheck_fetch->fetch();
 
-    if ($tokencheck['individual'] != $test['id']) {
+    if ($tokencheck['individual'] != $test['id'] || empty($test['id']) || empty($tokencheck['individual'])) {
       header( "refresh:0;url=login.php?tokenexpired=true" );
     } else {
       $verify = password_verify($_POST['mdp'], $test['password']);
-      echo $_SESSION['verifmail'] . " ???";
       if ($verify)
       {  // connexion
           $token_good = $bdd->prepare('UPDATE validations SET validated=1 WHERE token = ? AND type = 10 AND validated = 0;');
