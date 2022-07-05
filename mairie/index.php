@@ -172,14 +172,14 @@ if (!isset($_SESSION['id'])) {
             }
 
             if ($data) {
-                            //get actual time in paris 
+                            //get actual time in paris
           $curdate = date('Y-m-d h:i:s');
-          
+
           $getdates = $bdd->prepare('SELECT * FROM election;');
           $getdates->execute();
 
           while ($election=$getdates->fetch()){//case 1 ou plusieurs élections en cours
-            
+
             echo '
             <div class="alert alert-info fade show" role="alert">
 
@@ -191,11 +191,11 @@ if (!isset($_SESSION['id'])) {
               $getcandidates->execute(array(result["candidate"]));
               while ($result=$getResult->fetch()){
                 if (!empty($result["candidate"])) {
-                  echo '<p> Candidat ', $getCandidates["name"],' ',$getCandidates["surname"]' (' . $getCandidates["party"] . ') a obtenu ' . $result["score"] . ' voix</p>';
+                  echo '<p> Candidat ' . $getCandidates["name"] . ' ' . $getCandidates["surname"]' (' . $getCandidates["party"] . ') a obtenu ' . $result["score"] . ' voix</p>';
                 } else {
                   echo '<p> Votes blancs: ' . $result["score"] . '</p>';
                 }
-                
+
               }
               echo '
               </div>';
@@ -203,7 +203,7 @@ if (!isset($_SESSION['id'])) {
             }
 
           }
-          
+
 
           echo '
           <a class = "btn btn-secondary" href = "logout.php">Se déconnecter</a>
