@@ -173,17 +173,17 @@ if (isset($_SESSION['id'])){
                         </div>';
                       }
 
-                      echo '<input type="hidden" name="verify" class="form-control';
+                      echo '<input type="hidden" name="individual" class="form-control';
 
-                      if (isset($_GET['verifyerror'])){
+                      if (isset($_GET['individualerror'])){
                         echo ' is-invalid';
                       }
                       
-                      echo '" id="verify" value="';echo($_GET['verify']);echo'" required>';
+                      echo '" id="individual" value="';echo($_GET['individual']);echo'" required>';
 
-                      if (isset($_GET['verifyerror'])){
+                      if (isset($_GET['individualerror'])){
                         echo '<div class="invalid-feedback">
-                          Verify incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
+                          ID du maire incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
                         </div>';
                       }
                       
