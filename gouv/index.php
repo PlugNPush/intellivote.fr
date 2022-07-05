@@ -103,7 +103,7 @@ if (isset($_SESSION['id'])){
                         echo ' is-invalid';
                       }
 
-                      echo ' "id="individual" placeholder="Saisissez votre ID de maire" required> ';
+                      echo ' "id="individual" placeholder="Saisissez l\'ID de maire à déclarer" required> ';
 
                       if (isset($_GET['individualerror'])){
                         echo '<div class="invalid-feedback">
@@ -112,17 +112,17 @@ if (isset($_SESSION['id'])){
                       }
 
                       echo ' <small id="IDHelp" class="form-text text-muted">
-                        Vous pouvez récupérer la clé dans votre espace électeur après sa vérification. En cas de problème, contactez un modérateur.
+                        Vous pouvez récupérer la clé dans l\'espace électeur après sa vérification. En cas de problème, contactez un modérateur.
                       </small>
 
                       <label for="idmairie">Saisissez l\'ID de la mairie correspondante</label>
                       <input type="text" name="idmairie" class="form-control';
 
-                      echo '" id="idmairie" placeholder="Saisissez l\'ID de votre mairie." required>
+                      echo '" id="idmairie" placeholder="Saisissez l\'ID de la mairie." required>
 
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Envoyer vos identifiants de maire</button>
+                    <button type="submit" class="btn btn-primary">Déclarer un maire</button>
 
                   </form><br><br>';
 
