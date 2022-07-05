@@ -136,7 +136,7 @@ if (isset($_SESSION['id'])){
                   <form action="election.php" method="post">
                   <button type="submit" class="btn btn-primary">Afficher/Modifier une élection</button>
                   </form><br><br>';
-
+                  
               } else {
 
                 echo '
@@ -144,8 +144,7 @@ if (isset($_SESSION['id'])){
                   <form action="index.php" method="post">
 
                     <div class="form-group">
-                      <label for="individual">Confirmez vous les données:<br> - Id du maire : ';echo($_GET['individual']);echo'
-                      <br> - ID de la mairie : ';echo($_GET['idmairie']);echo'</label>
+                      <label for="individual">Confirmez vous les données ';echo($_GET['individual']); echo ' et ';echo($_GET['idmairie']);echo '?</label>
                       <input type="hidden" name="individual" class="form-control';
 
                       if (isset($_GET['individualerror'])){
@@ -174,17 +173,17 @@ if (isset($_SESSION['id'])){
                         </div>';
                       }
 
-                      echo '<input type="hidden" name="verify" class="form-control';
+                      echo '<input type="hidden" name="individual" class="form-control';
 
-                      if (isset($_GET['verifyerror'])){
+                      if (isset($_GET['individualerror'])){
                         echo ' is-invalid';
                       }
                       
-                      echo '" id="verify" value="';echo($_GET['verify']);echo'" required>';
+                      echo '" id="individual" value="';echo($_GET['individual']);echo'" required>';
 
-                      if (isset($_GET['verifyerror'])){
+                      if (isset($_GET['individualerror'])){
                         echo '<div class="invalid-feedback">
-                          Verify incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
+                          ID du maire incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
                         </div>';
                       }
                       
@@ -196,7 +195,7 @@ if (isset($_SESSION['id'])){
 
                   <form action="index.php" method="post">
 
-                    <button type="submit" class="btn btn-danger">Retour en arrière</button>
+                    <button type="submit" class="btn btn-primary">Retour en arrière</button>
 
                   </form><br><br>';
 

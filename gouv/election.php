@@ -102,19 +102,19 @@ if (isset($_SESSION['id'])){
                                 </small>
 
                                 <label for="dates">Choisissez les dates de l\'élection</label>
+                                <div>
+                                    <input type="datetime-local" name="begindate" class="form-control';
+                                    if (isset($_GET['beginerror'])){
+                                        echo ' is-invalid';
+                                    }
+                                    echo '" id="begindate" placeholder="Saisissez la date de début." required>
 
-                                <input type="date" name="begindate" class="form-control';
-                                if (isset($_GET['beginerror'])){
-                                    echo ' is-invalid';
-                                }
-                                echo '" id="begindate" placeholder="Saisissez la date de début." required>
-
-                                <input type="date" name="enddate" class="form-control';
-                                if (isset($_GET['enderror'])){
-                                    echo ' is-invalid';
-                                }
-                                echo '" id="enddate" placeholder="Saisissez la date de fin." required>
-
+                                    <input type="datetime-local" name="enddate" class="form-control';
+                                    if (isset($_GET['enderror'])){
+                                        echo ' is-invalid';
+                                    }
+                                    echo '" id="enddate" placeholder="Saisissez la date de fin." required>
+                                </div>
                                 <small id="DateHelp" class="form-text text-muted">
                                     Date de début qu\'à partir de demain, et date de fin qu\'à partir de la date de début.
                                 </small>
@@ -129,21 +129,19 @@ if (isset($_SESSION['id'])){
                         echo '
                         <h2><a>Afficher une élection</a></h2>';
                         echo '
-                        <div>
-                            <input type="text" id="recherche" name="recherche" placeholder="Saisissez votre Recherche">
+                        <form action="election.php" method="post">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="recherche" name="recherche" placeholder="Saisissez votre Recherche">
                             <select id="tri">
                                 <optgroup label="Tri">
-                                    <option value="nom">Nom</option>
-                                    <option value="type">Type</option>
-                                    <option value="annee_de_creation+">Année de création+</option>
-                                    <option value="annee_de_creation-">Année de création-</option>
-                                    <option value="prix+">Prix+</option><option value="prix-">Prix-</option>
-                                    <option value="note+">Note+</option><option value="note-">Note-</option>
+                                    <option value="begindate">Date de création+</option>
+                                    <option value="enddate">Date de création-</option>
                                 </optgroup>
                             </select>
-                            <button type="button" id="recherche_button" onclick="recherche()">Rechercher</button>
-                            <button type="reset" class="danger" onclick="location.href=\'election.php\'">Annuler</button>
-                        </div>';
+                            <button type="submit" class="btn btn-primary">Rechercher</button>
+                            <button type="reset" class="btn btn-danger" onclick="location.href=\'election.php\'">Annuler</button>
+                        </div>
+                        </form><br><br>';
 
                     }
 
@@ -193,7 +191,7 @@ if (isset($_SESSION['id'])){
         if ($test){
           header( "refresh:0;url=election.php?descriptionerror=true" );
         }
-        else if ($_POST['begindate']<=date('Y-m-d')){ // Date de début qu'à partir de demain
+        else if ($_POST['begindate']<date('Y-m-d G:i', strtotime(' + 90 days'))){ // Date de début qu'à partir de demain
           header( "refresh:0;url=election.php?beginerror=true" );
         }
         else if ($_POST['begindate']>$_POST['enddate']){ // Date de fin qu'à partir de la date de début
