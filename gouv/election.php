@@ -321,7 +321,6 @@ if (isset($_SESSION['id'])){
                 $_POST['programme'],
                 $_POST['election'],
                 $_POST['mairie'];
-            );
 
             header( "refresh:0;url=election.php?ajoutcandidat=true&successcandidat=true" );
         }
