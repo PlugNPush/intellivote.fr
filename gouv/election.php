@@ -179,7 +179,7 @@ if (isset($_SESSION['id'])){
                                 <input type="text" name="idmairie" class="form-control" id="idmairie" placeholder="Saisissez l\'ID de la mairie." required>
 
                                 <label for="election">Election</label><br>
-                                <select id="election" required>
+                                <select id="election" name="election" required>
                                     <optgroup label="Election">';
                                         $election_fetch = $bdd->prepare('SELECT * FROM election;');
                                         $election_fetch->execute();
@@ -312,7 +312,7 @@ if (isset($_SESSION['id'])){
                 'surname'=> $_POST['surname'],
                 'programme'=> $_POST['programme'],
                 'election'=> $_POST['election'],
-                'mairie'=> $_POST['mairie']
+                'mairie'=> $_POST['idmairie']
             ));
 
             echo $_POST['party'],
@@ -320,7 +320,7 @@ if (isset($_SESSION['id'])){
                 $_POST['surname'],
                 $_POST['programme'],
                 $_POST['election'],
-                $_POST['mairie'];
+                $_POST['idmairie'];
 
             header( "refresh:0;url=election.php?ajoutcandidat=true&successcandidat=true" );
         }
