@@ -113,7 +113,7 @@ if (isset($_SESSION['id'])){
 
                       echo ' <small id="IDHelp" class="form-text text-muted">
                         Vous pouvez récupérer la clé dans l\'espace électeur ou dans l\'espace mairie après sa vérification. En cas de problème, contactez un modérateur.
-                      </small>
+                      </small><br>
 
                       <label for="idmairie">Saisissez l\'ID de la mairie correspondante</label>
                       <input type="text" name="idmairie" class="form-control';
