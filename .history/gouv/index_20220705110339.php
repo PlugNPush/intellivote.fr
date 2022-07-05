@@ -133,12 +133,8 @@ if (isset($_SESSION['id'])){
                     <button type="submit" class="btn btn-primary">Ajouter une élection</button>
                   </form><br>
 
-                  <form action="election.php?ajoutcandidat=true" method="post">
-                    <button type="submit" class="btn btn-primary">Ajouter un candidat à une élection</button>
-                  </form><br>
-
                   <form action="election.php" method="post">
-                  <button type="submit" class="btn btn-primary">Afficher/Supprimer une élection</button>
+                  <button type="submit" class="btn btn-primary">Afficher/Modifier une élection</button>
                   </form><br><br>';
 
               } else {
@@ -158,7 +154,7 @@ if (isset($_SESSION['id'])){
                     echo '<div class="form-group">
                       <label for="individual">Confirmez vous les données?<br>
                       <div class="alert alert-info fade show" role="alert">
-                      - <strong>ID du maire :</strong> ';echo($_GET['individual']);echo(' | Nom : '.$indiv['surname'].' | Prénom : '.$indiv['name']);
+                      - <strong>Id du maire :</strong> ';echo($_GET['individual']);echo(' | Nom : '.$indiv['surname'].' | Prénom : '.$indiv['name']);
                       echo '<br> - <strong>ID de la mairie :</strong> ';echo($_GET['idmairie']);;echo(' | Nom : '.$mairie['nom'] .' | INSEE : '.$mairie['insee']);
                       echo '</div>
                       </label>

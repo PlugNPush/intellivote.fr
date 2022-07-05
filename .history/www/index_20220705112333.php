@@ -201,20 +201,23 @@ if (isset($_SESSION['id'])){
                             
                             // insert new "votes" in db 
                             if ($_POST["monVote".$election['id']]=="blanc"){ //case "vote blanc" 
+                              //insert new votes in db 
                               $newvotes = $bdd->prepare('INSERT INTO votes (token, date,election,mairie) VALUES (:token, :date, :election, :mairie);');
                               $newvotes->execute(array(
                                 'token' => $token,
                                 'date' => $curdate,
+                               // 'candidate' => NULL, // find a way to get candidate ID
                                 'election' => $election['id'],
                                 'mairie' => $data['mairie']
                               ));
                             }
                             else { //case any  other candidate is selected
+                              //insert new votes in db 
                               $newvotes = $bdd->prepare('INSERT INTO votes (token, date,candidate,election,mairie) VALUES (:token, :date, :candidate, :election, :mairie);');
                               $newvotes->execute(array(
                                 'token' => $token,
                                 'date' => $curdate,
-                                'candidate' => $_POST["monVote".$election['id']], 
+                                'candidate' => $_POST["monVote".$election['id']], // find a way to get candidate ID
                                 'election' => $election['id'],
                                 'mairie' => $data['mairie']
                               ));

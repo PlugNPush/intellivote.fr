@@ -102,6 +102,7 @@ if (isset($_SESSION['id'])){
                   <div class="alert alert-info fade show" role="alert"';
 
                     //get actual time in paris 
+                    date_default_timezone_set('Europe/Paris');
                     $curdate = date('Y-m-d h:i:s');
 
                     //display current date 
@@ -166,13 +167,13 @@ if (isset($_SESSION['id'])){
                         $getcandidates2->execute(array($election['id']));
                         
                         // candidate choice select
-                        if (!isset($_POST["monVote".$election['id']])){ // if elector hasnt voted yet and hasn't selected a candidate
+                        if (!isset($_POST['monVote'])){ // if elector hasnt voted yet and hasn't selected a candidate
                             echo '
                             <div>
                               <form action="index.php" method="post">
                               <div class="form-group">
                                 <label for="token"><strong>Sélectionnez un candidat pour procéder au vote en ligne :</strong></label>
-                                  <select id="monVote" name="monVote'.$election['id'].'"> 
+                                  <select id="monVote" name="monVote"> 
                                     <option disabled selected value> </option>';
                             while ($candidates2 = $getcandidates2->fetch()){ //case 1 or many candidates
                               echo '
@@ -192,38 +193,28 @@ if (isset($_SESSION['id'])){
                             //create token
                             $token = generateRandomString(512);
 
-                            //insert new "voted" in db 
+                            //insert new voted in db 
                             $newvoted = $bdd->prepare('INSERT INTO voted (election,elector) VALUES (:election,:elector);');
                             $newvoted->execute(array(
                               'election' => $election['id'],
-                              'elector' =>  $data['id'] 
+                              'election' => $voted['elector'], // find a way to get elector ID 
                             ));
-                            
-                            // insert new "votes" in db 
-                            if ($_POST["monVote".$election['id']]=="blanc"){ //case "vote blanc" 
-                              $newvotes = $bdd->prepare('INSERT INTO votes (token, date,election,mairie) VALUES (:token, :date, :election, :mairie);');
-                              $newvotes->execute(array(
-                                'token' => $token,
-                                'date' => $curdate,
-                                'election' => $election['id'],
-                                'mairie' => $data['mairie']
-                              ));
-                            }
-                            else { //case any  other candidate is selected
-                              $newvotes = $bdd->prepare('INSERT INTO votes (token, date,candidate,election,mairie) VALUES (:token, :date, :candidate, :election, :mairie);');
-                              $newvotes->execute(array(
-                                'token' => $token,
-                                'date' => $curdate,
-                                'candidate' => $_POST["monVote".$election['id']], 
-                                'election' => $election['id'],
-                                'mairie' => $data['mairie']
-                              ));
-                            };
+
+
+                            //insert new votes in db 
+                            $newvotes = $bdd->prepare('INSERT INTO votes (token, date,candidate,election) VALUES (:token, :date, :candidate, :election);');
+                            $newvotes->execute(array(
+                              'token' => $token,
+                              'date' => $curdate,
+                              'candidate' => 1, // find a way to get candidate ID
+                              'election' => $election['id']
+                            ));
+
 
                             //check existing token 
                             $gettoken = $bdd->prepare('SELECT votes.token FROM votes WHERE votes.token = ?');
                             $gettoken->execute(array($token));
-
+                            
                             $tokencpt=0;
                             while ($fetchtoken = $gettoken->fetch()){ 
                               $tokencpt++;
@@ -243,7 +234,6 @@ if (isset($_SESSION['id'])){
 
                               */
                             }
-
                           };
 
 

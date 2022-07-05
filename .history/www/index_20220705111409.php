@@ -180,7 +180,7 @@ if (isset($_SESSION['id'])){
                               ';
                             };
                             echo '
-                                    <option value ="blanc">Vote Blanc</option>
+                                    <option value =c>Vote Blanc</option>
                                   </select><br>
                               </div>
                               <button type="submit" class="btn btn-primary">Voter</button>
@@ -192,33 +192,31 @@ if (isset($_SESSION['id'])){
                             //create token
                             $token = generateRandomString(512);
 
-                            //insert new "voted" in db 
-                            $newvoted = $bdd->prepare('INSERT INTO voted (election,elector) VALUES (:election,:elector);');
-                            $newvoted->execute(array(
-                              'election' => $election['id'],
-                              'elector' =>  $data['id'] 
-                            ));
-                            
-                            // insert new "votes" in db 
-                            if ($_POST["monVote".$election['id']]=="blanc"){ //case "vote blanc" 
-                              $newvotes = $bdd->prepare('INSERT INTO votes (token, date,election,mairie) VALUES (:token, :date, :election, :mairie);');
-                              $newvotes->execute(array(
-                                'token' => $token,
-                                'date' => $curdate,
-                                'election' => $election['id'],
-                                'mairie' => $data['mairie']
-                              ));
+                            //case "vote blanc" 
+                            if ($_POST["monVote".$election['id']]=="blanc"){
+
                             }
                             else { //case any  other candidate is selected
+                              //insert new voted in db 
+                              $newvoted = $bdd->prepare('INSERT INTO voted (election,elector) VALUES (:election,:elector);');
+                              $newvoted->execute(array(
+                                'election' => $election['id'],
+                                'elector' =>  $data['id'] 
+                              ));
+
+                              //insert new votes in db 
                               $newvotes = $bdd->prepare('INSERT INTO votes (token, date,candidate,election,mairie) VALUES (:token, :date, :candidate, :election, :mairie);');
                               $newvotes->execute(array(
                                 'token' => $token,
                                 'date' => $curdate,
-                                'candidate' => $_POST["monVote".$election['id']], 
+                                'candidate' => $_POST["monVote".$election['id']], // find a way to get candidate ID
                                 'election' => $election['id'],
                                 'mairie' => $data['mairie']
                               ));
                             };
+
+                            
+
 
                             //check existing token 
                             $gettoken = $bdd->prepare('SELECT votes.token FROM votes WHERE votes.token = ?');

@@ -133,35 +133,19 @@ if (isset($_SESSION['id'])){
                     <button type="submit" class="btn btn-primary">Ajouter une élection</button>
                   </form><br>
 
-                  <form action="election.php?ajoutcandidat=true" method="post">
-                    <button type="submit" class="btn btn-primary">Ajouter un candidat à une élection</button>
-                  </form><br>
-
                   <form action="election.php" method="post">
-                  <button type="submit" class="btn btn-primary">Afficher/Supprimer une élection</button>
+                  <button type="submit" class="btn btn-primary">Afficher/Modifier une élection</button>
                   </form><br><br>';
 
               } else {
 
                 echo '
                   <h2><a>Vérification :</a></h2>
-                  <form action="index.php" method="post">';
+                  <form action="index.php" method="post">
 
-                  $req = $bdd->prepare('SELECT * FROM mairies WHERE id ='.$_GET['idmairie'].';');
-                  $req->execute(array($_POST['idmairie']));
-                  $mairie = $req->fetch();
-
-                  $req = $bdd->prepare('SELECT * FROM individual WHERE id ='.$_GET['individual'].';');
-                  $req->execute(array($_POST['individual']));
-                  $indiv = $req->fetch();
-
-                    echo '<div class="form-group">
-                      <label for="individual">Confirmez vous les données?<br>
-                      <div class="alert alert-info fade show" role="alert">
-                      - <strong>ID du maire :</strong> ';echo($_GET['individual']);echo(' | Nom : '.$indiv['surname'].' | Prénom : '.$indiv['name']);
-                      echo '<br> - <strong>ID de la mairie :</strong> ';echo($_GET['idmairie']);;echo(' | Nom : '.$mairie['nom'] .' | INSEE : '.$mairie['insee']);
-                      echo '</div>
-                      </label>
+                    <div class="form-group">
+                      <label for="individual">Confirmez vous les données:<br> - Id du maire : ';echo($_GET['individual']);echo'
+                      <br> - ID de la mairie : ';echo($_GET['idmairie']);echo'</label>
                       <input type="hidden" name="individual" class="form-control';
 
                       if (isset($_GET['individualerror'])){
@@ -190,19 +174,15 @@ if (isset($_SESSION['id'])){
                         </div>';
                       }
 
-                      echo '<input type="hidden" name="verify" class="form-control';
+                       echo '<input type="hidden" name="verify" class="form-control';
 
-                      if (isset($_GET['verifyerror'])){
-                        echo ' is-invalid';
-                      }
+                       if (isset($_GET['verifyerror'])){
+                         echo ' is-invalid';
+                       }
+                       
+                       echo '" id="verify" value="true" required>';
+
                       
-                      echo '" id="verify" value="';echo($_GET['verify']);echo'" required>';
-
-                      if (isset($_GET['verifyerror'])){
-                        echo '<div class="invalid-feedback">
-                          Verify incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
-                        </div>';
-                      }
                       
                     echo '</div>
 
