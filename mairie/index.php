@@ -85,11 +85,6 @@ if (!isset($_SESSION['id'])) {
 
           } else {
 
-            echo '
-            <div class="alert alert-info fade show" role="alert">
-              <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Votre compte est prêt.<br>
-            </div>';
-
             $gatherdata = $bdd->prepare('SELECT * FROM mayor WHERE individual = ? AND mairie = ? AND verified = 1;');
             $gatherdata->execute(array($_SESSION['id'], $_SESSION['idmairie']));
             $data = $gatherdata->fetch();

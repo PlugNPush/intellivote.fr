@@ -87,10 +87,6 @@ if (isset($_SESSION['id'])){
                   <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Vous devez confirmer votre compte pour accéder au site. Celui-ci n\'a pas encore pu être vérifié.<br><a class = "btn btn-primary" href = "validation.php">Lancer ou vérifier la procédure de validation</a>
                 </div>';
               } else {
-                echo '
-                <div class="alert alert-info fade show" role="alert">
-                  <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Votre compte est prêt.<br>
-                </div>';
 
                 $gatherdata = $bdd->prepare('SELECT * FROM elector WHERE individual = ? AND verified = 1;');
                 $gatherdata->execute(array($_SESSION['id']));
@@ -101,24 +97,24 @@ if (isset($_SESSION['id'])){
                   echo '
                   <div class="alert alert-info fade show" role="alert"';
 
-                    //get actual time in paris 
+                    //get actual time in paris
                     $curdate = date('Y-m-d h:i:s');
 
-                    //display current date 
+                    //display current date
                     /*
                      echo '
                       <div class="alert alert-info fade show" role="alert">
                         <strong>Heure locale  ', $curdate, '.<br>
-                      </div> 
+                      </div>
                     </div>';
                     */
 
-                    //check if any election is ongoing in the database 
+                    //check if any election is ongoing in the database
                     $getdates = $bdd->prepare('SELECT * FROM election WHERE begindate < ? AND ? < enddate ;');
                     $getdates->execute(array($curdate,$curdate));
 
                     $i = 0;
-                    while ($election=$getdates->fetch()){ //case 1 or many ongoing elections 
+                    while ($election=$getdates->fetch()){ //case 1 or many ongoing elections
                       echo '
                       <div class="alert alert-info fade show" role="alert">
                         <strong> ', $election['description'], ' : </strong><br>
@@ -128,7 +124,7 @@ if (isset($_SESSION['id'])){
                       //display all candidates
                       $getcandidates = $bdd->prepare('SELECT * FROM election JOIN candidate ON candidate.election= ? GROUP BY candidate.surname , candidate.name ');
                       $getcandidates->execute(array($election['id']));
-                    
+
                       $j = 0;
                       while ($candidates = $getcandidates->fetch()){ //case 1 or many candidates
                         echo '
@@ -143,9 +139,9 @@ if (isset($_SESSION['id'])){
                         <div>
                         <p>Pas de candidats.</p>
                         </div>';
-                      }   
-                    
-                      
+                      }
+
+
                       // check if elector did vote
                       $getvoted = $bdd->prepare('SELECT * FROM voted JOIN elector ON voted.elector=elector.id');
                       $getvoted->execute();
@@ -159,15 +155,15 @@ if (isset($_SESSION['id'])){
                           </div>';
                           $k++;
                         }
-                        
+
                       };
                       if ($k==0) {  //if elector didnt vote : display button vote and all existing candidates
                         $getcandidates2 = $bdd->prepare('SELECT * FROM election JOIN candidate ON candidate.election= ? GROUP BY candidate.surname , candidate.name ');
                         $getcandidates2->execute(array($election['id']));
-                   
-                        //set date to display election end date 
+
+                        //set date to display election end date
                         $date = str_replace('/', '-', $election["enddate"]);
-                        
+
                         // candidate choice select
                         if (!isset($_POST["monVote".$election['id']])){ // if elector hasnt voted yet and hasn't selected a candidate
                             echo '
@@ -175,7 +171,7 @@ if (isset($_SESSION['id'])){
                               <form action="index.php" method="post">
                               <div class="form-group">
                                 <label for="token"><strong>Sélectionnez un candidat pour procéder au vote en ligne :</strong></label>
-                                  <select id="monVote" name="monVote'.$election['id'].'"> 
+                                  <select id="monVote" name="monVote'.$election['id'].'">
                                     <option disabled selected value> </option>';
                             while ($candidates2 = $getcandidates2->fetch()){ //case 1 or many candidates
                               echo '
@@ -191,21 +187,21 @@ if (isset($_SESSION['id'])){
                               <br>
                               <p>L\'élection prend fin le : ',date('d/m/Y à H:i', strtotime($date)),' heures.</p>
                             </div>';
-                          }   
+                          }
                           else { // if elector hasnt voted yet and has selected a candidate
 
                             //create token
                             $token = generateRandomString(512);
 
-                            //insert new "voted" in db 
+                            //insert new "voted" in db
                             $newvoted = $bdd->prepare('INSERT INTO voted (election,elector) VALUES (:election,:elector);');
                             $newvoted->execute(array(
                               'election' => $election['id'],
-                              'elector' =>  $data['id'] 
+                              'elector' =>  $data['id']
                             ));
-                            
-                            // insert new "votes" in db 
-                            if ($_POST["monVote".$election['id']]=="blanc"){ //case "vote blanc" 
+
+                            // insert new "votes" in db
+                            if ($_POST["monVote".$election['id']]=="blanc"){ //case "vote blanc"
                               $newvotes = $bdd->prepare('INSERT INTO votes (token, date,election,mairie) VALUES (:token, :date, :election, :mairie);');
                               $newvotes->execute(array(
                                 'token' => $token,
@@ -219,21 +215,21 @@ if (isset($_SESSION['id'])){
                               $newvotes->execute(array(
                                 'token' => $token,
                                 'date' => $curdate,
-                                'candidate' => $_POST["monVote".$election['id']], 
+                                'candidate' => $_POST["monVote".$election['id']],
                                 'election' => $election['id'],
                                 'mairie' => $data['mairie']
                               ));
                             };
 
-                            //check existing token 
+                            //check existing token
                             $gettoken = $bdd->prepare('SELECT votes.token FROM votes WHERE votes.token = ?');
                             $gettoken->execute(array($token));
 
                             $tokencpt=0;
-                            while ($fetchtoken = $gettoken->fetch()){ 
+                            while ($fetchtoken = $gettoken->fetch()){
                               $tokencpt++;
                             };
-                                
+
                             if ($tokencpt==1){
                               echo '
                               <div>
@@ -241,10 +237,10 @@ if (isset($_SESSION['id'])){
                               </div>';
                             }
                             else {
-                              /* 
-                              case where token isnt in the database 
+                              /*
+                              case where token isnt in the database
 
-                              FILL HERE 
+                              FILL HERE
 
                               */
                             }
@@ -254,20 +250,20 @@ if (isset($_SESSION['id'])){
 
 
                         }
-                      
+
                     echo "
                       </div> \n";
-                        
-                    // end of candidates display   
+
+                    // end of candidates display
 
                     };
                     if ($i==0) { //case no ongoing election
                       echo '
                       <strong>Pas d\'élections à venir.<br>';
-                    }               
+                    }
 
 
-                // Fin Partie Pablo ------------------------------------------------------------------------------------------    
+                // Fin Partie Pablo ------------------------------------------------------------------------------------------
 
                 } else {
                   $gatherdataverif = $bdd->prepare('SELECT * FROM validations WHERE type = 1 AND individual = ?');
