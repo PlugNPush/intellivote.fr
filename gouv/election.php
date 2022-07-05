@@ -3,7 +3,7 @@ require_once dirname(__FILE__).'/../config.php';
 
 
 if (isset($_SESSION['id'])){
-    if (isset($_GET['ajout']) OR isset($_GET['ajoutcandidat'])){
+    if (isset($_GET['ajout']) OR isset($_GET['ajoutcandidat']) OR isset($_GET['affiche'])){
 
         echo '<!DOCTYPE html>
         <html lang="fr">
@@ -242,7 +242,7 @@ if (isset($_SESSION['id'])){
                           }
 
                         echo '
-                        <form action="election.php" method="post">
+                        <form action="election.php?affiche=true" method="post">
                         <div class="form-group">
                             <input type="text" class="form-control" id="recherche" name="recherche" placeholder="Saisissez votre Recherche">
                             <select id="tri">
