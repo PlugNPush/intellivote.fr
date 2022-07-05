@@ -241,7 +241,7 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
         if (isset($_GET['pending']) OR isset($_GET['resent'])){ //étape 3
             echo'<h1 class="my-4">Validation du compte Gouvernement</h1>';
 
-            if (isset($_GET['pending'])) {
+            if (isset($_GET['pending']) && !isset($_SESSION['id'])) {
               echo '<div class="alert alert-success fade show" role="alert">
                 <strong>Validation en attente.</strong><br> Votre lien d\'authentification vous a été envoyé sur votre adresse mail. Le mail de validation se trouve dans votre dossier de spams, aussi appelé courrier indésirable.
               </div>';
@@ -259,14 +259,9 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
               </div>';
             }
 
-            if (isset($_SESSION['verified']) && $_SESSION['verified'] == 1 && $data) {
+            if (isset($_SESSION['id'])) {
               echo '<div class="alert alert-success fade show" role="alert">
-                <strong>Félicitations, votre compte Intellivote est validé !</strong><br>Votre identité numérique a été certifiée avec une signature numérique le ', $data['date'], ' via l\'adresse email suivante : <a href="mailto:', $_SESSION['email'] ,'">', $_SESSION['email'] ,'</a>.
-              </div>
-              <a href="index.php" class="btn btn-success btn-lg btn-block">Continuer sur Intellivote</a><br><br>';
-            } else if (isset($_SESSION['verified']) && $_SESSION['verified'] == 1) {
-              echo '<div class="alert alert-success fade show" role="alert">
-                <strong>Votre compte est validé manuellement par un représentant du Gouvernement !</strong><br>Vous n\'avez rien d\'autre à faire.
+                <strong>Vous êtes déjà connecté !</strong><br>Vous n\'avez rien d\'autre à faire.
               </div>
               <a href="index.php" class="btn btn-success btn-lg btn-block">Continuer sur Intellivote</a><br><br>';
             } else {
