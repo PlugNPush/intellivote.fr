@@ -159,6 +159,26 @@ if (isset($_SESSION['id'])){
                                     echo ' is-invalid';
                                 }
                                 echo ' " id="programme" placeholder="Saisissez la description de son programme." required>
+
+                                <label for="mairie">Mairie</label>
+                                <select id="mairie" required>
+                                    <optgroup label="Mairie">';
+                                        $mairies_fetch = $bdd->prepare('SELECT nom FROM mairies;');
+                                        $mairies_fetch->execute();
+                                        $mairies = $mairies_fetch->fetch();
+                                        foreach ($mairies as $mairie) {
+                                            echo '<option value="'.$mairie.'">'.$mairie.'</option>';
+                                        }   
+                                    echo '
+                                    </optgroup>
+                                </select>
+
+                                <label for="election">Election</label>
+                                <input type="text" name="election" class="form-control';
+                                if (isset($_GET['electionerror'])){
+                                    echo ' is-invalid';
+                                }
+                                echo ' " id="election" placeholder="Saisissez la description de son programme." required>
                             
                             </div>
                         
