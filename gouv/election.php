@@ -202,7 +202,7 @@ if (isset($_SESSION['id'])){
 
                         $date = date('Y-m-d H:i');
 
-                        $electionavenir = $bdd->prepare('SELECT * FROM election WHERE begindate>?;');
+                        $electionavenir = $bdd->prepare('SELECT * FROM election WHERE begindate>? ORDER BY DESC begindate;');
                         $electionavenir->execute(array($date));
                         echo '<h3>Elections à venir ('.$electionavenir->rowCount().')</h3>';
                         while($row = $electionavenir->fetch()) {
@@ -213,7 +213,7 @@ if (isset($_SESSION['id'])){
                             </div>';
                         }
 
-                        $electionencours = $bdd->prepare('SELECT * FROM election WHERE begindate<=? AND enddate>?;');
+                        $electionencours = $bdd->prepare('SELECT * FROM election WHERE begindate<=? AND enddate>? ORDER BY DESC enddate;');
                         $electionencours->execute(array($date, $date));
                         echo '<h3>Elections en cours ('.$electionencours->rowCount().')</h3>';
                         while($row = $electionencours->fetch()) {
@@ -224,7 +224,7 @@ if (isset($_SESSION['id'])){
                             </div>';
                         }
 
-                        $electionpassees = $bdd->prepare('SELECT * FROM election WHERE enddate<=?;');
+                        $electionpassees = $bdd->prepare('SELECT * FROM election WHERE enddate<=? ORDER BY DESC enddate;');
                         $electionpassees->execute(array($date));
                         echo '<h3>Elections terminées ('.$electionpassees->rowCount().')</h3>';
                         while($row = $electionpassees->fetch()) {
@@ -248,22 +248,6 @@ if (isset($_SESSION['id'])){
                             echo '</div>';
                         }
 
-                        
-
-                        echo '
-                        <form action="election.php?affiche=true" method="post">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="recherche" name="recherche" placeholder="Saisissez votre Recherche">
-                            <select class="form-control" id="tri">
-                                <optgroup label="Tri">
-                                    <option value="begindate">Date de création+</option>
-                                    <option value="enddate">Date de création-</option>
-                                </optgroup>
-                            </select>
-                            <button type="submit" class="btn btn-primary">Rechercher</button>
-                            <button type="reset" class="btn btn-danger" onclick="location.href=\'election.php\'">Annuler</button>
-                        </div>
-                        </form><br><br>';
 
                     }
 
