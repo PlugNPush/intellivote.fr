@@ -206,12 +206,10 @@ if (isset($_SESSION['id'])){
                         $electionavenir->execute(array($date));
                         echo '<h3>Elections à venir</h3>';
                         $count=0;
+                        echo '<div class="alert alert-info fade show" role="alert">';
                         while($row = $electionavenir->fetch()) {
                             $count+=1;
-                            echo '
-                            <div class="alert alert-info fade show" role="alert">
-                
-                              <strong>L\'élection ' . $row['description'] . ' est à venir</strong><br>';
+                            echo '<strong>L\'élection ' . $row['description'] . ' est à venir</strong><br>';
                         }
                         echo '<p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>';
                         echo '
@@ -222,12 +220,10 @@ if (isset($_SESSION['id'])){
                         $electionencours->execute(array($date, $date));
                         echo '<h3>Elections en cours</h3>';
                         $count=0;
+                        echo '<div class="alert alert-info fade show" role="alert">';
                         while($row = $electionencours->fetch()) {
                             $count+=1;
-                            echo '
-                            <div class="alert alert-info fade show" role="alert">
-                
-                              <strong>L\'élection ' . $row['description'] . ' est en cours</strong><br>';
+                            echo '<strong>L\'élection ' . $row['description'] . ' est en cours</strong><br>';
                         }
                         echo '<p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>';
                         echo '
@@ -238,12 +234,10 @@ if (isset($_SESSION['id'])){
                         $electionpassees->execute(array($date));
                         echo '<h3>Elections terminées</h3>';
                         $count=0;
+                        echo '<div class="alert alert-info fade show" role="alert">';
                         while($row = $electionpassees->fetch()) {
                             $count+=1;
-                            echo '
-                            <div class="alert alert-info fade show" role="alert">
-                
-                              <strong>Résultats de l\'élection ' . $row['description'] . '</strong><br>';
+                            echo '<strong>Résultats de l\'élection ' . $row['description'] . '</strong><br>';
                               $getResult=$bdd->prepare('SELECT COUNT(candidate) AS score, candidate FROM votes WHERE election=? GROUP BY candidate;');
                               $getResult->execute(array($row['id']));
                 
