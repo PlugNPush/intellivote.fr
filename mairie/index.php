@@ -186,10 +186,10 @@ if (!isset($_SESSION['id'])) {
               <strong>Résultats de l\'élection ' . $election['description'] . '</strong><br>';
               $getResult=$bdd->prepare('SELECT COUNT(candidate) AS score, candidate FROM votes WHERE mairie=? AND election=? GROUP BY candidate;');
               $getResult->execute(array($_SESSION['idmairie'], $election['id']));
-              $getCandidat->prepare('SELECT surname, name FROM candidate WHERE mairie=? AND election=? GROUP BY candidate;');
-              $getcandidates = $bdd->prepare('SELECT * FROM candidate WHERE id=?');
-              $getcandidates->execute(array(result["candidate"]));
+
               while ($result=$getResult->fetch()){
+                $getcandidates = $bdd->prepare('SELECT * FROM candidate WHERE id=?');
+                $getcandidates->execute(array($result["candidate"]));
                 if (!empty($result["candidate"])) {
                   echo '<p> Candidat ' . $getCandidates["name"] . ' ' . $getCandidates["surname"] . ' (' . $getCandidates["party"] . ') a obtenu ' . $result["score"] . ' voix</p>';
                 } else {
@@ -205,7 +205,7 @@ if (!isset($_SESSION['id'])) {
           <div class="alert alert-info fade show" role="alert">
 
             <strong>Liste des électeurs inscrits sur la e-liste électorale de la mairie de ' . $test['nom'] . '</strong><br>';
-            $getelecteurs=$bdd->prepare('SELECT * FROM elector JOIN individual ON elector.individual = individual.id WHERE mairie=?;');
+            $getelecteurs = $bdd->prepare('SELECT * FROM elector JOIN individual ON elector.individual = individual.id WHERE mairie=?;');
             $getelecteurs->execute(array($_SESSION['idmairie']));
             while ($electeur=$getelecteurs->fetch()){
               echo $electeur['nom'] . " " . $electeur['surname'] . "<br>";
