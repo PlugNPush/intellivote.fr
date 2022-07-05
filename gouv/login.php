@@ -68,7 +68,7 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
     header( "refresh:0;url=login.php?emailexists=false" );
   } elseif (!$mail) { // non valide comme admin
     header( "refresh:0;url=login.php?invalidmail=false" );
-  } else if (isset($_SESSION['id']) && $_SESSION['id'] == $_mailcheck['id']) {
+  } else if (isset($_SESSION['id']) && $_SESSION['id'] == $mailcheck['id']) {
     header( "refresh:0;url=login.php?pending=true" );
   } else { // ok, envoie la demande de code
 
