@@ -169,7 +169,7 @@ if (isset($_SESSION['id'])){
                                         $election_fetch = $bdd->prepare('SELECT description FROM election;');
                                         $election_fetch->execute();
                                         $elections = $election_fetch->fetch();
-                                        echo '<option value="test">'.$elections.'</option>';
+                                        echo '<option value="test">'.print($elections).'</option>';
                                         foreach ($elections as $election) {
                                             echo '<option value="'.$election.'">'.$election.'</option>';
                                         }   
