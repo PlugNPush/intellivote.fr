@@ -147,6 +147,18 @@ if (isset($_SESSION['id'])){
                         echo '
                         <form action="election.php" method="post">
                             <div class="form-group">
+                                <label for="election">Election</label><br>
+                                <select id="election" name="election" required>
+                                    <option disabled selected value> </option>';
+                                        $election_fetch = $bdd->prepare('SELECT * FROM election WHERE begindate>?;');
+                                        $election_fetch->execute(array(date("Y-m-d H:i", strtotime(" + 90 days"))));
+                                        while ($elections = $election_fetch->fetch()) {
+                                            echo '<option value="'.$elections['id'].'">'.$elections["description"].'</option>';
+                                        }
+                                    echo '
+                                    </optgroup>
+                                </select>
+
                                 <label for="name">Nom</label>
                                 <input type="text" name="name" class="form-control';
                                 if (isset($_GET['nameerror'])){
@@ -177,18 +189,6 @@ if (isset($_SESSION['id'])){
 
                                 <label for="idmairie">Saisissez l\'ID de la mairie</label>
                                 <input type="text" name="idmairie" class="form-control" id="idmairie" placeholder="Saisissez l\'ID de la mairie." required>
-
-                                <label for="election">Election</label><br>
-                                <select id="election" name="election" required>
-                                    <option disabled selected value> </option>';
-                                        $election_fetch = $bdd->prepare('SELECT * FROM election WHERE begindate>?;');
-                                        $election_fetch->execute(array(date("Y-m-d H:i", strtotime(" + 90 days"))));
-                                        while ($elections = $election_fetch->fetch()) {
-                                            echo '<option value="'.$elections['id'].'">'.$elections["description"].'</option>';
-                                        }
-                                    echo '
-                                    </optgroup>
-                                </select>
 
                             </div>
 
