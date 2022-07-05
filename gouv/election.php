@@ -169,7 +169,7 @@ if (isset($_SESSION['id'])){
                                         $election_fetch = $bdd->prepare('SELECT * FROM election;');
                                         $election_fetch->execute();
                                         while ($elections = $election_fetch->fetch()) {
-                                            echo '<option value="'.$elections['id'].'">'.$election["description"].'</option>';
+                                            echo '<option value="'.$elections['id'].'">'.$elections["description"].'</option>';
                                         }
                                     echo '
                                     </optgroup>
