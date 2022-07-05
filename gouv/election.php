@@ -340,7 +340,7 @@ if (isset($_SESSION['id'])){
         else if ($_POST['begindate']<date('Y-m-d H:i', strtotime(' + 90 days'))){ // Date de début qu'à partir de demain
           header( "refresh:0;url=election.php?ajout=true&beginerror=true" );
         }
-        else if ($_POST['begindate']>date('Y-m-d H:i', strtotime($_POST['enddate'].' + 8 hours'))){ // Date de fin qu'à partir de la date de début
+        else if ($_POST['begindate']>=date('Y-m-d H:i', strtotime($_POST['enddate'].' + 8 hours'))){ // Date de fin qu'à partir de la date de début
             header( "refresh:0;url=election.php?ajout=true&enderror=true" );
         }
         else{
