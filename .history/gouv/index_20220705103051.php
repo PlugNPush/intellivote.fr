@@ -256,8 +256,6 @@ if (isset($_SESSION['id'])){
         'verifiedon' => $date
       ));
 
-      echo $_POST['idmairie'] . " " . $_POST['individual'] . " " . $date;
-
       //header( "refresh:0;url=index.php?verify=true&individual=".$_POST['individual']."&idmairie=".$_POST['idmairie']);
     }
     else{
