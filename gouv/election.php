@@ -294,7 +294,7 @@ if (isset($_SESSION['id'])){
 
         </html>';
 
-    } else if (isset($_POST['election'])){
+    } else if (isset($_POST['name'])){
 
         // Pas d'inscription en double
         $req = $bdd->prepare('SELECT * FROM candidats WHERE party=? AND name=? AND surname=? AND election=?;');
