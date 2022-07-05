@@ -3,7 +3,7 @@ require_once dirname(__FILE__).'/../config.php';
 
 
 if (isset($_SESSION['id'])){
-    if (!isset($_POST['description']) AND !isset($_POST['election'])){
+    if (!isset($_POST['description']) OR isset($_GET['ajoutcandidat'])){
 
         echo '<!DOCTYPE html>
         <html lang="fr">
@@ -133,7 +133,14 @@ if (isset($_SESSION['id'])){
                             <div class="alert alert-success fade show" role="alert">
                               <strong>Le candidat a bien été ajouté.</strong>
                             </div>';
-                          }
+                        }
+
+                        if (isset($_GET['candidaterror'])) { 
+                            echo '
+                            <div class="alert alert-danger fade show" role="alert">
+                              <strong>Le candidat a déjà été ajouté.<br>Si vous souhaitez modifier une information, vous devez d\'abord supprimer le candidat à cette élection.</strong>
+                            </div>';
+                        }
 
                         echo '
                         <h2><a>Ajouter un candidat</a></h2>';
@@ -289,17 +296,27 @@ if (isset($_SESSION['id'])){
 
     } else if (isset($_POST['election'])){
 
-        $req=$bdd->prepare('INSERT INTO candidats (party, name, surname, programme, election, mairie) VALUES (:party, :name, :surname, :programme, :election, :mairie);');
-          $req->execute(array(
-            'party'=> $_POST['party'],
-            'name'=> $_POST['name'],
-            'surname'=> $_POST['surname'],
-            'programme'=> $_POST['programme'],
-            'election'=> $_POST['election'],
-            'mairie'=> $_POST['mairie']
-          ));
+        // Pas d'inscription en double
+        $req = $bdd->prepare('SELECT * FROM candidats WHERE party=? AND name=? AND surname=? AND election=?;');
+        $req->execute(array($_POST['party'],$_POST['name'],$_POST['surname'],$_POST['election']));
+        $test = $req->fetch();
     
-        header( "refresh:0;url=election.php?ajoutcandidat=true&successcandidat=true");
+        if ($test){
+          header( "refresh:0;url=election.php?ajoutcandidat=true&candidaterror=true" );
+        } else {
+
+            $req=$bdd->prepare('INSERT INTO candidats (party, name, surname, programme, election, mairie) VALUES (:party, :name, :surname, :programme, :election, :mairie);');
+            $req->execute(array(
+                'party'=> $_POST['party'],
+                'name'=> $_POST['name'],
+                'surname'=> $_POST['surname'],
+                'programme'=> $_POST['programme'],
+                'election'=> $_POST['election'],
+                'mairie'=> $_POST['mairie']
+            ));
+        
+            header( "refresh:0;url=election.php?ajoutcandidat=true&successcandidat=true" );
+        }
 
     } else {
 
