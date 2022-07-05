@@ -250,8 +250,6 @@ if (isset($_SESSION['id'])){
                             <button type="submit" class="btn btn-primary">Créer l\'élection</button>
 
                         </form><br><br>';
-<<<<<<< Updated upstream
-=======
 
                     } else {
                         echo '
@@ -271,7 +269,6 @@ if (isset($_SESSION['id'])){
                         </div>
                         </form><br><br>';
 
->>>>>>> Stashed changes
                     }
 
                     echo '
@@ -318,11 +315,7 @@ if (isset($_SESSION['id'])){
         if ($test){
           header( "refresh:0;url=election.php?descriptionerror=true" );
         }
-<<<<<<< Updated upstream
-        else if ($_POST['begindate']<=date('d/m/Y')){ // Date de début qu'à partir de demain
-=======
         else if ($_POST['begindate']<date('Y-m-d G:i', strtotime(' + 90 days'))){ // Date de début qu'à partir de demain
->>>>>>> Stashed changes
           header( "refresh:0;url=election.php?beginerror=true" );
         }
         else if ($_POST['begindate']>$_POST['enddate']){ // Date de fin qu'à partir de la date de début
