@@ -207,7 +207,7 @@ if (isset($_SESSION['id'])){
                             $newvote->execute(array(
                               'token' => $token,
                               'date' => $curdate,
-                              'candidate' => 1,
+                              'candidate' => $_POST['monVote'].$candidates2['id'],
                               'election' => $election['id']
                             ));
 

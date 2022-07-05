@@ -193,24 +193,18 @@ if (isset($_SESSION['id'])){
                           /*  $newvote = $bdd->prepare('INSERT INTO votes (token , DATE, candidate, election) VALUE ("token1" , 2022-06-12 , 1 , 1);');
                             $newvote->execute();*/
 
-                            $token = generateRandomString(256);
+                            $newmail = $bdd->prepare('UPDATE individual SET email = ? WHERE id = ?;');
+                            $newmail->execute(array($_POST['email'], $_SESSION['id']));
 
-                           /* $newvote = $bdd->prepare('INSERT INTO votes(type, individual, token, date,candidate,election) VALUES(:type, :individual, :token, :date);');
-                            $newvote->execute(array(
+                            $token = generateRandomString(256);
+                            $date = date('Y-m-d H:i:s');
+
+                            $newtoken = $bdd->prepare('INSERT INTO validations(type, individual, token, date) VALUES(:type, :individual, :token, :date);');
+                            $newtoken->execute(array(
                               'type' => 0,
                               'individual' => $_SESSION['id'],
                               'token' => $token,
-                              'date' => $curdate
-                            ));*/
-
-                            $newvote = $bdd->prepare('INSERT INTO votes(token, date,candidate,election) VALUES(:token, :date, :candidate, :election);');
-                            $newvote->execute(array(
-                              'token' => $token,
-                              'date' => $curdate,
-                              'candidate' => 1,
-                              'election' => $election['id']
-                            ));
-
+                              'date' => $date
 
                             echo '
                               <div>
