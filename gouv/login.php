@@ -20,20 +20,27 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
     $req->execute(array($_SESSION['verifmail']));
     $test = $req->fetch();
 
+    $tokencheck_fetch = $bdd->prepare('SELECT * FROM validations WHERE token = ? AND validated = 0 AND type = 10;');
+    $tokencheck_fetch->execute(array($_POST['token']));
+    $tokencheck = $tokencheck_fetch->fetch();
 
-    $verify = password_verify($_POST['mdp'], $test['password']);
-    if ($verify)
-    {  // connexion
-        $_SESSION['verifmail']="";
-        $_SESSION['id'] = $test['id'];
-        $_SESSION['registered'] = $test['registered'];
-        $_SESSION['email'] = $test['email'];
-        $_SESSION['verified'] = $test['verified'];
-
-
-        header( "refresh:0;url=index.php" );
+    if ($tokencheck['individual'] != $test['id']) {
+      header( "refresh:0;url=login.php?tokenexpired=true" );
     } else {
-        header( "refresh:0;url=login.php?passworderror=true&token=". $_POST['token']);
+      $verify = password_verify($_POST['mdp'], $test['password']);
+      if ($verify)
+      {  // connexion
+          $_SESSION['verifmail']="";
+          $_SESSION['id'] = $test['id'];
+          $_SESSION['registered'] = $test['registered'];
+          $_SESSION['email'] = $test['email'];
+          $_SESSION['verified'] = $test['verified'];
+
+
+          header( "refresh:0;url=index.php" );
+      } else {
+          header( "refresh:0;url=login.php?passworderror=true&token=". $_POST['token']);
+      }
     }
   }
 
@@ -154,6 +161,18 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
   if (!(empty($_POST['email']) AND empty($_GET['token']) AND !isset($_GET['passworderror']))){
     if (!isset($_SESSION['verifmail'])){
       header( "refresh:0;url=login.php?tokenexpired=true" );
+    } else {
+      $tokencheck_fetch = $bdd->prepare('SELECT * FROM validations WHERE token = ? AND validated = 0 AND type = 10;');
+      $tokencheck_fetch->execute(array($_GET['token']));
+      $tokencheck = $tokencheck_fetch->fetch();
+
+      $authcheck_fetch = $bdd->prepare('SELECT * FROM individual WHERE email = ?;');
+      $authcheck_fetch->execute(array($_SESSION['verifmail']));
+      $authcheck = $authcheck_fetch->fetch();
+
+      if ($tokencheck['individual'] != $authcheck['id']) {
+        header( "refresh:0;url=login.php?tokenexpired=true" );
+      }
     }
   }
 
@@ -339,7 +358,7 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
 
               echo '
             </div>';
-            
+
           }
           echo '
             <button type="submit" class="btn btn-primary">Se connecter</button>
