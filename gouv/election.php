@@ -79,7 +79,7 @@ if (isset($_SESSION['id'])){
 
                         echo '
                         <h2><a>Ajouter une élection :</a></h2>
-                        <form action="election.php" method="post">
+                        <form action="election.php" method="post"><fieldset>
 
                             <div class="form-group">
                                 <label for="description">Saisissez le nom de l\'élection</label>
@@ -103,13 +103,13 @@ if (isset($_SESSION['id'])){
 
                                 <label for="dates">Choisissez les dates de l\'élection</label>
                                 <div>
-                                    <a>Date de début :</a>
+                                    <a>~ Date de début :</a>
                                     <input type="datetime-local" name="begindate" class="form-control';
                                     if (isset($_GET['beginerror'])){
                                         echo ' is-invalid';
                                     }
                                     echo '" id="begindate" placeholder="Saisissez la date de début." required>
-                                    <a>Date de fin :</a>
+                                    <a>~ Date de fin :</a>
                                     <input type="datetime-local" name="enddate" class="form-control';
                                     if (isset($_GET['enderror'])){
                                         echo ' is-invalid';
@@ -120,13 +120,13 @@ if (isset($_SESSION['id'])){
                                     Date de début qu\'à partir de demain, et date de fin qu\'à partir de la date de début.
                                 </small>
 
-                                <label for="cadidats">Ajouter des candidats</label>
+                                <label for="candidats">Ajouter des candidats</label>
 
-                            </div>
+                                </div>
 
                             <button type="submit" class="btn btn-primary">Créer l\'élection</button>
 
-                        </form><br><br>';
+                        </fieldset></form><br><br>';
 
                     } else {
                         echo '
@@ -194,7 +194,7 @@ if (isset($_SESSION['id'])){
         if ($test){
           header( "refresh:0;url=election.php?descriptionerror=true" );
         }
-        else if ($_POST['begindate']<date('Y-m-d G:i', strtotime(' + 90 days'))){ // Date de début qu'à partir de demain
+        else if ($_POST['begindate']<date('Y-m-d H:i', strtotime(' + 90 days'))){ // Date de début qu'à partir de demain
           header( "refresh:0;url=election.php?beginerror=true" );
         }
         else if ($_POST['begindate']>$_POST['enddate']){ // Date de fin qu'à partir de la date de début
