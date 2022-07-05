@@ -130,6 +130,7 @@ if (isset($_SESSION['id'])){
                                     <input type="text" name="party" class="form-control" id="party" placeholder="Saisissez le nom de son partie." required>
                                     <a>Programme</a>
                                     <input type="text" name="programme" class="form-control" id="programme" placeholder="Saisissez la description de son programme." required>
+                                    <button type="button" class="btn btn-success" onclick="add">Ajouter le candidat</button>
                                 </div>
 
                             </div>
