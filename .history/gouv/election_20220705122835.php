@@ -188,7 +188,7 @@ if (isset($_SESSION['id'])){
 
                         $date = date('Y-m-d H:i:s');
 
-                        $req = $bdd->prepare('SELECT * FROM election WHERE begindate<'.$date.' AND enddate >'.$date = date('Y-m-d H:i:s').';');
+                        $req = $bdd->prepare('SELECT * FROM election WHERE begindate<'.$date('Y-m-d H:i:s').' AND enddate >'.$date = date('Y-m-d H:i:s').';');
                         $req->execute(array($_POST['electionencours']));
                         $electionencours = $req->fetch();
 
@@ -201,7 +201,7 @@ if (isset($_SESSION['id'])){
                             echo "0 results";
                           }
 
-                        $req = $bdd->prepare('SELECT * FROM election WHERE enddate <'.$date.';');
+                        $req = $bdd->prepare('SELECT * FROM election WHERE enddate <'.$date('Y-m-d H:i:s').';');
                         $req->execute(array($_POST['electionpassees']));
                         $electionpassees = $req->fetch();
 
