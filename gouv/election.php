@@ -120,25 +120,50 @@ if (isset($_SESSION['id'])){
                                     Date de début qu\'à partir de demain, et date de fin qu\'à partir de la date de début.
                                 </small>
 
-                                <label for="candidats">Ajouter des candidats</label>
-                                <div>
-                                    <a>Nom</a>
-                                    <input type="text" name="name" class="form-control" id="name" placeholder="Saisissez son nom." required>
-                                    <a>Prénom</a>
-                                    <input type="text" name="surname" class="form-control" id="surname" placeholder="Saisissez son prénom." required>
-                                    <a>Partie</a>
-                                    <input type="text" name="party" class="form-control" id="party" placeholder="Saisissez le nom de son partie." required>
-                                    <a>Programme</a>
-                                    <input type="text" name="programme" class="form-control" id="programme" placeholder="Saisissez la description de son programme." required>
-                                    <button type="button" class="btn btn-success" onclick="add">Ajouter le candidat</button>
-                                </div>
 
                             </div>
 
                             <button type="submit" class="btn btn-primary">Créer l\'élection</button>
 
                         </form><br><br>';
+                    } else if (isset($_GET['ajoutcandidat'])) {
+                        echo '
+                        <h2><a>Ajouter un candidat</a></h2>';
+                        echo '
+                        <form action="election.php" method="post">
+                        <div class="form-group">
+                            <label for="name">Nom</label>
+                            <input type="text" name="name" class="form-control';
+                            if (isset($_GET['nameerror'])){
+                                echo ' is-invalid';
+                            }
+                            echo ' " id="name" placeholder="Saisissez son nom." required>
 
+                            <label for="surname">Prénom</label>
+                            <input type="text" name="surname" class="form-control';
+                            if (isset($_GET['surnameerror'])){
+                                echo ' is-invalid';
+                            }
+                            echo ' " id="surname" placeholder="Saisissez son prénom." required>
+
+                            <label for="party">Partie</label>
+                            <input type="text" name="party" class="form-control';
+                            if (isset($_GET['partyerror'])){
+                                echo ' is-invalid';
+                            }
+                            echo ' " id="party" placeholder="Saisissez le nom de son partie." required>
+
+                            <label for="programme">Programme</label>
+                            <input type="text" name="programme" class="form-control';
+                            if (isset($_GET['programmeerror'])){
+                                echo ' is-invalid';
+                            }
+                            echo ' " id="programme" placeholder="Saisissez la description de son programme." required>
+                            
+                            <button type="button" class="btn btn-primary" onclick="add">Ajouter le candidat</button>
+                        </div>
+                        </form><br><br>';
+                    
                     } else {
                         echo '
                         <h2><a>Afficher une élection</a></h2>';
