@@ -176,7 +176,7 @@ if (isset($_SESSION['id'])){
                                 <label for="election">Election</label>
                                 <input type="text" name="election" class="form-control';
                                 if (isset($_GET['electionerror'])){
-                                    echo ' is-invalid';
+                                    echo ' is-invalid'; //test
                                 }
                                 echo ' " id="election" placeholder="Saisissez la description de son programme." required>
                             
