@@ -228,7 +228,25 @@ if (isset($_SESSION['id'])){
                         $count=0;
                         while($row = $electionpassees->fetch()) {
                             $count+=1;
-                            echo "id: " . $row["id"]. " - Nom: " . $row["description"]. " - Date de début: " . $row["begindate"]. " - Date de fin: " . $row["enddate"]. "<br>";
+                            echo '
+                            <div class="alert alert-info fade show" role="alert">
+                
+                              <strong>Résultats de l\'élection ' . $row['description'] . '</strong><br>';
+                              $getResult=$bdd->prepare('SELECT COUNT(candidate) AS score, candidate FROM votes WHERE election=? GROUP BY candidate;');
+                              $getResult->execute(array($row['id']));
+                
+                              while ($result=$getResult->fetch()){
+                                $getcandidates = $bdd->prepare('SELECT * FROM candidate WHERE id=?');
+                                $getcandidates->execute(array($result["candidate"]));
+                                if (!empty($result["candidate"])) {
+                                  echo '<p> Candidat ' . $getCandidates["name"] . ' ' . $getCandidates["surname"] . ' (' . $getCandidates["party"] . ') a obtenu ' . $result["score"] . ' voix</p>';
+                                } else {
+                                  echo '<p> Votes blancs: ' . $result["score"] . '</p>';
+                                }
+                
+                              }
+                              echo '
+                              </div>';
                         }
                         echo $count." resultats.";
 
