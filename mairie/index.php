@@ -155,10 +155,31 @@ if (!isset($_SESSION['id'])) {
 
 
 
+              //get actual time in paris 
+          $curdate = date('Y-m-d h:i:s');
+          
+          $getdates = $bdd->prepare('SELECT * FROM election;');
+          $getdates->execute();
+
+          while ($election=$getdates->fetch()){//case 1 ou plusieurs élections en cours
+            
+            echo '
+            <div class="alert alert-info fade show" role="alert">
+
+              <strong>Résultats de l\'élection ' . $election['description'] . '</strong><br>';
+              $getResult=$bdd->prepare('SELECT COUNT(candidate) AS score, candidate FROM votes WHERE mairie=? AND election=? GROUP BY candidate;');
+              $getResult->execute(array($_SESSION['idmairie'], $election['id']));
+              while ($result=$getResult->fetch()){
+                if (!isempty($result["candidate"])) {
+                  echo '<p> Candidat : ', $result["candidate"],': ' . $result["score"] . '</p>';
+                } else {
+                  echo '<p> Votes blancs: ' . $result["score"] . '</p>';
+                }
+                
+              }
               echo '
-              <div class="alert alert-info fade show" role="alert">
-                <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Pas d\'élections à venir.<br>
               </div>';
+          }
 
             } else if (!$data) {
 
@@ -178,27 +199,7 @@ if (!isset($_SESSION['id'])) {
             }
 
           }
-          //get actual time in paris 
-          $curdate = date('Y-m-d h:i:s');
           
-          $getdates = $bdd->prepare('SELECT * FROM election;');
-          $getdates->execute();
-
-          while ($election=$getdates->fetch()){//case 1 ou plusieurs élections en cours
-            
-
-            echo '
-            <div class="alert alert-info fade show" role="alert">
-
-              <strong>Résultats de l\'élection ' . $election['description'] . '</strong><br>';
-              $getResult=$bdd->prepare('SELECT COUNT(candidate) AS score, candidate FROM votes WHERE mairie=? AND election=? GROUP BY candidate;');
-              $getResult->execute(array($_SESSION['idmairie'], $election['id']));
-              while ($result=$getResult->fetch()){
-                echo '<p> Candidat : ', $result["candidate"],': ' . $result["score"] . '</p><br>';
-              }
-              echo '
-              </div>';
-          }
 
           echo '
           <a class = "btn btn-secondary" href = "logout.php">Se déconnecter</a>
