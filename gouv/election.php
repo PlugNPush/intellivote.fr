@@ -229,17 +229,17 @@ if (isset($_SESSION['id'])){
 
                                 <label for="dates">Choisissez les dates de l\'élection</label>
                                 <div>
-                                    <date-input date="Y-m-d G:i" name="begindate" class="form-control';
+                                    <input type="date" name="begindate" class="form-control';
                                     if (isset($_GET['beginerror'])){
                                         echo ' is-invalid';
                                     }
-                                    echo '" id="begindate" placeholder="Saisissez la date de début." required></date-input>
+                                    echo '" id="begindate" placeholder="Saisissez la date de début." required>
 
-                                    <date-input date="Y-m-d G:i" name="enddate" class="form-control';
+                                    <input type="date" name="enddate" class="form-control';
                                     if (isset($_GET['enderror'])){
                                         echo ' is-invalid';
                                     }
-                                    echo '" id="enddate" placeholder="Saisissez la date de fin." required></date-input>
+                                    echo '" id="enddate" placeholder="Saisissez la date de fin." required>
                                 </div>
                                 <small id="DateHelp" class="form-text text-muted">
                                     Date de début qu\'à partir de demain, et date de fin qu\'à partir de la date de début.
