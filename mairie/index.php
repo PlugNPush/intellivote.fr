@@ -154,8 +154,25 @@ if (!isset($_SESSION['id'])) {
 
 
 
+            } else if (!$data) {
 
-              //get actual time in paris 
+              echo '
+              <div class="alert alert-warning fade show" role="alert">
+                <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Notre système ne vous a pas détecté en tant que responsable au sein de la mairie de ' . $test['nom'] . '. Votre demande de certification devra être traitée par <a href="https://gouv.intellivote.fr">un représentant de l\'État</a>. Cette procédure ne peut pas être automatisée pour des raisons de sécurité.<br>
+                  Veuillez communiquer à un représentant du gouvernement les informations suivantes, accompagnés de tous les justificatifs nécéssaires :<br><br><strong>Identifiant Unique :</strong> ' . $_SESSION['id'] . '<br><strong>Identifiant Mairie :</strong> ' . $_SESSION['idmairie'] . '<br><br><a class = "btn btn-primary" href = "https://www.intellivote.fr/">Retour à l\'espace électeur</a>
+              </div>';
+
+            } else if ($electionEnCours) {
+
+              echo '
+              <div class="alert alert-warning fade show" role="alert">
+                <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br><a>Une élection aura lieu dans moins de 7 jours, vous ne pouvez pas inscrire un électeur.</a>
+              </div>';
+
+            }
+
+            if ($data) {
+                            //get actual time in paris 
           $curdate = date('Y-m-d h:i:s');
           
           $getdates = $bdd->prepare('SELECT * FROM election;');
@@ -180,22 +197,6 @@ if (!isset($_SESSION['id'])) {
               echo '
               </div>';
           }
-
-            } else if (!$data) {
-
-              echo '
-              <div class="alert alert-warning fade show" role="alert">
-                <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Notre système ne vous a pas détecté en tant que responsable au sein de la mairie de ' . $test['nom'] . '. Votre demande de certification devra être traitée par <a href="https://gouv.intellivote.fr">un représentant de l\'État</a>. Cette procédure ne peut pas être automatisée pour des raisons de sécurité.<br>
-                  Veuillez communiquer à un représentant du gouvernement les informations suivantes, accompagnés de tous les justificatifs nécéssaires :<br><br><strong>Identifiant Unique :</strong> ' . $_SESSION['id'] . '<br><strong>Identifiant Mairie :</strong> ' . $_SESSION['idmairie'] . '<br><br><a class = "btn btn-primary" href = "https://www.intellivote.fr/">Retour à l\'espace électeur</a>
-              </div>';
-
-            } else if ($electionEnCours) {
-
-              echo '
-              <div class="alert alert-warning fade show" role="alert">
-                <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br><a>Une élection aura lieu dans moins de 7 jours, vous ne pouvez pas inscrire un électeur.</a>
-              </div>';
-
             }
 
           }
