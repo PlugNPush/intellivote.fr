@@ -128,6 +128,23 @@ if (isset($_SESSION['id'])){
                     } else {
                         echo '
                         <h2><a>Afficher une élection</a></h2>';
+                        echo '
+                        <div>
+                            <input type="text" id="recherche" name="recherche" placeholder="Saisissez votre Recherche">
+                            <select id="tri">
+                                <optgroup label="Tri">
+                                    <option value="nom">Nom</option>
+                                    <option value="type">Type</option>
+                                    <option value="annee_de_creation+">Année de création+</option>
+                                    <option value="annee_de_creation-">Année de création-</option>
+                                    <option value="prix+">Prix+</option><option value="prix-">Prix-</option>
+                                    <option value="note+">Note+</option><option value="note-">Note-</option>
+                                </optgroup>
+                            </select>
+                            <button type="button" id="recherche_button" onclick="recherche()">Rechercher</button>
+                            <button type="reset" class="danger" onclick="location.href=\'election.php\'">Annuler</button>
+                        </div>';
+
                     }
 
                     
