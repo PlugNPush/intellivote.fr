@@ -127,6 +127,14 @@ if (isset($_SESSION['id'])){
 
                         </form><br><br>';
                     } else if (isset($_GET['ajoutcandidat'])) {
+
+                        if (isset($_GET['successcandidat'])) {
+                            echo '
+                            <div class="alert alert-success fade show" role="alert">
+                              <strong>Le candidat a bien été ajouté.</strong>
+                            </div>';
+                          }
+
                         echo '
                         <h2><a>Ajouter un candidat</a></h2>';
                         echo '
@@ -278,6 +286,20 @@ if (isset($_SESSION['id'])){
         </body>
 
         </html>';
+
+    } else if (isset($_POST['election'])){
+
+        $req=$bdd->prepare('INSERT INTO candidats (party, name, surname, programme, election, mairie) VALUES (:party, :name, :surname, :programme, :election, :mairie);');
+          $req->execute(array(
+            'party'=> $_POST['party'],
+            'name'=> $_POST['name'],
+            'surname'=> $_POST['surname'],
+            'programme'=> $_POST['programme'],
+            'election'=> $_POST['election'],
+            'mairie'=> $_POST['mairie']
+          ));
+    
+        header( "refresh:0;url=election.php?ajoutcandidat=true&successcandidat=true");
 
     } else {
 
