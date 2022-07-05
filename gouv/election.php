@@ -145,7 +145,7 @@ if (isset($_SESSION['id'])){
                         echo '
                         <h2><a>Ajouter un candidat</a></h2>';
                         echo '
-                        <form action="election.php?" method="post">
+                        <form action="election.php" method="post">
                             <div class="form-group">
                                 <label for="name">Nom</label>
                                 <input type="text" name="name" class="form-control';
