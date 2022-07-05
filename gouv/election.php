@@ -71,9 +71,9 @@ if (isset($_SESSION['id'])){
                 $gouv = $gouv_fetch->fetch();
 
                 if (!$gouv) {
-                echo '<div class="alert alert-danger fade show" role="alert">
-                    <strong>L\'espace Gouvernement n\'est pas accessible depuis l\'extérieur.</strong> Par sécurité, vous devez utiliser l\'interface de gestion interne d\'Intellivote pour pouvoir administrer le service, la connexion à distance n\'est pas possible. Intellivote ne vous demandera jamais vos identifiants ni codes de vérifications, ne les communiquez jamais.
-                </div><br><br>';
+                  echo '<div class="alert alert-danger fade show" role="alert">
+                    <strong>Vous n\'avez pas accès à l\'espace Gouvernement.</strong> Assurez-vous d\'avoir bien validé votre compte <a href="https://www.intellivote.fr/validation.php">en cliquant ici</a>. D\'ici là, par sécurité, vous devez utiliser l\'interface de gestion interne d\'Intellivote pour pouvoir administrer le service, la connexion à distance n\'est pas possible. Intellivote ne vous demandera jamais vos identifiants ni codes de vérifications, ne les communiquez jamais.
+                  </div><br><br>';
                 } else {
                     if (isset($_GET['ajout'])){
 
@@ -135,7 +135,7 @@ if (isset($_SESSION['id'])){
                             </div>';
                         }
 
-                        if (isset($_GET['candidaterror'])) { 
+                        if (isset($_GET['candidaterror'])) {
                             echo '
                             <div class="alert alert-danger fade show" role="alert">
                               <strong>Le candidat a déjà été ajouté.<br>Si vous souhaitez modifier une information, vous devez d\'abord supprimer le candidat à cette élection.</strong>
@@ -189,13 +189,13 @@ if (isset($_SESSION['id'])){
                                     echo '
                                     </optgroup>
                                 </select>
-                            
+
                             </div>
-                        
+
                             <button type="submit" class="btn btn-primary">Ajouter le candidat</button>
-                        
+
                         </form><br><br>';
-                    
+
                     } else {
                         echo '
                         <h2><a>Afficher une élection</a></h2>';
@@ -231,7 +231,7 @@ if (isset($_SESSION['id'])){
                         $req = $bdd->prepare('SELECT * FROM election WHERE begindate>'.$date.';');
                         $req->execute(array($_POST['electionavenir']));
                         $electionavenir = $req->fetch();
-                        
+
                         if ($_POST['electionavenir']) {
                             // Afficher les résultats de chaque ligne
                             while($row = $electionavenir->fetch_assoc()) {
@@ -258,7 +258,7 @@ if (isset($_SESSION['id'])){
 
                     }
 
-                    
+
 
                     echo '
                     <a class = "btn btn-danger" href = "index.php">Annuler</a>
@@ -300,7 +300,7 @@ if (isset($_SESSION['id'])){
         $req = $bdd->prepare('SELECT * FROM candidate WHERE party=? AND name=? AND surname=? AND election=?;');
         $req->execute(array($_POST['party'],$_POST['name'],$_POST['surname'],$_POST['election']));
         $test = $req->fetch();
-    
+
         if ($test){
           header( "refresh:0;url=election.php?ajoutcandidat=true&candidaterror=true" );
         } else {
@@ -314,7 +314,16 @@ if (isset($_SESSION['id'])){
                 'election'=> $_POST['election'],
                 'mairie'=> $_POST['mairie']
             ));
-        
+
+            echo array(
+                'party'=> $_POST['party'],
+                'name'=> $_POST['name'],
+                'surname'=> $_POST['surname'],
+                'programme'=> $_POST['programme'],
+                'election'=> $_POST['election'],
+                'mairie'=> $_POST['mairie']
+            );
+
             header( "refresh:0;url=election.php?ajoutcandidat=true&successcandidat=true" );
         }
 
@@ -324,7 +333,7 @@ if (isset($_SESSION['id'])){
         $req = $bdd->prepare('SELECT * FROM election WHERE description = ?;');
         $req->execute(array($_POST['description']));
         $test = $req->fetch();
-    
+
         if ($test){
           header( "refresh:0;url=election.php?ajout=true&descriptionerror=true" );
         }
@@ -335,18 +344,18 @@ if (isset($_SESSION['id'])){
             header( "refresh:0;url=election.php?ajout=true&enderror=true" );
         }
         else{
-    
+
           $req=$bdd->prepare('INSERT INTO election (description, begindate, enddate) VALUES (:description, :begindate, :enddate);');
           $req->execute(array(
             'description'=> $_POST['description'],
             'begindate'=> $_POST['begindate'],
             'enddate'=> $_POST['enddate']
           ));
-    
+
           header( "refresh:0;url=index.php?successelection=true");
-          
+
         }
-      
+
     }
 
 } else {
