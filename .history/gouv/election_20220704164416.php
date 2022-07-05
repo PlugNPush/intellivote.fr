@@ -3,7 +3,7 @@ require_once dirname(__FILE__).'/../config.php';
 
 
 if (isset($_SESSION['id'])){
-    if (!isset($_POST['description']) AND !isset($_POST['begindate']) AND !isset($_POST['enddate'])){
+    if (!isset($_GET['verify'])){
 
         echo '<!DOCTYPE html>
         <html lang="fr">
@@ -75,7 +75,7 @@ if (isset($_SESSION['id'])){
                     <strong>L\'espace Gouvernement n\'est pas accessible depuis l\'extérieur.</strong> Par sécurité, vous devez utiliser l\'interface de gestion interne d\'Intellivote pour pouvoir administrer le service, la connexion à distance n\'est pas possible. Intellivote ne vous demandera jamais vos identifiants ni codes de vérifications, ne les communiquez jamais.
                 </div><br><br>';
                 } else {
-                    if (isset($_GET['ajout']) OR isset($_POST['description']) OR isset($_GET['descriptionerror']) OR isset($_GET['beginerror']) OR isset($_GET['enderror'])){
+                    if (isset($_GET['ajout']) OR isset($_GET['descriptionerror']) OR isset($_GET['beginerror']) OR isset($_GET['enderror'])){
 
                         echo '
                         <h2><a>Ajouter une élection :</a></h2>
@@ -128,29 +128,12 @@ if (isset($_SESSION['id'])){
                     } else {
                         echo '
                         <h2><a>Afficher une élection</a></h2>';
-                        echo '
-                        <div>
-                            <input type="text" id="recherche" name="recherche" placeholder="Saisissez votre Recherche">
-                            <select id="tri">
-                                <optgroup label="Tri">
-                                    <option value="nom">Nom</option>
-                                    <option value="type">Type</option>
-                                    <option value="annee_de_creation+">Année de création+</option>
-                                    <option value="annee_de_creation-">Année de création-</option>
-                                    <option value="prix+">Prix+</option><option value="prix-">Prix-</option>
-                                    <option value="note+">Note+</option><option value="note-">Note-</option>
-                                </optgroup>
-                            </select>
-                            <button type="button" id="recherche_button" onclick="recherche()">Rechercher</button>
-                            <button type="reset" class="danger" onclick="location.href=\'election.php\'">Annuler</button>
-                        </div>';
-
                     }
 
                     
 
                     echo '
-                    <a class = "btn btn-danger" href = "index.php">Retour en arrière</a>
+                    <a class = "btn btn-secondary" href = "index.php">Retour</a>
                     <br><br>';
 
                 }
@@ -193,7 +176,7 @@ if (isset($_SESSION['id'])){
         if ($test){
           header( "refresh:0;url=election.php?descriptionerror=true" );
         }
-        else if ($_POST['begindate']<=date('Y-m-d')){ // Date de début qu'à partir de demain
+        else if ($_POST['begindate']<=date('d/m/Y')){ // Date de début qu'à partir de demain
           header( "refresh:0;url=election.php?beginerror=true" );
         }
         else if ($_POST['begindate']>$_POST['enddate']){ // Date de fin qu'à partir de la date de début
@@ -208,7 +191,7 @@ if (isset($_SESSION['id'])){
             'enddate'=> $_POST['enddate']
           ));
     
-          header( "refresh:0;url=index.php?successelection=true");
+          header( "refresh:0;url=index.php?successelection=true" );
           
         }
       

@@ -128,23 +128,6 @@ if (isset($_SESSION['id'])){
                     } else {
                         echo '
                         <h2><a>Afficher une élection</a></h2>';
-                        echo '
-                        <div>
-                            <input type="text" id="recherche" name="recherche" placeholder="Saisissez votre Recherche">
-                            <select id="tri">
-                                <optgroup label="Tri">
-                                    <option value="nom">Nom</option>
-                                    <option value="type">Type</option>
-                                    <option value="annee_de_creation+">Année de création+</option>
-                                    <option value="annee_de_creation-">Année de création-</option>
-                                    <option value="prix+">Prix+</option><option value="prix-">Prix-</option>
-                                    <option value="note+">Note+</option><option value="note-">Note-</option>
-                                </optgroup>
-                            </select>
-                            <button type="button" id="recherche_button" onclick="recherche()">Rechercher</button>
-                            <button type="reset" class="danger" onclick="location.href=\'election.php\'">Annuler</button>
-                        </div>';
-
                     }
 
                     
@@ -189,11 +172,12 @@ if (isset($_SESSION['id'])){
         $req = $bdd->prepare('SELECT * FROM election WHERE description = ?;');
         $req->execute(array($_POST['description']));
         $test = $req->fetch();
+        echo ($_POST['begindate']);
     
         if ($test){
           header( "refresh:0;url=election.php?descriptionerror=true" );
         }
-        else if ($_POST['begindate']<=date('Y-m-d')){ // Date de début qu'à partir de demain
+        else if ($_POST['begindate']<=date('d/m/Y')){ // Date de début qu'à partir de demain
           header( "refresh:0;url=election.php?beginerror=true" );
         }
         else if ($_POST['begindate']>$_POST['enddate']){ // Date de fin qu'à partir de la date de début
@@ -208,7 +192,7 @@ if (isset($_SESSION['id'])){
             'enddate'=> $_POST['enddate']
           ));
     
-          header( "refresh:0;url=index.php?successelection=true");
+          header( "refresh:0;url=index.php?successelection=true" );
           
         }
       
