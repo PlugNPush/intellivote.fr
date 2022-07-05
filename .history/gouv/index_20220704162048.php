@@ -141,7 +141,7 @@ if (isset($_SESSION['id'])){
 
                 echo '
                   <h2><a>Vérification :</a></h2>
-                  <form action="index.php" method="post">
+                  <form action="index.php?verify=true" method="post">
 
                     <div class="form-group">
                       <label for="individual">Confirmez vous les données:<br> - Id du maire : ';echo($_GET['individual']);echo'
@@ -192,7 +192,7 @@ if (isset($_SESSION['id'])){
 
                   <form action="index.php" method="post">
 
-                    <button type="submit" class="btn btn-danger">Retour en arrière</button>
+                    <button type="submit" class="btn btn-primary">Retour en arrière</button>
 
                   </form><br><br>';
 

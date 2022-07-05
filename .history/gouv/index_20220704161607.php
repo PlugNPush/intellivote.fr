@@ -173,16 +173,6 @@ if (isset($_SESSION['id'])){
                           ID du maire incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
                         </div>';
                       }
-
-                       echo '<input type="hidden" name="verify" class="form-control';
-
-                       if (isset($_GET['verifyerror'])){
-                         echo ' is-invalid';
-                       }
-                       
-                       echo '" id="verify" value="true" required>';
-
-                      
                       
                     echo '</div>
 
@@ -192,7 +182,7 @@ if (isset($_SESSION['id'])){
 
                   <form action="index.php" method="post">
 
-                    <button type="submit" class="btn btn-danger">Retour en arrière</button>
+                    <button type="submit" class="btn btn-primary">Retour en arrière</button>
 
                   </form><br><br>';
 
