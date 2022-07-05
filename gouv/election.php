@@ -120,6 +120,8 @@ if (isset($_SESSION['id'])){
                                     Date de début qu\'à partir de demain, et date de fin qu\'à partir de la date de début.
                                 </small>
 
+                                <label for="cadidats">Ajouter des candidats</label>
+
                             </div>
 
                             <button type="submit" class="btn btn-primary">Créer l\'élection</button>
@@ -149,7 +151,7 @@ if (isset($_SESSION['id'])){
                     
 
                     echo '
-                    <a class = "btn btn-danger" href = "index.php">Retour en arrière</a>
+                    <a class = "btn btn-danger" href = "index.php">Annuler</a>
                     <br><br>';
 
                 }
