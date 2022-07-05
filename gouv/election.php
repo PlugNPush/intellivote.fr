@@ -163,12 +163,13 @@ if (isset($_SESSION['id'])){
                                 <label for="idmairie">Saisissez l\'ID de la mairie</label>
                                 <input type="text" name="idmairie" class="form-control" id="idmairie" placeholder="Saisissez l\'ID de la mairie." required>
 
-                                <label for="election">Election</label>
+                                <label for="election">Election</label><br>
                                 <select id="election" required>
                                     <optgroup label="Election">';
                                         $election_fetch = $bdd->prepare('SELECT description FROM election;');
                                         $election_fetch->execute();
                                         $elections = $election_fetch->fetch();
+                                        echo '<option value="test">'.$elections.'</option>';
                                         foreach ($elections as $election) {
                                             echo '<option value="'.$election.'">'.$election.'</option>';
                                         }   
