@@ -96,7 +96,6 @@ if (isset($_SESSION['id'])){
                 $gatherdata->execute(array($_SESSION['id']));
                 $data = $gatherdata->fetch();
 
-                // Partie Pablo -----------------------------------------------------------------------------------------------
                 if ($data) {
                   echo '
                   <div class="alert alert-info fade show" role="alert"';
@@ -119,7 +118,7 @@ if (isset($_SESSION['id'])){
                     $getdates->execute(array($curdate,$curdate));
 
                     $i = 0;
-                    while ($election=$getdates->fetch()){ //case 1 or many ongoing elections 
+                    while ($election=$getdates->fetch()){ //case 1 ou plusieurs élections en cours
                       echo '
                       <div class="alert alert-info fade show" role="alert">
                         <strong> ', $election['description'], ' : </strong><br>
@@ -131,7 +130,7 @@ if (isset($_SESSION['id'])){
                       $getcandidates->execute(array($election['id']));
                     
                       $j = 0;
-                      while ($candidates = $getcandidates->fetch()){ //case 1 or many candidates
+                      while ($candidates = $getcandidates->fetch()){ //case 1 ou plusieurs candidats
                         echo '
                         <div class="alert alert-info fade show" role="alert">
                           <strong> ', $candidates['surname'],' ',$candidates['name'], ' : <a href="',$candidates['programme'],'"> Cliquez ici pour lire le programme.</a></strong><br>
@@ -139,7 +138,7 @@ if (isset($_SESSION['id'])){
                           </div>';
                         $j++;
                       };
-                      if ($j==0) { //case no candidates
+                      if ($j==0) { //case aucun candidat
                         echo '
                         <div>
                         <p>Pas de candidats.</p>
@@ -147,12 +146,14 @@ if (isset($_SESSION['id'])){
                       }   
                     
                       
-                      // check if elector did vote
+                      // display vote button if elector didnt vote 
                       $getvoted = $bdd->prepare('SELECT * FROM voted JOIN elector ON voted.elector=elector.id');
                       $getvoted->execute();
+                        
+                      
 
                       $k = 0;
-                      while ($voted = $getvoted->fetch()){ // if elector already voted
+                      while ($voted = $getvoted->fetch()){
                         if ($voted['election']==$election['id']){
                           echo '
                           <div>
@@ -162,12 +163,11 @@ if (isset($_SESSION['id'])){
                         }
                         
                       };
-                      if ($k==0) {  //if elector didnt vote : display button vote and all existing candidates
+                      if ($k==0) {  //display bouton vote et choix candidats
                         $getcandidates2 = $bdd->prepare('SELECT * FROM election JOIN candidate ON candidate.election= ? GROUP BY candidate.surname , candidate.name ');
                         $getcandidates2->execute(array($election['id']));
                         
-                        // candidate choice select
-                        if (!isset($_POST['monVote'])){ // if elector hasnt voted yet and hasn't selected a candidate
+                        if (!isset($_POST['monVote'])){
                             echo '
                             <div>
                               <form action="index.php" method="post">
@@ -175,7 +175,7 @@ if (isset($_SESSION['id'])){
                                 <label for="token"><strong>Sélectionnez un candidat pour procéder au vote en ligne :</strong></label>
                                   <select id="monVote" name="monVote"> 
                                     <option disabled selected value> </option>';
-                            while ($candidates2 = $getcandidates2->fetch()){ //case 1 or many candidates
+                            while ($candidates2 = $getcandidates2->fetch()){ //case 1 ou plusieurs candidats
                               echo '
                                     <option value="',$candidates2['id'],'">', $candidates2['surname'],' ',$candidates2['name'], '</option>
                               ';
@@ -188,58 +188,48 @@ if (isset($_SESSION['id'])){
                               </form>
                             </div>';
                           }   
-                          else { // if elector hasnt voted yet and has selected a candidate
+                          else {
 
-                            //create token
+                          /*  $newvote = $bdd->prepare('INSERT INTO votes (token , DATE, candidate, election) VALUE ("token1" , 2022-06-12 , 1 , 1);');
+                            $newvote->execute();*/
+
                             $token = generateRandomString(512);
 
-                            //insert new voted in db 
-                            $newvoted = $bdd->prepare('INSERT INTO voted (election,elector) VALUES (:election,:elector);');
-                            $newvoted->execute(array(
-                              'election' => $election['id'],
-                              'elector' =>  $_SESSION['id'], // find a way to get elector ID 
-                            ));
+                           /* $newvote = $bdd->prepare('INSERT INTO votes(type, individual, token, date,candidate,election) VALUES(:type, :individual, :token, :date);');
+                            $newvote->execute(array(
+                              'type' => 0,
+                              'individual' => $_SESSION['id'],
+                              'token' => $token,
+                              'date' => $curdate
+                            ));*/
 
-
-                            //insert new votes in db 
-                            $newvotes = $bdd->prepare('INSERT INTO votes (token, date,candidate,election) VALUES (:token, :date, :candidate, :election);');
-                            $newvotes->execute(array(
+                            $newvote = $bdd->prepare('INSERT INTO votes (token, date,candidate,election) VALUES (:token, :date, :candidate, :election);');
+                            $newvote->execute(array(
                               'token' => $token,
                               'date' => $curdate,
-                              'candidate' => 1, // find a way to get candidate ID
-                              'election' => $election['id']
+                              'candidate' => 1,
+                              'election' => 2
                             ));
 
+                        
 
-                            //check existing token 
-                            $gettoken = $bdd->prepare('SELECT votes.token FROM votes WHERE votes.token = ?');
-                            $gettoken->execute(array($token));
 
-                            $tokencpt=0;
-                            while ($fetchtoken = $gettoken->fetch()){ 
-                              $tokencpt++;
-                            };
-                                
-                            if ($tokencpt==1){
-                              echo '
+                            echo '
                               <div>
                               <p>Vous avez voté.</p>
                               </div>';
-                            }
-                            else {
-                              /* 
-                              case where token isnt in the database 
-
-                              FILL HERE 
-
-                              */
-                            }
-
                           };
 
 
 
                         }
+                        
+
+                        
+                      
+       
+                      // dnns if , mettre if "isset mon select" : enregistrer vote avec query sql, dan else, afficher formulaire
+                      //---------------------------------------------
                       
                     echo "
                       </div> \n";
@@ -247,13 +237,13 @@ if (isset($_SESSION['id'])){
                     // end of candidates display   
 
                     };
-                    if ($i==0) { //case no ongoing election
+                    if ($i==0) { //case aucune élection en cours 
                       echo '
                       <strong>Pas d\'élections à venir.<br>';
                     }               
 
 
-                // Fin Partie Pablo ------------------------------------------------------------------------------------------    
+
 
                 } else {
                   $gatherdataverif = $bdd->prepare('SELECT * FROM validations WHERE type = 1 AND individual = ?');

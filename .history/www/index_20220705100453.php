@@ -147,12 +147,12 @@ if (isset($_SESSION['id'])){
                       }   
                     
                       
-                      // check if elector did vote
+                      // display vote button if elector didnt vote 
                       $getvoted = $bdd->prepare('SELECT * FROM voted JOIN elector ON voted.elector=elector.id');
                       $getvoted->execute();
 
                       $k = 0;
-                      while ($voted = $getvoted->fetch()){ // if elector already voted
+                      while ($voted = $getvoted->fetch()){
                         if ($voted['election']==$election['id']){
                           echo '
                           <div>
@@ -162,12 +162,11 @@ if (isset($_SESSION['id'])){
                         }
                         
                       };
-                      if ($k==0) {  //if elector didnt vote : display button vote and all existing candidates
+                      if ($k==0) {  //display button vote et choix candidats
                         $getcandidates2 = $bdd->prepare('SELECT * FROM election JOIN candidate ON candidate.election= ? GROUP BY candidate.surname , candidate.name ');
                         $getcandidates2->execute(array($election['id']));
                         
-                        // candidate choice select
-                        if (!isset($_POST['monVote'])){ // if elector hasnt voted yet and hasn't selected a candidate
+                        if (!isset($_POST['monVote'])){
                             echo '
                             <div>
                               <form action="index.php" method="post">
@@ -175,7 +174,7 @@ if (isset($_SESSION['id'])){
                                 <label for="token"><strong>Sélectionnez un candidat pour procéder au vote en ligne :</strong></label>
                                   <select id="monVote" name="monVote"> 
                                     <option disabled selected value> </option>';
-                            while ($candidates2 = $getcandidates2->fetch()){ //case 1 or many candidates
+                            while ($candidates2 = $getcandidates2->fetch()){ //case 1 ou plusieurs candidats
                               echo '
                                     <option value="',$candidates2['id'],'">', $candidates2['surname'],' ',$candidates2['name'], '</option>
                               ';
@@ -188,7 +187,7 @@ if (isset($_SESSION['id'])){
                               </form>
                             </div>';
                           }   
-                          else { // if elector hasnt voted yet and has selected a candidate
+                          else {
 
                             //create token
                             $token = generateRandomString(512);
@@ -197,7 +196,7 @@ if (isset($_SESSION['id'])){
                             $newvoted = $bdd->prepare('INSERT INTO voted (election,elector) VALUES (:election,:elector);');
                             $newvoted->execute(array(
                               'election' => $election['id'],
-                              'elector' =>  $_SESSION['id'], // find a way to get elector ID 
+                              'election' => $voted['elector'], // find a way to get elector ID 
                             ));
 
 
@@ -214,7 +213,6 @@ if (isset($_SESSION['id'])){
                             //check existing token 
                             $gettoken = $bdd->prepare('SELECT votes.token FROM votes WHERE votes.token = ?');
                             $gettoken->execute(array($token));
-
                             $tokencpt=0;
                             while ($fetchtoken = $gettoken->fetch()){ 
                               $tokencpt++;
@@ -227,19 +225,20 @@ if (isset($_SESSION['id'])){
                               </div>';
                             }
                             else {
-                              /* 
-                              case where token isnt in the database 
-
-                              FILL HERE 
-
-                              */
+                              // case where token isnt in the database //
                             }
-
                           };
 
 
 
                         }
+                        
+
+                        
+                      
+       
+                      // dnns if , mettre if "isset mon select" : enregistrer vote avec query sql, dan else, afficher formulaire
+                      //---------------------------------------------
                       
                     echo "
                       </div> \n";
@@ -247,7 +246,7 @@ if (isset($_SESSION['id'])){
                     // end of candidates display   
 
                     };
-                    if ($i==0) { //case no ongoing election
+                    if ($i==0) { //case aucune élection en cours 
                       echo '
                       <strong>Pas d\'élections à venir.<br>';
                     }               

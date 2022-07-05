@@ -197,7 +197,7 @@ if (isset($_SESSION['id'])){
                             $newvoted = $bdd->prepare('INSERT INTO voted (election,elector) VALUES (:election,:elector);');
                             $newvoted->execute(array(
                               'election' => $election['id'],
-                              'elector' =>  $_SESSION['id'], // find a way to get elector ID 
+                              'election' => $voted['elector'], // find a way to get elector ID 
                             ));
 
 
@@ -214,7 +214,6 @@ if (isset($_SESSION['id'])){
                             //check existing token 
                             $gettoken = $bdd->prepare('SELECT votes.token FROM votes WHERE votes.token = ?');
                             $gettoken->execute(array($token));
-
                             $tokencpt=0;
                             while ($fetchtoken = $gettoken->fetch()){ 
                               $tokencpt++;
@@ -229,12 +228,11 @@ if (isset($_SESSION['id'])){
                             else {
                               /* 
                               case where token isnt in the database 
-
+                              
                               FILL HERE 
 
                               */
                             }
-
                           };
 
 

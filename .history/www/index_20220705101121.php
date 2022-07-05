@@ -197,7 +197,7 @@ if (isset($_SESSION['id'])){
                             $newvoted = $bdd->prepare('INSERT INTO voted (election,elector) VALUES (:election,:elector);');
                             $newvoted->execute(array(
                               'election' => $election['id'],
-                              'elector' =>  $_SESSION['id'], // find a way to get elector ID 
+                              'election' => 6, // find a way to get elector ID 
                             ));
 
 
