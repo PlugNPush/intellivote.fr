@@ -215,6 +215,7 @@ if (isset($_SESSION['id'])){
                             </div>';
                         }
                         echo $count." resultats.";
+                        echo $electionavenir->rowCount()." resultats.";
 
                         $electionencours = $bdd->prepare('SELECT * FROM election WHERE begindate<=? AND enddate>?;');
                         $electionencours->execute(array($date, $date));
