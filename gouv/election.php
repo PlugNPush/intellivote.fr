@@ -148,7 +148,7 @@ if (isset($_SESSION['id'])){
                         <form action="election.php" method="post">
                             <div class="form-group">
                                 <label for="election">Election</label><br>
-                                <select id="election" name="election" required>
+                                <select class="form-control" id="election" name="election" required>
                                     <option disabled selected value> </option>';
                                         $election_fetch = $bdd->prepare('SELECT * FROM election WHERE begindate>?;');
                                         $election_fetch->execute(array(date("Y-m-d H:i", strtotime(" + 90 days"))));
@@ -245,7 +245,7 @@ if (isset($_SESSION['id'])){
                         <form action="election.php?affiche=true" method="post">
                         <div class="form-group">
                             <input type="text" class="form-control" id="recherche" name="recherche" placeholder="Saisissez votre Recherche">
-                            <select id="tri">
+                            <select class="form-control" id="tri">
                                 <optgroup label="Tri">
                                     <option value="begindate">Date de création+</option>
                                     <option value="enddate">Date de création-</option>

@@ -171,7 +171,7 @@ if (isset($_SESSION['id'])){
                               <form action="index.php" method="post">
                               <div class="form-group">
                                 <label for="token"><strong>Sélectionnez un candidat pour procéder au vote en ligne :</strong></label>
-                                  <select id="monVote" name="monVote'.$election['id'].'">
+                                  <select class="form-control" id="monVote" name="monVote'.$election['id'].'">
                                     <option disabled selected value> </option>';
                             while ($candidates2 = $getcandidates2->fetch()){ //case 1 or many candidates
                               echo '
