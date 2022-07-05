@@ -180,7 +180,6 @@ if (isset($_SESSION['id'])){
 
                                 <label for="election">Election</label><br>
                                 <select id="election" name="election" required>
-                                    <optgroup label="Election">
                                     <option disabled selected value> </option>';
                                         $election_fetch = $bdd->prepare('SELECT * FROM election;');
                                         $election_fetch->execute();
