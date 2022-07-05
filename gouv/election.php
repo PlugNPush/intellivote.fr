@@ -138,7 +138,7 @@ if (isset($_SESSION['id'])){
                         echo '
                         <h2><a>Ajouter un candidat</a></h2>';
                         echo '
-                        <form action="election.php" method="post">
+                        <form action="election.php?ajoutcandidat=true" method="post">
                             <div class="form-group">
                                 <label for="name">Nom</label>
                                 <input type="text" name="name" class="form-control';
@@ -171,7 +171,7 @@ if (isset($_SESSION['id'])){
                                 <label for="idmairie">Saisissez l\'ID de la mairie</label>
                                 <input type="text" name="idmairie" class="form-control" id="idmairie" placeholder="Saisissez l\'ID de la mairie." required>
 
-                                <label for="election">Election</label>
+                                <label for="election">Election</label><br>
                                 <select id="election" required>
                                     <optgroup label="Election">';
                                         $election_fetch = $bdd->prepare('SELECT * FROM election;');
