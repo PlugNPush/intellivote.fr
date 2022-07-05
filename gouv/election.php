@@ -166,13 +166,11 @@ if (isset($_SESSION['id'])){
                                 <label for="election">Election</label><br>
                                 <select id="election" required>
                                     <optgroup label="Election">';
-                                        $election_fetch = $bdd->prepare('SELECT description FROM election;');
+                                        $election_fetch = $bdd->prepare('SELECT * FROM election;');
                                         $election_fetch->execute();
-                                        $elections = $election_fetch->fetch();
-                                        echo '<option value="test">'.print($elections).'</option>';
-                                        foreach ($elections as $election) {
-                                            echo '<option value="'.$election.'">'.$election.'</option>';
-                                        }   
+                                        while ($elections = $election_fetch->fetch()) {
+                                            echo '<option value="'.$elections['id'].'">'.$election["description"].'</option>';
+                                        }
                                     echo '
                                     </optgroup>
                                 </select>
