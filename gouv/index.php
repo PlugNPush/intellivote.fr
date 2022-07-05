@@ -136,7 +136,7 @@ if (isset($_SESSION['id'])){
                   <form action="election.php" method="post">
                   <button type="submit" class="btn btn-primary">Afficher/Modifier une élection</button>
                   </form><br><br>';
-
+                  
               } else {
 
                 echo '
@@ -144,15 +144,14 @@ if (isset($_SESSION['id'])){
                   <form action="index.php" method="post">
 
                     <div class="form-group">
-                      <label for="individual">Confirmez vous les données:<br> - Id du maire : ';echo($_GET['individual']);echo'
-                      <br> - ID de la mairie : ';echo($_GET['idmairie']);echo'</label>
+                      <label for="individual">Confirmez vous les données ?</label>
                       <input type="hidden" name="individual" class="form-control';
 
                       if (isset($_GET['individualerror'])){
                         echo ' is-invalid';
                       }
                       
-                      echo '" id="individual" value="';echo($_GET['individual']);echo'" required>';
+                      echo '" id="individual" value="';echo(array($_POST['individual']));echo'" required>';
 
                       if (isset($_GET['individualerror'])){
                         echo '<div class="invalid-feedback">
@@ -166,23 +165,13 @@ if (isset($_SESSION['id'])){
                         echo ' is-invalid';
                       }
                       
-                      echo '" id="idmairie" value="';echo($_GET['idmairie']);echo'" required>';
+                      echo '" id="idmairie" value="';echo(array($_POST['idmairie']));echo'" required>';
 
                       if (isset($_GET['individualerror'])){
                         echo '<div class="invalid-feedback">
                           ID du maire incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
                         </div>';
                       }
-
-                       echo '<input type="hidden" name="verify" class="form-control';
-
-                       if (isset($_GET['verifyerror'])){
-                         echo ' is-invalid';
-                       }
-                       
-                       echo '" id="verify" value="true" required>';
-
-                      
                       
                     echo '</div>
 
@@ -192,7 +181,7 @@ if (isset($_SESSION['id'])){
 
                   <form action="index.php" method="post">
 
-                    <button type="submit" class="btn btn-danger">Retour en arrière</button>
+                    <button type="submit" class="btn btn-primary">Retour en arrière</button>
 
                   </form><br><br>';
 
@@ -242,7 +231,7 @@ if (isset($_SESSION['id'])){
       header( "refresh:0;url=index.php?individualerror=true" );
     }
     else if (!isset($_POST['verify'])){
-      header( "refresh:0;url=index.php?verify=true&individual=".$_POST['individual']."&idmairie=".$_POST['idmairie']);
+      header( "refresh:0;url=index.php?verify=true" );
     }
     else{
 
