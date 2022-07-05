@@ -187,7 +187,7 @@ if (!isset($_SESSION['id'])) {
               $getResult=$bdd->prepare('SELECT COUNT(candidate) AS score, candidate FROM votes WHERE mairie=? AND election=? GROUP BY candidate;');
               $getResult->execute(array($_SESSION['idmairie'], $election['id']));
               while ($result=$getResult->fetch()){
-                if (!isempty($result["candidate"])) {
+                if (!empty($result["candidate"])) {
                   echo '<p> Candidat : ', $result["candidate"],': ' . $result["score"] . '</p>';
                 } else {
                   echo '<p> Votes blancs: ' . $result["score"] . '</p>';
