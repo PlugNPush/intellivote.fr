@@ -181,8 +181,8 @@ if (isset($_SESSION['id'])){
                                 <label for="election">Election</label><br>
                                 <select id="election" name="election" required>
                                     <option disabled selected value> </option>';
-                                        $election_fetch = $bdd->prepare('SELECT * FROM election WHERE begindate>'.date("Y-m-d H:i", strtotime(" + 90 days")).';');
-                                        $election_fetch->execute();
+                                        $election_fetch = $bdd->prepare('SELECT * FROM election WHERE begindate>?;');
+                                        $election_fetch->execute(array(date("Y-m-d H:i", strtotime(" + 90 days"))));
                                         while ($elections = $election_fetch->fetch()) {
                                             echo '<option value="'.$elections['id'].'">'.$elections["description"].'</option>';
                                         }
