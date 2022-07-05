@@ -160,10 +160,12 @@ if (isset($_SESSION['id'])){
                                 }
                                 echo ' " id="programme" placeholder="Saisissez la description de son programme." required>
 
+                                ';
+                                /*
                                 <label for="mairie">Mairie</label>
                                 <select id="mairie" required>
                                     <optgroup label="Mairie">';
-                                        $mairies_fetch = $bdd->prepare('SELECT nom FROM mairies;');
+                                        $mairies_fetch = $bdd->prepare('SELECT id FROM mairies;');
                                         $mairies_fetch->execute();
                                         $mairies = $mairies_fetch->fetch();
                                         foreach ($mairies as $mairie) {
@@ -171,7 +173,11 @@ if (isset($_SESSION['id'])){
                                         }   
                                     echo '
                                     </optgroup>
-                                </select>
+                                </select>*/
+                                
+                                echo '
+                                <label for="idmairie">Saisissez l\'ID de la mairie</label>
+                                <input type="text" name="idmairie" class="form-control" id="idmairie" placeholder="Saisissez l\'ID de la mairie." required>
 
                                 <label for="election">Election</label>
                                 <input type="text" name="election" class="form-control';
