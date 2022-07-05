@@ -141,23 +141,11 @@ if (isset($_SESSION['id'])){
 
                 echo '
                   <h2><a>Vérification :</a></h2>
-                  <form action="index.php" method="post">';
+                  <form action="index.php" method="post">
 
-                  $req = $bdd->prepare('SELECT * FROM mairies WHERE id ='.$_GET['idmairie'].';');
-                  $req->execute(array($_POST['idmairie']));
-                  $mairie = $req->fetch();
-
-                  $req = $bdd->prepare('SELECT * FROM individual WHERE id ='.$_GET['individual'].';');
-                  $req->execute(array($_POST['individual']));
-                  $indiv = $req->fetch();
-
-                    echo '<div class="form-group">
-                      <label for="individual">Confirmez vous les données?<br>
-                      <div class="alert alert-info fade show" role="alert">
-                      - <strong>Id du maire :</strong> ';echo($_GET['individual']);echo(' | Nom : '.$indiv['surname'].' | Prénom : '.$indiv['name']);
-                      echo '<br> - <strong>ID de la mairie :</strong> ';echo($_GET['idmairie']);;echo(' | Nom : '.$mairie['nom'] .' | INSEE : '.$mairie['insee']);
-                      echo '</div>
-                      </label>
+                    <div class="form-group">
+                      <label for="individual">Confirmez vous les données:<br> - Id du maire : ';echo($_GET['individual']);echo'
+                      <br> - ID de la mairie : ';echo($_GET['idmairie']);echo'</label>
                       <input type="hidden" name="individual" class="form-control';
 
                       if (isset($_GET['individualerror'])){
@@ -258,7 +246,20 @@ if (isset($_SESSION['id'])){
       header( "refresh:0;url=index.php?individualerror=true" );
     }
     else if (!isset($_POST['verify'])){
-      header( "refresh:0;url=index.php?verify=true&individual=".$_POST['individual']."&idmairie=".$_POST['idmairie']);
+
+      $req=$bdd->prepare('INSERT INTO mayor(mairie, individual, verified, verifiedon) VALUES(:mairie, :individual, :verified, :verifiedon)');
+      $date = date('Y-m-d H:i:s');
+      $req->execute(array(
+        'mairie'=> $_POST['idmairie'],
+        'individual'=> $_POST['individual'],
+        'verified'=> 1,
+        'verifiedon' => $date
+      ));
+
+      //echo $_POST['idmairie'] . " " . $_POST['individual'] . " " . $date;
+
+      header( "refresh:0;url=index.php?success=true" );
+      //header( "refresh:0;url=index.php?verify=true&individual=".$_POST['individual']."&idmairie=".$_POST['idmairie']);
     }
     else{
 
