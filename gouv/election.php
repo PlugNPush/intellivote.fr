@@ -79,7 +79,7 @@ if (isset($_SESSION['id'])){
 
                         echo '
                         <h2><a>Ajouter une élection :</a></h2>
-                        <form action="election.php" method="post"><fieldset>
+                        <form action="election.php" method="post">
 
                             <div class="form-group">
                                 <label for="description">Saisissez le nom de l\'élection</label>
@@ -121,12 +121,24 @@ if (isset($_SESSION['id'])){
                                 </small>
 
                                 <label for="candidats">Ajouter des candidats</label>
+                                <div>
+                                    <label for="candidat">Candidat 1</label>
+                                    <a>Nom</a>
+                                    <input type="text" name="name" class="form-control" id="name" placeholder="Saisissez son nom." required>
+                                    <a>Prénom</a>
+                                    <input type="text" name="surname" class="form-control" id="surname" placeholder="Saisissez son prénom." required>
+                                    <a>Partie</a>
+                                    <input type="text" name="party" class="form-control" id="party" placeholder="Saisissez le nom de son partie." required>
+                                    <a>Programme</a>
+                                    <input type="text" name="programme" class="form-control" id="programme" placeholder="Saisissez la description de son programme." required>
 
                                 </div>
 
+                            </div>
+
                             <button type="submit" class="btn btn-primary">Créer l\'élection</button>
 
-                        </fieldset></form><br><br>';
+                        </form><br><br>';
 
                     } else {
                         echo '
