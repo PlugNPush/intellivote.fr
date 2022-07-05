@@ -333,7 +333,7 @@ if (isset($_SESSION['id'])){
         $req = $bdd->prepare('SELECT * FROM election WHERE description = ?;');
         $req->execute(array($_POST['description']));
         $test = $req->fetch();
-        echo date('Y-m-d H:i', strtotime($_POST['enddate'].' + 8 hours'));
+
         if ($test){
           header( "refresh:0;url=election.php?ajout=true&descriptionerror=true" );
         }
