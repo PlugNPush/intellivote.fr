@@ -160,26 +160,29 @@ if (isset($_SESSION['id'])){
                                 }
                                 echo ' " id="programme" placeholder="Saisissez la description de son programme." required>
 
-                                <label for="idmairie">Saisissez l\'ID de la mairie</label>
-                                <input type="text" name="idmairie" class="form-control" id="idmairie" placeholder="Saisissez l\'ID de la mairie." required>
-
-                                <label for="election">Election</label><br>
-                                <select id="election" required>
-                                    <optgroup label="Election">';
-                                        $election_fetch = $bdd->prepare('SELECT description FROM election;');
-                                        $election_fetch->execute();
-                                        $elections = $election_fetch->fetch();
-                                        echo '<option value="test">'.$elections.'</option>';
-                                        foreach ($elections as $election) {
-                                            echo '<option value="'.$election.'">'.$election.'</option>';
+                                <label for="mairie">Mairie</label>
+                                <select id="mairie" required>
+                                    <optgroup label="Mairie">';
+                                        $mairies_fetch = $bdd->prepare('SELECT nom FROM mairies;');
+                                        $mairies_fetch->execute();
+                                        $mairies = $mairies_fetch->fetch();
+                                        foreach ($mairies as $mairie) {
+                                            echo '<option value="'.$mairie.'">'.$mairie.'</option>';
                                         }   
                                     echo '
                                     </optgroup>
                                 </select>
+
+                                <label for="election">Election</label>
+                                <input type="text" name="election" class="form-control';
+                                if (isset($_GET['electionerror'])){
+                                    echo ' is-invalid';
+                                }
+                                echo ' " id="election" placeholder="Saisissez la description de son programme." required>
                             
                             </div>
                         
-                            <button type="submit" class="btn btn-primary">Ajouter le candidat</button>
+                            <button type="button" class="btn btn-primary" onclick="add">Ajouter le candidat</button>
                         
                         </form><br><br>';
                     
@@ -193,7 +196,7 @@ if (isset($_SESSION['id'])){
                         $req->execute(array($_POST['electionencours']));
                         $electionencours = $req->fetch();
 
-                        if ($electionencours) {
+                        if ($electionencours->num_rows > 0) {
                             // Afficher les résultats de chaque ligne
                             while($row = $electionencours->fetch_assoc()) {
                               echo "id: " . $row["id"]. " - Nom: " . $row["begindate"]. " - prénom: " . $row["enddate"]. "<br>";
@@ -206,28 +209,15 @@ if (isset($_SESSION['id'])){
                         $req->execute(array($_POST['electionpassees']));
                         $electionpassees = $req->fetch();
 
-                        if ($electionpassees) {
-                            // Afficher les résultats de chaque ligne
-                            while($row = $electionpassees->fetch_assoc()) {
-                              echo "id: " . $row["id"]. " - Nom: " . $row["begindate"]. " - prénom: " . $row["enddate"]. "<br>";
-                            }
-                          } else {
-                            echo "0 results";
-                          }
-
                         $req = $bdd->prepare('SELECT * FROM election WHERE begindate>'.$date = date('Y-m-d H:i:s').';');
                         $req->execute(array($_POST['electionavenir']));
                         $electionavenir = $req->fetch();
                         
-                        if ($electionavenir) {
-                            // Afficher les résultats de chaque ligne
-                            while($row = $electionavenir->fetch_assoc()) {
-                              echo "id: " . $row["id"]. " - Nom: " . $row["begindate"]. " - prénom: " . $row["enddate"]. "<br>";
-                            }
-                          } else {
-                            echo "0 results";
-                          }
-
+                        echo '<div class="form-group">
+                        - <strong>ID du maire :</strong> ';echo($_GET['individual']);echo(' | Nom : '.$indiv['surname'].' | Prénom : '.$indiv['name']);
+                        echo '<br> - <strong>ID de la mairie :</strong> ';echo($_GET['idmairie']);;echo(' | Nom : '.$mairie['nom'] .' | INSEE : '.$mairie['insee']);
+                        echo'</div>';
+                        
                         echo '
                         <form action="election.php" method="post">
                         <div class="form-group">
