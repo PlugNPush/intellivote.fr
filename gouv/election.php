@@ -103,12 +103,13 @@ if (isset($_SESSION['id'])){
 
                                 <label for="dates">Choisissez les dates de l\'élection</label>
                                 <div>
+                                    <a>~ Date de début :</a>
                                     <input type="datetime-local" name="begindate" class="form-control';
                                     if (isset($_GET['beginerror'])){
                                         echo ' is-invalid';
                                     }
                                     echo '" id="begindate" placeholder="Saisissez la date de début." required>
-
+                                    <a>~ Date de fin :</a>
                                     <input type="datetime-local" name="enddate" class="form-control';
                                     if (isset($_GET['enderror'])){
                                         echo ' is-invalid';
@@ -118,6 +119,19 @@ if (isset($_SESSION['id'])){
                                 <small id="DateHelp" class="form-text text-muted">
                                     Date de début qu\'à partir de demain, et date de fin qu\'à partir de la date de début.
                                 </small>
+
+                                <label for="candidats">Ajouter des candidats</label>
+                                <div>
+                                    <a>Nom</a>
+                                    <input type="text" name="name" class="form-control" id="name" placeholder="Saisissez son nom." required>
+                                    <a>Prénom</a>
+                                    <input type="text" name="surname" class="form-control" id="surname" placeholder="Saisissez son prénom." required>
+                                    <a>Partie</a>
+                                    <input type="text" name="party" class="form-control" id="party" placeholder="Saisissez le nom de son partie." required>
+                                    <a>Programme</a>
+                                    <input type="text" name="programme" class="form-control" id="programme" placeholder="Saisissez la description de son programme." required>
+                                    <button type="button" class="btn btn-success" onclick="add">Ajouter le candidat</button>
+                                </div>
 
                             </div>
 
@@ -148,7 +162,7 @@ if (isset($_SESSION['id'])){
                     
 
                     echo '
-                    <a class = "btn btn-danger" href = "index.php">Retour en arrière</a>
+                    <a class = "btn btn-danger" href = "index.php">Annuler</a>
                     <br><br>';
 
                 }
@@ -191,7 +205,7 @@ if (isset($_SESSION['id'])){
         if ($test){
           header( "refresh:0;url=election.php?descriptionerror=true" );
         }
-        else if ($_POST['begindate']<date('Y-m-d G:i', strtotime(' + 90 days'))){ // Date de début qu'à partir de demain
+        else if ($_POST['begindate']<date('Y-m-d H:i', strtotime(' + 90 days'))){ // Date de début qu'à partir de demain
           header( "refresh:0;url=election.php?beginerror=true" );
         }
         else if ($_POST['begindate']>$_POST['enddate']){ // Date de fin qu'à partir de la date de début

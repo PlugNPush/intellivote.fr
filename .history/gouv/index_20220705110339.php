@@ -154,7 +154,7 @@ if (isset($_SESSION['id'])){
                     echo '<div class="form-group">
                       <label for="individual">Confirmez vous les données?<br>
                       <div class="alert alert-info fade show" role="alert">
-                      - <strong>ID du maire :</strong> ';echo($_GET['individual']);echo(' | Nom : '.$indiv['surname'].' | Prénom : '.$indiv['name']);
+                      - <strong>Id du maire :</strong> ';echo($_GET['individual']);echo(' | Nom : '.$indiv['surname'].' | Prénom : '.$indiv['name']);
                       echo '<br> - <strong>ID de la mairie :</strong> ';echo($_GET['idmairie']);;echo(' | Nom : '.$mairie['nom'] .' | INSEE : '.$mairie['insee']);
                       echo '</div>
                       </label>
