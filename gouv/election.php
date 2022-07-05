@@ -228,6 +228,7 @@ if (isset($_SESSION['id'])){
                                 </small>
 
                                 <label for="dates">Choisissez les dates de l\'élection</label>
+                                <div>
                                     <input type="date" name="begindate" class="form-control';
                                     if (isset($_GET['beginerror'])){
                                         echo ' is-invalid';
@@ -239,6 +240,7 @@ if (isset($_SESSION['id'])){
                                         echo ' is-invalid';
                                     }
                                     echo '" id="enddate" placeholder="Saisissez la date de fin." required>
+                                </div>
                                 <small id="DateHelp" class="form-text text-muted">
                                     Date de début qu\'à partir de demain, et date de fin qu\'à partir de la date de début.
                                 </small>
