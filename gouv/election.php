@@ -202,7 +202,7 @@ if (isset($_SESSION['id'])){
 
                         $req = $bdd->prepare('SELECT * FROM election WHERE begindate>'.$date = date('Y-m-d H:i:s').';');
                         $req->execute(array($_POST['electionavenir']));
-                        $electionavenir = $req->fetch(); //test
+                        $electionavenir = $req->fetch(); //test oh
                         
                         echo '<div class="form-group">
                         - <strong>ID du maire :</strong> ';echo($_GET['individual']);echo(' | Nom : '.$indiv['surname'].' | Prénom : '.$indiv['name']);
