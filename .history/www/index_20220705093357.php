@@ -133,7 +133,7 @@ if (isset($_SESSION['id'])){
                       while ($candidates = $getcandidates->fetch()){ //case 1 ou plusieurs candidats
                         echo '
                         <div class="alert alert-info fade show" role="alert">
-                          <strong> ', $candidates['surname'],' ',$candidates['name'], ' : <a href="',$candidates['programme'],'"> Cliquez ici pour lire le programme.</a></strong><br>
+                          <strong> ', $candidates['surname'],' ',$candidates['name'], ' : </strong><a href="',$candidates['programme'],'"> Cliquez ici pour lire le programme.</a><br>
                           <p> Parti : ',$candidates['party'],'</p>
                           </div>';
                         $j++;
@@ -172,7 +172,7 @@ if (isset($_SESSION['id'])){
                             <div>
                               <form action="index.php" method="post">
                               <div class="form-group">
-                                <label for="token"><strong>Sélectionnez un candidat pour procéder au vote en ligne :</strong></label>
+                                <label for="token">Sélectionnez un candidat pour procéder au vote en ligne :</label>
                                   <select id="monVote" name="monVote"> 
                                     <option disabled selected value> </option>';
                             while ($candidates2 = $getcandidates2->fetch()){ //case 1 ou plusieurs candidats
