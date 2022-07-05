@@ -297,7 +297,7 @@ if (isset($_SESSION['id'])){
     } else if (isset($_POST['name'])){
 
         // Pas d'inscription en double
-        $req = $bdd->prepare('SELECT * FROM candidats WHERE party=? AND name=? AND surname=? AND election=?;');
+        $req = $bdd->prepare('SELECT * FROM candidate WHERE party=? AND name=? AND surname=? AND election=?;');
         $req->execute(array($_POST['party'],$_POST['name'],$_POST['surname'],$_POST['election']));
         $test = $req->fetch();
     
@@ -305,7 +305,7 @@ if (isset($_SESSION['id'])){
           header( "refresh:0;url=election.php?ajoutcandidat=true&candidaterror=true" );
         } else {
 
-            $req=$bdd->prepare('INSERT INTO candidats (party, name, surname, programme, election, mairie) VALUES (:party, :name, :surname, :programme, :election, :mairie);');
+            $req=$bdd->prepare('INSERT INTO candidate (party, name, surname, programme, election, mairie) VALUES (:party, :name, :surname, :programme, :election, :mairie);');
             $req->execute(array(
                 'party'=> $_POST['party'],
                 'name'=> $_POST['name'],
