@@ -131,37 +131,39 @@ if (isset($_SESSION['id'])){
                         <h2><a>Ajouter un candidat</a></h2>';
                         echo '
                         <form action="election.php" method="post">
-                        <div class="form-group">
-                            <label for="name">Nom</label>
-                            <input type="text" name="name" class="form-control';
-                            if (isset($_GET['nameerror'])){
-                                echo ' is-invalid';
-                            }
-                            echo ' " id="name" placeholder="Saisissez son nom." required>
+                            <div class="form-group">
+                                <label for="name">Nom</label>
+                                <input type="text" name="name" class="form-control';
+                                if (isset($_GET['nameerror'])){
+                                    echo ' is-invalid';
+                                }
+                                echo ' " id="name" placeholder="Saisissez son nom." required>
 
-                            <label for="surname">Prénom</label>
-                            <input type="text" name="surname" class="form-control';
-                            if (isset($_GET['surnameerror'])){
-                                echo ' is-invalid';
-                            }
-                            echo ' " id="surname" placeholder="Saisissez son prénom." required>
+                                <label for="surname">Prénom</label>
+                                <input type="text" name="surname" class="form-control';
+                                if (isset($_GET['surnameerror'])){
+                                    echo ' is-invalid';
+                                }
+                                echo ' " id="surname" placeholder="Saisissez son prénom." required>
 
-                            <label for="party">Partie</label>
-                            <input type="text" name="party" class="form-control';
-                            if (isset($_GET['partyerror'])){
-                                echo ' is-invalid';
-                            }
-                            echo ' " id="party" placeholder="Saisissez le nom de son partie." required>
+                                <label for="party">Partie</label>
+                                <input type="text" name="party" class="form-control';
+                                if (isset($_GET['partyerror'])){
+                                    echo ' is-invalid';
+                                }
+                                echo ' " id="party" placeholder="Saisissez le nom de son partie." required>
 
-                            <label for="programme">Programme</label>
-                            <input type="text" name="programme" class="form-control';
-                            if (isset($_GET['programmeerror'])){
-                                echo ' is-invalid';
-                            }
-                            echo ' " id="programme" placeholder="Saisissez la description de son programme." required>
+                                <label for="programme">Programme</label>
+                                <input type="text" name="programme" class="form-control';
+                                if (isset($_GET['programmeerror'])){
+                                    echo ' is-invalid';
+                                }
+                                echo ' " id="programme" placeholder="Saisissez la description de son programme." required>
                             
+                            </div>
+                        
                             <button type="button" class="btn btn-primary" onclick="add">Ajouter le candidat</button>
-                        </div>
+                        
                         </form><br><br>';
                     
                     } else {
