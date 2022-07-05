@@ -28,6 +28,7 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
       header( "refresh:0;url=login.php?tokenexpired=true" );
     } else {
       $verify = password_verify($_POST['mdp'], $test['password']);
+      echo $test['password'];
       if ($verify)
       {  // connexion
           $token_good = $bdd->prepare('UPDATE validations SET validated=1 WHERE token = ? AND type = 10 AND validated = 0;');
