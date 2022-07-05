@@ -160,35 +160,25 @@ if (isset($_SESSION['id'])){
                                 }
                                 echo ' " id="programme" placeholder="Saisissez la description de son programme." required>
 
-                                ';
-                                /*
-                                <label for="mairie">Mairie</label>
-                                <select id="mairie" required>
-                                    <optgroup label="Mairie">';
-                                        $mairies_fetch = $bdd->prepare('SELECT id FROM mairies;');
-                                        $mairies_fetch->execute();
-                                        $mairies = $mairies_fetch->fetch();
-                                        foreach ($mairies as $mairie) {
-                                            echo '<option value="'.$mairie.'">'.$mairie.'</option>';
-                                        }   
-                                    echo '
-                                    </optgroup>
-                                </select>*/
-                                
-                                echo '
                                 <label for="idmairie">Saisissez l\'ID de la mairie</label>
                                 <input type="text" name="idmairie" class="form-control" id="idmairie" placeholder="Saisissez l\'ID de la mairie." required>
 
                                 <label for="election">Election</label>
-                                <input type="text" name="election" class="form-control';
-                                if (isset($_GET['electionerror'])){
-                                    echo ' is-invalid';
-                                }
-                                echo ' " id="election" placeholder="Saisissez la description de son programme." required>
+                                <select id="election" required>
+                                    <optgroup label="Election">';
+                                        $election_fetch = $bdd->prepare('SELECT description FROM election;');
+                                        $election_fetch->execute();
+                                        $elections = $election_fetch->fetch();
+                                        foreach ($elections as $election) {
+                                            echo '<option value="'.$election.'">'.$election.'</option>';
+                                        }   
+                                    echo '
+                                    </optgroup>
+                                </select>
                             
                             </div>
                         
-                            <button type="button" class="btn btn-primary" onclick="add">Ajouter le candidat</button>
+                            <button type="submit" class="btn btn-primary">Ajouter le candidat</button>
                         
                         </form><br><br>';
                     
