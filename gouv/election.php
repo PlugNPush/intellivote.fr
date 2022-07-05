@@ -229,13 +229,13 @@ if (isset($_SESSION['id'])){
 
                                 <label for="dates">Choisissez les dates de l\'élection</label>
                                 <div>
-                                    <input type="date" name="begindate" class="form-control';
+                                    <input type="datetime-local" name="begindate" class="form-control';
                                     if (isset($_GET['beginerror'])){
                                         echo ' is-invalid';
                                     }
                                     echo '" id="begindate" placeholder="Saisissez la date de début." required>
 
-                                    <input type="date" name="enddate" class="form-control';
+                                    <input type="datetime-local" name="enddate" class="form-control';
                                     if (isset($_GET['enderror'])){
                                         echo ' is-invalid';
                                     }
