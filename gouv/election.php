@@ -3,7 +3,7 @@ require_once dirname(__FILE__).'/../config.php';
 
 
 if (isset($_SESSION['id'])){
-    if (!isset($_POST['description']) AND !isset($_POST['begindate']) AND !isset($_POST['enddate'])){
+    if (!isset($_POST['description']) AND !isset($_POST['election'])){
 
         echo '<!DOCTYPE html>
         <html lang="fr">
