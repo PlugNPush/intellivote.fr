@@ -186,9 +186,12 @@ if (!isset($_SESSION['id'])) {
               <strong>Résultats de l\'élection ' . $election['description'] . '</strong><br>';
               $getResult=$bdd->prepare('SELECT COUNT(candidate) AS score, candidate FROM votes WHERE mairie=? AND election=? GROUP BY candidate;');
               $getResult->execute(array($_SESSION['idmairie'], $election['id']));
+              $getCandidat->prepare('SELECT surname, name FROM candidate WHERE mairie=? AND election=? GROUP BY candidate;');
+              $getcandidates = $bdd->prepare('SELECT * FROM candidate WHERE id=?');
+              $getcandidates->execute(array(result["candidate"]));
               while ($result=$getResult->fetch()){
                 if (!empty($result["candidate"])) {
-                  echo '<p> Candidat : ', $result["candidate"],': ' . $result["score"] . '</p>';
+                  echo '<p> Candidat ', $getCandidates["name"],' ',$getCandidates["surname"]' (' . $getCandidates["party"] . ') a obtenu ' . $result["score"] . ' voix</p>';
                 } else {
                   echo '<p> Votes blancs: ' . $result["score"] . '</p>';
                 }
