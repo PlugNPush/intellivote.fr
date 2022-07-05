@@ -158,8 +158,8 @@ if (isset($_SESSION['id'])){
                     echo '<div class="form-group">
                       <label for="individual">Confirmez vous les données?<br>
                       <div class="alert alert-info fade show" role="alert">
-                      - <strong>ID du maire :</strong> ';echo($_GET['individual']);echo(' | Nom : '.$indiv['surname'].' | Prénom : '.$indiv['name']);
-                      echo '<br> - <strong>ID de la mairie :</strong> ';echo($_GET['idmairie']);;echo(' | Nom : '.$mairie['nom'] .' | INSEE : '.$mairie['insee']);
+                      - <strong>ID du maire :</strong> ' . $_GET['individual'] . ' | Nom : '. $indiv['name'] . ' | Prénom : ' . $indiv['surname'];
+                      echo '<br> - <strong>ID de la mairie :</strong> ' . $_GET['idmairie'] . ' | Nom : ' . $mairie['nom'] . ' | INSEE : ' . $mairie['insee'];
                       echo '</div>
                       </label>
                       <input type="hidden" name="individual" class="form-control';
@@ -167,7 +167,7 @@ if (isset($_SESSION['id'])){
                       if (isset($_GET['individualerror'])){
                         echo ' is-invalid';
                       }
-                      
+
                       echo '" id="individual" value="';echo($_GET['individual']);echo'" required>';
 
                       if (isset($_GET['individualerror'])){
@@ -181,7 +181,7 @@ if (isset($_SESSION['id'])){
                       if (isset($_GET['individualerror'])){
                         echo ' is-invalid';
                       }
-                      
+
                       echo '" id="idmairie" value="';echo($_GET['idmairie']);echo'" required>';
 
                       if (isset($_GET['individualerror'])){
@@ -195,7 +195,7 @@ if (isset($_SESSION['id'])){
                       if (isset($_GET['verifyerror'])){
                         echo ' is-invalid';
                       }
-                      
+
                       echo '" id="verify" value="';echo($_GET['verify']);echo'" required>';
 
                       if (isset($_GET['verifyerror'])){
@@ -203,7 +203,7 @@ if (isset($_SESSION['id'])){
                           Verify incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
                         </div>';
                       }
-                      
+
                     echo '</div>
 
                     <button type="submit" class="btn btn-primary">Confirmer les données</button>
@@ -276,7 +276,7 @@ if (isset($_SESSION['id'])){
       ));
 
       header( "refresh:0;url=index.php?success=true" );
-      
+
     }
   }
 
