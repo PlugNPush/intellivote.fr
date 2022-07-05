@@ -165,9 +165,6 @@ if (isset($_SESSION['id'])){
                         $getcandidates2 = $bdd->prepare('SELECT * FROM election JOIN candidate ON candidate.election= ? GROUP BY candidate.surname , candidate.name ');
                         $getcandidates2->execute(array($election['id']));
                    
-                        //set date to display election end date 
-                        $date = str_replace('/', '-', $election["enddate"]);
-                        
                         // candidate choice select
                         if (!isset($_POST["monVote".$election['id']])){ // if elector hasnt voted yet and hasn't selected a candidate
                             echo '
@@ -189,7 +186,7 @@ if (isset($_SESSION['id'])){
                               <button type="submit" class="btn btn-primary">Voter</button>
                               </form>
                               <br>
-                              <p>L\'élection prend fin le : ',date('d/m/Y à H:i', strtotime($date)),' heures.</p>
+                              <p>L\'élection prend fin le : ',date_format($election["enddate"], 'Y-m-d H:i:s'),' heures.</p>
                             </div>';
                           }   
                           else { // if elector hasnt voted yet and has selected a candidate

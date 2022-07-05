@@ -167,7 +167,6 @@ if (isset($_SESSION['id'])){
                    
                         //set date to display election end date 
                         $date = str_replace('/', '-', $election["enddate"]);
-                        
                         // candidate choice select
                         if (!isset($_POST["monVote".$election['id']])){ // if elector hasnt voted yet and hasn't selected a candidate
                             echo '

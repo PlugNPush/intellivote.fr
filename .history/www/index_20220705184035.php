@@ -164,9 +164,6 @@ if (isset($_SESSION['id'])){
                       if ($k==0) {  //if elector didnt vote : display button vote and all existing candidates
                         $getcandidates2 = $bdd->prepare('SELECT * FROM election JOIN candidate ON candidate.election= ? GROUP BY candidate.surname , candidate.name ');
                         $getcandidates2->execute(array($election['id']));
-                   
-                        //set date to display election end date 
-                        $date = str_replace('/', '-', $election["enddate"]);
                         
                         // candidate choice select
                         if (!isset($_POST["monVote".$election['id']])){ // if elector hasnt voted yet and hasn't selected a candidate
@@ -187,9 +184,8 @@ if (isset($_SESSION['id'])){
                                   </select><br>
                               </div>
                               <button type="submit" class="btn btn-primary">Voter</button>
+                              <br><p>Oui</p>
                               </form>
-                              <br>
-                              <p>L\'élection prend fin le : ',date('d/m/Y à H:i', strtotime($date)),' heures.</p>
                             </div>';
                           }   
                           else { // if elector hasnt voted yet and has selected a candidate
