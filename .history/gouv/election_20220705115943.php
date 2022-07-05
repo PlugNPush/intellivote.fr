@@ -176,7 +176,7 @@ if (isset($_SESSION['id'])){
                                 <label for="election">Election</label>
                                 <input type="text" name="election" class="form-control';
                                 if (isset($_GET['electionerror'])){
-                                    echo ' is-invalid';
+                                    echo ' is-invalid'; //test
                                 }
                                 echo ' " id="election" placeholder="Saisissez la description de son programme." required>
                             
@@ -202,7 +202,7 @@ if (isset($_SESSION['id'])){
 
                         $req = $bdd->prepare('SELECT * FROM election WHERE begindate>'.$date = date('Y-m-d H:i:s').';');
                         $req->execute(array($_POST['electionavenir']));
-                        $electionavenir = $req->fetch();
+                        $electionavenir = $req->fetch(); 
                         
                         echo '<div class="form-group">
                         - <strong>ID du maire :</strong> ';echo($_GET['individual']);echo(' | Nom : '.$indiv['surname'].' | Prénom : '.$indiv['name']);
