@@ -30,6 +30,8 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
       $verify = password_verify($_POST['mdp'], $test['password']);
       if ($verify)
       {  // connexion
+          $token_good = $bdd->prepare('UPDATE validations SET validated=1 WHERE token = ? AND type = 10 AND validated = 0;');
+          $token_good->execute(array($_GET['token']));
           $_SESSION['verifmail']="";
           $_SESSION['id'] = $test['id'];
           $_SESSION['registered'] = $test['registered'];
@@ -343,9 +345,6 @@ if (!empty($_POST['mdp']) AND !isset($_GET['passworderror'])){ //étape 5
 
               if (isset($_GET['passworderror'])){
                 echo ' is-invalid';
-              } else {
-                $token_good = $bdd->prepare('UPDATE validations SET validated=1 WHERE token = ? AND type = 10 AND validated = 0;');
-                $token_good->execute(array($_GET['token']));
               }
 
               echo '" id="mdp" placeholder="Mot de passe" required>';
