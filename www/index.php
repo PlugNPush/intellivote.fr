@@ -639,7 +639,7 @@ if (isset($_SESSION['id'])){
 
         if ($verify)
         {
-          $upd1 = $bdd->prepare('UPDATE individual SET password = ? WHERE individual = ?;');
+          $upd1 = $bdd->prepare('UPDATE individual SET password = ? WHERE id = ?;');
           $upd1->execute(array($pass_hache, $_SESSION['id']));
           header( "refresh:0;url=index.php?passwordsuccess=true" );
         } else {
