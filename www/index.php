@@ -130,7 +130,7 @@ if (isset($_SESSION['id'])){
                   <input type="hidden" name="ceditaccount" class="form-control" id="ceditaccount" value="true" required>
 
                 <button type="submit" class="btn btn-primary">Modifier mon adresse e-mail</button>
-
+                </div>
               </form><br><br>';
 
               echo '
@@ -195,7 +195,7 @@ if (isset($_SESSION['id'])){
                   <input type="hidden" name="ceditaccount" class="form-control" id="ceditaccount" value="true" required>
 
                 <button type="submit" class="btn btn-primary">Modifier mon mot de passe</button>
-
+                </div>
               </form><br><br>';
 
             } else {
