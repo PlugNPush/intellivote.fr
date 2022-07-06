@@ -282,7 +282,7 @@ if (isset($_SESSION['id'])){
     $mailchange->execute(array($_POST['email'], $_SESSION['id']));
 
 
-    $mail_fetch = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 0;');
+    $mail_fetch = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 0 AND validated = 1;');
     $mail_fetch->execute(array($_SESSION['id']));
     $mail = $mail_fetch->fetch();
 
