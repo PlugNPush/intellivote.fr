@@ -335,7 +335,7 @@ if (isset($_SESSION['id'])){
                             <p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>
                         </div>';
                     }
-                    echo '<br><br>'
+                    echo '<br><br>';
 
 
                 // Fin Partie Pablo ------------------------------------------------------------------------------------------
