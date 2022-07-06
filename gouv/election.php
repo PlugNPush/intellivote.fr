@@ -257,7 +257,7 @@ if (isset($_SESSION['id'])){
                         <br><br>';
                     } else {
                         echo '
-                        <h2><a>Afficher une élection</a></h2>';
+                        <h2><a>Liste des élections</a></h2>';
 
                         if (isset($_GET['deleteerror'])) {
                             echo '

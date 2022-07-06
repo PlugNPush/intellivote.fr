@@ -168,33 +168,55 @@ if (!isset($_SESSION['id'])) {
 
             if ($data) {
                             //get actual time in paris
-          $curdate = date('Y-m-d h:i:s');
+                            echo '
+                            <h2><a>Liste des élections</a></h2>';
 
-          $getdates = $bdd->prepare('SELECT * FROM election;');
-          $getdates->execute();
+                            $date = date('Y-m-d H:i');
 
-          while ($election=$getdates->fetch()){//case 1 ou plusieurs élections en cours
+                            $electionavenir = $bdd->prepare('SELECT * FROM election WHERE begindate>? ORDER BY begindate DESC;');
+                            $electionavenir->execute(array($date));
+                            echo '<h3>Elections à venir ('.$electionavenir->rowCount().')</h3>';
+                            while($row = $electionavenir->fetch()) {
+                                echo '
+                                <div class="alert alert-info fade show" role="alert">
+                                    <strong>L\'élection ' . $row['description'] . ' est à venir</strong><br>
+                                    <p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>
+                                </div>';
+                            }
 
-            echo '
-            <div class="alert alert-info fade show" role="alert">
+                            $electionencours = $bdd->prepare('SELECT * FROM election WHERE begindate<=? AND enddate>? ORDER BY enddate DESC;');
+                            $electionencours->execute(array($date, $date));
+                            echo '<h3>Elections en cours ('.$electionencours->rowCount().')</h3>';
+                            while($row = $electionencours->fetch()) {
+                                echo '
+                                <div class="alert alert-info fade show" role="alert">
+                                    <strong>L\'élection ' . $row['description'] . ' est en cours</strong><br>
+                                    <p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>
+                                </div>';
+                            }
 
-              <strong>Résultats de l\'élection ' . $election['description'] . '</strong><br>';
-              $getResult=$bdd->prepare('SELECT COUNT(candidate) AS score, candidate FROM votes WHERE mairie=? AND election=? GROUP BY candidate;');
-              $getResult->execute(array($_SESSION['idmairie'], $election['id']));
+                            $electionpassees = $bdd->prepare('SELECT * FROM election WHERE enddate<=? ORDER BY enddate DESC;');
+                            $electionpassees->execute(array($date));
+                            echo '<h3>Elections terminées ('.$electionpassees->rowCount().')</h3>';
+                            while($row = $electionpassees->fetch()) {
+                                echo '<div class="alert alert-info fade show" role="alert">';
+                                echo '<strong>Résultats de l\'élection ' . $row['description'] . '</strong><br>';
+                                  $getResult=$bdd->prepare('SELECT COUNT(candidate) AS score, candidate FROM votes WHERE mairie=? AND election=? GROUP BY candidate;');
+                                  $getResult->execute(array($_SESSION['idmairie'],$row['id']));
 
-              while ($result=$getResult->fetch()){
-                $getcandidates = $bdd->prepare('SELECT * FROM candidate WHERE id=?');
-                $getcandidates->execute(array($result["candidate"]));
-                $getCandidates = $getcandidates->fetch();
-                if (!empty($result["candidate"])) {
-                  echo '<p> Candidat ' . $getCandidates["name"] . ' ' . $getCandidates["surname"] . ' (' . $getCandidates["party"] . ') a obtenu ' . $result["score"] . ' voix</p>';
-                } else {
-                  echo '<p> Votes blancs: ' . $result["score"] . '</p>';
-                }
+                                  while ($result=$getResult->fetch()){
+                                    $getcandidates = $bdd->prepare('SELECT * FROM candidate WHERE id=?');
+                                    $getcandidates->execute(array($result["candidate"]));
+                                    $getCandidates = $getcandidates->fetch();
+                                    if (!empty($result["candidate"])) {
+                                      echo '<p> Candidat ' . $getCandidates["name"] . ' ' . $getCandidates["surname"] . ' (' . $getCandidates["party"] . ') a obtenu ' . $result["score"] . ' voix</p>';
+                                    } else {
+                                      echo '<p> Votes blancs: ' . $result["score"] . '</p>';
+                                    }
 
-              }
-              echo '
-              </div>';
+                                  }
+                                  echo '<p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>
+                                  </div>';
           }
 
           echo '
