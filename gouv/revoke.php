@@ -128,7 +128,7 @@ if (isset($_SESSION['id'])){
                         $indiv = $req->fetch();
 
                         echo '<div class="alert alert-danger fade show" role="alert">
-                          <strong>ATTENTION : VOTRE RÉSPONSABILITÉ EST ENGAGÉE.</strong><br> Cet espace permet de révoquer l\'accès d\'un électeur à la plateforme Intellivote, suite à un retrait de citoyenneté ou interdiction d\'entrée sur le territoire par exemple. Votre résponsabilté est pleinement engagée sur cette opération. N\'utilisez ce formulaire uniquement si vous en avez reçu l\'instruction d\'une haute juridiction administrative. Un électeur peut se révoquer l\'accès lui-même, et en cas de décès ou d\'impossibilité de voter en ligne, c\'est à la mairie de prendre en charge cette opération.
+                          <strong>ATTENTION : VOTRE RÉSPONSABILITÉ EST ENGAGÉE.</strong><br> Cet espace permet de révoquer l\'accès d\'un électeur à la plateforme Intellivote, suite à un retrait de citoyenneté ou interdiction d\'entrée sur le territoire par exemple. Votre résponsabilté est pleinement engagée sur cette opération. N\'utilisez ce formulaire uniquement si vous en avez reçu l\'instruction d\'une haute juridiction administrative, ou si l\'électeur vous a donné l\'autorisation de procéder à cette opération afin de retrouver un mot de passe perdu. Un électeur peut toujours se révoquer son accès lui-même, et en cas de décès ou d\'impossibilité de voter en ligne, c\'est à la mairie de prendre en charge cette opération.<br><strong>ATTENTION : cette procédure va modifier le mot de passe associé au compte de l\'électeur. L\'utilisateur sera informé de son nouveau mot de passe par e-mail.</strong>
                         </div>';
 
                         echo '<div class="form-group">
@@ -254,7 +254,7 @@ if (isset($_SESSION['id'])){
                     <form action="revoke.php?revoke=true" method="post">';
 
                     echo '<div class="alert alert-danger fade show" role="alert">
-                      <strong>ATTENTION : VOTRE RÉSPONSABILITÉ EST ENGAGÉE.</strong><br> Cet espace permet de révoquer l\'accès d\'un électeur à la plateforme Intellivote, suite à un retrait de citoyenneté ou interdiction d\'entrée sur le territoire par exemple. Votre résponsabilté est pleinement engagée sur cette opération. N\'utilisez ce formulaire uniquement si vous en avez reçu l\'instruction d\'une haute juridiction administrative. Un électeur peut se révoquer l\'accès lui-même, et en cas de décès ou d\'impossibilité de voter en ligne, c\'est à la mairie de prendre en charge cette opération.
+                      <strong>ATTENTION : VOTRE RÉSPONSABILITÉ EST ENGAGÉE.</strong><br> Cet espace permet de révoquer l\'accès d\'un électeur à la plateforme Intellivote, suite à un retrait de citoyenneté ou interdiction d\'entrée sur le territoire par exemple. Votre résponsabilté est pleinement engagée sur cette opération. N\'utilisez ce formulaire uniquement si vous en avez reçu l\'instruction d\'une haute juridiction administrative, ou si l\'électeur vous a donné l\'autorisation de procéder à cette opération afin de retrouver un mot de passe perdu. Un électeur peut toujours se révoquer son accès lui-même, et en cas de décès ou d\'impossibilité de voter en ligne, c\'est à la mairie de prendre en charge cette opération.<br><strong>ATTENTION : cette procédure va modifier le mot de passe associé au compte de l\'électeur. L\'utilisateur sera informé de son nouveau mot de passe par e-mail.</strong>
                     </div>';
 
                     echo '
@@ -282,7 +282,7 @@ if (isset($_SESSION['id'])){
 
                         </div>
 
-                        <button type="submit" class="btn btn-danger">Révoquer le statut d\'électeur</button>
+                        <button type="submit" class="btn btn-danger">Révoquer le statut d\'électeur et réinitialiser son mot de passe</button>
 
                     </form><br><br>';
                   }
@@ -334,7 +334,83 @@ if (isset($_SESSION['id'])){
         if (isset($_POST['electorindv'])) {
           $req = $bdd->prepare('DELETE FROM elector WHERE individual = ?;');
           $req->execute(array($_POST['electorindv']));
-          header( "refresh:0;url=index.php?electorrevokesuccess=true" );
+
+          $token = generateRandomString(55);
+          $date = date('Y-m-d H:i:s');
+          $pass_hache = password_hash($token, PASSWORD_DEFAULT);
+
+          $upd1 = $bdd->prepare('UPDATE individual SET password = ? WHERE id = ?;');
+          $upd1->execute(array($pass_hache, $_POST['electorindv']));
+
+          $datafetch = $bdd->prepare('SELECT * FROM individual WHERE id = ?;');
+          $datafetch->execute(array($_POST['electorindv']));
+          $data = $datafetch->fetch();
+
+          $to = $data['email']; // $_POST['email']
+          $subject = 'IMPORTANT : Nouveau mot de passe Intellivote';
+          $message = '
+              <html>
+               <body>
+                <h1>Compte électeur révoqué par une haute instance.</h1>
+                <p>Bonjour ' . $data['surname'] . ' ' . $data['name'] . ', l\'accès à votre compte a été révoqué par une haute instance. Si vous pensez que cette suspension est une erreur, vous devrez vous réinscrire en mairie en suivant les instructions sur votre espace électeur.
+                <p>Adresse email utilisée</p>
+                <h4>' . $data['email'] . '</h4>
+                <p>Date effective de la suspension</p>
+                <h4>' . $date . '</h4>
+                <br>
+                <h3>Votre nouveau mot de passe est :<br><strong> ' . $token . '</strong></h3>
+                <br>
+                <p>Nous vous invitons à changer ce mot de passe lors de votre prochaine connexion.</p>
+                <br>
+                <p>Bien cordialement,</p>
+                <p>- L\'équipe Intellivote.</p><br><br>
+                <p>P.S.: Ce courriel est automatique, veuillez ne pas y répondre.</p>
+             </body>
+            </html>
+            ';
+
+
+          // Pour envoyer un mail HTML, l'en-tête Content-type doit être défini
+          $headers[] = 'MIME-Version: 1.0';
+          $headers[] = 'Content-type: text/html; charset=iso-8859-1';
+
+          // En-têtes additionnels
+          $headers[] = 'To: <' . $data['email'] . '>';
+          $headers[] = 'From: Validation Intellivote <noreply@intellivote.fr>';
+
+          $mail = new PHPmailer();
+          $mail->IsSMTP();
+          $mail->IsHTML(true);
+          $mail->CharSet = 'UTF-8';
+          $mail->Host = 'mail.groupe-minaste.org';
+          $mail->Port = 587;
+          $mail->SMTPAuth = true;
+          $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+          $mail->Username = 'no-reply@efrei-dynamo.fr';
+          $mail->Password = getSMTPPassword();
+          $mail->SMTPOptions = array(
+              'ssl' => array(
+                 'verify_peer' => false,
+                 'verify_peer_name' => false,
+                 'allow_self_signed' => true
+              )
+          );
+          $mail->From = 'no-reply@intellivote.fr';
+          $mail->FromName = 'Validation Intellivote';
+          $mail->AddAddress($to);
+          $mail->Subject = $subject;
+          $mail->Body = $message;
+
+          // Send the mail
+          $sent = $mail->send();
+
+          if ($sent) {
+            header( "refresh:0;url=index.php?electorrevokesuccess=true" );
+          } else {
+            header( "refresh:0;url=index.php?electorrevokesuccess=true&tmpemail=" . $data['email'] . "&tmppass=" . $token );
+          }
+
+
         } else {
           if ($_POST['idmairie'] != -1) {
             $req = $bdd->prepare('DELETE FROM mayor WHERE mairie = ? AND individual = ?;');

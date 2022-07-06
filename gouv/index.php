@@ -105,6 +105,15 @@ if (isset($_SESSION['id'])){
                   </div>';
                 }
 
+                if (isset($_GET['tmppass'])) {
+                  echo '
+                  <div class="alert alert-warning fade show" role="alert">
+                    <strong>L\'e-mail n\'a pas pu être envoyé automatiquement suite à une erreur.</strong> Veuillez communiquer le nouveau mot de passe : <br>
+                    '. $_GET['tmppass'] . '<br>en contactant l\'utilisateur par e-mail ou courrier, même si sa suspension est définitive, conformément au RGPD.<br>
+                    <a href="mailto:'. $_GET['tmpemail'] . '">' . $_GET['tmpemail'] . '</a>
+                  </div>';
+                }
+
                 if (isset($_GET['successelection'])) {
                   echo '
                   <div class="alert alert-success fade show" role="alert">
