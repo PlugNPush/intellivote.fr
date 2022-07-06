@@ -429,7 +429,7 @@ if (isset($_SESSION['id'])){
         }
         else{
 
-          $req=$bdd->prepare('INSERT INTO election (description, begindate, enddate) VALUES (:description, :begindate, :enddate);');
+          $req=$bdd->prepare('INSERT INTO election (description, begindate, enddate, type) VALUES (:description, :begindate, :enddate, :type);');
           $req->execute(array(
             'description'=> $_POST['description'],
             'begindate'=> $_POST['begindate'],
