@@ -638,7 +638,7 @@ if (isset($_SESSION['id'])){
 
         $verify = password_verify($_POST['omdp'], $test['password']);
 
-        echo $verify . $test['password'] . $_POST['omdp'] . $pass_hache . $_POST['mdp']
+        echo $verify . $test['password'] . $_POST['omdp'] . $pass_hache . $_POST['mdp'];
         if ($verify)
         {
           $upd1 = $bdd->prepare('UPDATE individual SET password = ? WHERE individual = ?;');
