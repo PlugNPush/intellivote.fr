@@ -378,6 +378,13 @@ if (isset($_SESSION['id'])){
 
     } else if (isset($_POST['name'])){
 
+      $gouv_fetch = $bdd->prepare('SELECT * FROM governor WHERE individual = ? AND verified = 1;');
+      $gouv_fetch->execute(array($_SESSION['id']));
+      $gouv = $gouv_fetch->fetch();
+
+      if (!$gouv) {
+        header( "refresh:0;url=index.php" );
+      } else {
         // Pas d'inscription en double
         $req = $bdd->prepare('SELECT * FROM candidate WHERE party=? AND name=? AND surname=? AND election=?;');
         $req->execute(array($_POST['party'],$_POST['name'],$_POST['surname'],$_POST['election']));
@@ -399,35 +406,51 @@ if (isset($_SESSION['id'])){
 
             header( "refresh:0;url=election.php?ajoutcandidat=true&successcandidat=true" );
         }
-
-    } else if (isset($_POST['cdelete'])) {
-      $req = $bdd->prepare('SELECT * FROM election WHERE id = ?;');
-      $req->execute(array($_POST['delete']));
-      $test = $req->fetch();
-
-      $date = date('Y-m-d H:i');
-
-      if (($test["begindate"]>$date && date('Y-m-d H:i', strtotime($test['begindate'] . ' - 7 days'))>date('Y-m-d H:i')) || ($test["enddate"]<=$date && date('Y-m-d H:i', strtotime($row['enddate'] . ' + 7 days'))<=date('Y-m-d H:i'))) {
-        $del1 = $bdd->prepare('DELETE FROM votes WHERE election = ?;');
-        $del1->execute(array($_POST['delete']));
-
-        $del2 = $bdd->prepare('DELETE FROM voted WHERE election = ?;');
-        $del2->execute(array($_POST['delete']));
-
-        $del3 = $bdd->prepare('DELETE FROM candidate WHERE election = ?;');
-        $del3->execute(array($_POST['delete']));
-
-        $del4 = $bdd->prepare('DELETE FROM election WHERE id = ?;');
-        $del4->execute(array($_POST['delete']));
-
-        header( "refresh:0;url=election.php?affiche=true&deletesuccess=true" );
-      } else {
-        header( "refresh:0;url=election.php?affiche=true&deleteerror=true" );
       }
 
+    } else if (isset($_POST['cdelete'])) {
+
+      $gouv_fetch = $bdd->prepare('SELECT * FROM governor WHERE individual = ? AND verified = 1;');
+      $gouv_fetch->execute(array($_SESSION['id']));
+      $gouv = $gouv_fetch->fetch();
+
+      if (!$gouv) {
+        header( "refresh:0;url=index.php" );
+      } else {
+        $req = $bdd->prepare('SELECT * FROM election WHERE id = ?;');
+        $req->execute(array($_POST['delete']));
+        $test = $req->fetch();
+
+        $date = date('Y-m-d H:i');
+
+        if (($test["begindate"]>$date && date('Y-m-d H:i', strtotime($test['begindate'] . ' - 7 days'))>date('Y-m-d H:i')) || ($test["enddate"]<=$date && date('Y-m-d H:i', strtotime($row['enddate'] . ' + 7 days'))<=date('Y-m-d H:i'))) {
+          $del1 = $bdd->prepare('DELETE FROM votes WHERE election = ?;');
+          $del1->execute(array($_POST['delete']));
+
+          $del2 = $bdd->prepare('DELETE FROM voted WHERE election = ?;');
+          $del2->execute(array($_POST['delete']));
+
+          $del3 = $bdd->prepare('DELETE FROM candidate WHERE election = ?;');
+          $del3->execute(array($_POST['delete']));
+
+          $del4 = $bdd->prepare('DELETE FROM election WHERE id = ?;');
+          $del4->execute(array($_POST['delete']));
+
+          header( "refresh:0;url=election.php?affiche=true&deletesuccess=true" );
+        } else {
+          header( "refresh:0;url=election.php?affiche=true&deleteerror=true" );
+        }
+      }
 
     } else {
 
+      $gouv_fetch = $bdd->prepare('SELECT * FROM governor WHERE individual = ? AND verified = 1;');
+      $gouv_fetch->execute(array($_SESSION['id']));
+      $gouv = $gouv_fetch->fetch();
+
+      if (!$gouv) {
+        header( "refresh:0;url=index.php" );
+      } else {
         // Pas de description/nom en double parmis ceux non finis
         $req = $bdd->prepare('SELECT * FROM election WHERE description = ?;');
         $req->execute(array($_POST['description']));
@@ -455,6 +478,7 @@ if (isset($_SESSION['id'])){
           header( "refresh:0;url=index.php?successelection=true");
 
         }
+      }
 
     }
 

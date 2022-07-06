@@ -267,35 +267,43 @@ if (isset($_SESSION['id'])){
 
     </html>';
 
-  } else{
+  } else {
 
-    $req = $bdd->prepare('SELECT * FROM mairies WHERE id = ?;');
-    $req->execute(array($_POST['idmairie']));
-    $test = $req->fetch();
+    $gouv_fetch = $bdd->prepare('SELECT * FROM governor WHERE individual = ? AND verified = 1;');
+    $gouv_fetch->execute(array($_SESSION['id']));
+    $gouv = $gouv_fetch->fetch();
 
-    $req = $bdd->prepare('SELECT * FROM individual WHERE id = ?;');
-    $req->execute(array($_POST['individual']));
-    $test2 = $req->fetch();
+    if (!$gouv) {
+      header( "refresh:0;url=index.php" );
+    } else {
+      $req = $bdd->prepare('SELECT * FROM mairies WHERE id = ?;');
+      $req->execute(array($_POST['idmairie']));
+      $test = $req->fetch();
 
-    if (!$test OR !$test2){
-      header( "refresh:0;url=index.php?individualerror=true" );
-    }
-    else if (!isset($_POST['verify'])){
-      header( "refresh:0;url=index.php?verify=true&individual=".$_POST['individual']."&idmairie=".$_POST['idmairie']);
-    }
-    else{
+      $req = $bdd->prepare('SELECT * FROM individual WHERE id = ?;');
+      $req->execute(array($_POST['individual']));
+      $test2 = $req->fetch();
 
-      $req=$bdd->prepare('INSERT INTO mayor(mairie, individual, verified, verifiedon) VALUES(:mairie, :individual, :verified, :verifiedon)');
-      $date = date('Y-m-d H:i:s');
-      $req->execute(array(
-        'mairie'=> $_POST['idmairie'],
-        'individual'=> $_POST['individual'],
-        'verified'=> 1,
-        'verifiedon' => $date
-      ));
+      if (!$test OR !$test2){
+        header( "refresh:0;url=index.php?individualerror=true" );
+      }
+      else if (!isset($_POST['verify'])){
+        header( "refresh:0;url=index.php?verify=true&individual=".$_POST['individual']."&idmairie=".$_POST['idmairie']);
+      }
+      else{
 
-      header( "refresh:0;url=index.php?success=true" );
+        $req=$bdd->prepare('INSERT INTO mayor(mairie, individual, verified, verifiedon) VALUES(:mairie, :individual, :verified, :verifiedon)');
+        $date = date('Y-m-d H:i:s');
+        $req->execute(array(
+          'mairie'=> $_POST['idmairie'],
+          'individual'=> $_POST['individual'],
+          'verified'=> 1,
+          'verifiedon' => $date
+        ));
 
+        header( "refresh:0;url=index.php?success=true" );
+
+      }
     }
   }
 

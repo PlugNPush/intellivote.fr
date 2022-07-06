@@ -324,19 +324,27 @@ if (isset($_SESSION['id'])){
 
     } else {
 
-      if (isset($_POST['electorindv'])) {
-        $req = $bdd->prepare('DELETE FROM elector WHERE individual = ?;');
-        $req->execute(array($_POST['electorindv']));
-        header( "refresh:0;url=index.php?electorrevokesuccess=true" );
+      $gouv_fetch = $bdd->prepare('SELECT * FROM governor WHERE individual = ? AND verified = 1;');
+      $gouv_fetch->execute(array($_SESSION['id']));
+      $gouv = $gouv_fetch->fetch();
+
+      if (!$gouv) {
+        header( "refresh:0;url=index.php" );
       } else {
-        if ($_POST['idmairie'] != -1) {
-          $req = $bdd->prepare('DELETE FROM mayor WHERE mairie = ? AND individual = ?;');
-          $req->execute(array($_POST['idmairie'], $_POST['mayorindv']));
-          header( "refresh:0;url=index.php?mayor1revokesuccess=true" );
+        if (isset($_POST['electorindv'])) {
+          $req = $bdd->prepare('DELETE FROM elector WHERE individual = ?;');
+          $req->execute(array($_POST['electorindv']));
+          header( "refresh:0;url=index.php?electorrevokesuccess=true" );
         } else {
-          $req = $bdd->prepare('DELETE FROM mayor WHERE individual = ?;');
-          $req->execute(array($_POST['mayorindv']));
-          header( "refresh:0;url=index.php?mayor2revokesuccess=true" );
+          if ($_POST['idmairie'] != -1) {
+            $req = $bdd->prepare('DELETE FROM mayor WHERE mairie = ? AND individual = ?;');
+            $req->execute(array($_POST['idmairie'], $_POST['mayorindv']));
+            header( "refresh:0;url=index.php?mayor1revokesuccess=true" );
+          } else {
+            $req = $bdd->prepare('DELETE FROM mayor WHERE individual = ?;');
+            $req->execute(array($_POST['mayorindv']));
+            header( "refresh:0;url=index.php?mayor2revokesuccess=true" );
+          }
         }
       }
 

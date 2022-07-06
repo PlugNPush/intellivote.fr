@@ -270,6 +270,11 @@ if (!isset($_SESSION['id'])) {
 
 }else{
 
+  $gatherdata = $bdd->prepare('SELECT * FROM mayor WHERE individual = ? AND mairie = ? AND verified = 1;');
+  $gatherdata->execute(array($_SESSION['id'], $_SESSION['idmairie']));
+  $data = $gatherdata->fetch();
+
+  if ($data) {
     $req = $bdd->prepare('SELECT * FROM validations WHERE token = ? AND validated = 0 AND type = 1;');
     $req->execute(array($_POST['token']));
     $test = $req->fetch();
@@ -310,6 +315,9 @@ if (!isset($_SESSION['id'])) {
 
       header( "refresh:0;url=index.php?success=true" );
     }
+  } else {
+    header( "refresh:0;url=index.php" );
+  }
 
 }
 ?>
