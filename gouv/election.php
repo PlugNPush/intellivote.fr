@@ -79,7 +79,23 @@ if (isset($_SESSION['id'])){
 
                         echo '
                         <h2><a>Ajouter une élection :</a></h2>
-                        <form action="election.php" method="post">
+                        <form action="election.php" method="post">';
+
+                        if (isset($_GET['beginerror'])) {
+                            echo '
+                            <div class="alert alert-danger fade show" role="alert">
+                              <strong>Élection insuffisamment anticipée !<br></strong>Vous devez déclarer vos élections au maximum 90 jours à l\'avance.
+                            </div>';
+                        }
+
+                        if (isset($_GET['enderror'])) {
+                            echo '
+                            <div class="alert alert-danger fade show" role="alert">
+                              <strong>Élection trop courte !<br></strong>Vous devez imérativement laisser au minimum 8 heures s\'écouler entre le début et la fin de l\'élection.
+                            </div>';
+                        }
+
+                        echo '
 
                             <div class="form-group">
                                 <label for="description">Saisissez le nom de l\'élection</label>
