@@ -4,6 +4,23 @@ require_once dirname(__FILE__).'/../config.php';
 
 if (isset($_SESSION['id'])){
 
+  if (isset($_POST['delaccount'])) {
+    $electionEnCours = false;
+    $date = date('Y-m-d H:i:s');
+    $election_fetch = $bdd->prepare('SELECT * FROM election;');
+    $election_fetch->execute();
+
+    while ($election = $election_fetch->fetch()) {
+      if (strtotime('+24 hours')>strtotime($election['begindate']) && $date<$election['enddate']){
+        $electionEnCours = true;
+      }
+    }
+
+    if ($electionEnCours == true) {
+      header( "refresh:0;url=index.php?pendingelection=true" );
+    }
+  }
+
   if (!isset($_POST['cdelaccount'])){
 
     echo '<!DOCTYPE html>
@@ -448,20 +465,20 @@ if (isset($_SESSION['id'])){
     </html>
 ';
 } else{
-    $electionEnCours = false;
-    $date = date('Y-m-d H:i:s');
-    $election_fetch = $bdd->prepare('SELECT * FROM election;');
-    $election_fetch->execute();
+  $electionEnCours = false;
+  $date = date('Y-m-d H:i:s');
+  $election_fetch = $bdd->prepare('SELECT * FROM election;');
+  $election_fetch->execute();
 
-    while ($election = $election_fetch->fetch()) {
-      if (strtotime('+24 hours')>strtotime($election['begindate']) && $date<$election['enddate']){
-        $electionEnCours = true;
-      }
+  while ($election = $election_fetch->fetch()) {
+    if (strtotime('+24 hours')>strtotime($election['begindate']) && $date<$election['enddate']){
+      $electionEnCours = true;
     }
+  }
 
-    if ($electionEnCours == true) {
-      header( "refresh:0;url=index.php?pendingelection=true" );
-    }else{
+  if ($electionEnCours == true) {
+    header( "refresh:0;url=index.php?pendingelection=true" );
+  }else{
       $recup = $bdd->prepare('SELECT * FROM elector WHERE individual = ?;');
       $recup->execute(array($_SESSION['id']));
       $elector = $recup->fetch();
