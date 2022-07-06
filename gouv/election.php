@@ -84,7 +84,7 @@ if (isset($_SESSION['id'])){
                         if (isset($_GET['beginerror'])) {
                             echo '
                             <div class="alert alert-danger fade show" role="alert">
-                              <strong>Élection insuffisamment anticipée !<br></strong>Vous devez déclarer vos élections au maximum 90 jours à l\'avance.
+                              <strong>Élection insuffisamment anticipée !<br></strong>Vous devez déclarer vos élections au minimum 90 jours à l\'avance.
                             </div>';
                         }
 
@@ -248,7 +248,7 @@ if (isset($_SESSION['id'])){
                             echo '<strong>Résultats de l\'élection ' . $row['description'] . '</strong><br>';
                               $getResult=$bdd->prepare('SELECT COUNT(candidate) AS score, candidate FROM votes WHERE election=? GROUP BY candidate;');
                               $getResult->execute(array($row['id']));
-                
+
                               while ($result=$getResult->fetch()){
                                 $getcandidates = $bdd->prepare('SELECT * FROM candidate WHERE id=?');
                                 $getcandidates->execute(array($result["candidate"]));
@@ -258,7 +258,7 @@ if (isset($_SESSION['id'])){
                                 } else {
                                   echo '<p> Votes blancs: ' . $result["score"] . '</p>';
                                 }
-                
+
                               }
                               echo '<p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>';
                             echo '</div>';
