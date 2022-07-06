@@ -174,7 +174,7 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
 
             <div class="form-group">
               <label for="titre">Date de naissance</label>
-              <input type="datetime" name="birthdate" class="form-control';
+              <input type="date" name="birthdate" class="form-control';
               if (isset($_GET['birthdateerror'])){
                 echo ' is-invalid';
               }
