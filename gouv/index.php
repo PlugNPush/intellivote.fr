@@ -139,7 +139,7 @@ if (isset($_SESSION['id'])){
                   <br><a class="btn btn-primary" href="election.php?affiche=true">Afficher/Supprimer une élection</a><br>
 
                   <br><a class="btn btn-danger" href="revoke.php">Révoquer un accès...</a>
-                  <br><br>';
+                  <br><br><br>';
 
               } else {
 
