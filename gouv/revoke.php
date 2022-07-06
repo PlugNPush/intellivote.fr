@@ -21,6 +21,10 @@ if (isset($_SESSION['id'])){
         $req = $bdd->prepare('SELECT * FROM mairies WHERE id = ? ;');
         $req->execute(array($_POST['idmairie']));
         $mairie = $req->fetch();
+
+        $req = $bdd->prepare('SELECT * FROM mayor WHERE mairie = ? AND individual = ? ;');
+        $req->execute(array($_POST['idmairie'], $_POST['mayorindv']));
+        $mairiecheck = $req->fetch();
       }
 
       $req = $bdd->prepare('SELECT * FROM individual WHERE id = ? ;');
@@ -31,7 +35,10 @@ if (isset($_SESSION['id'])){
         header( "refresh:0;url=revoke.php?mayorindverror=true");
       } else if ($_POST['idmairie'] != -1 && empty($mairie['id'])) {
         header( "refresh:0;url=revoke.php?idmairieerror=true");
+      } else if ($_POST['idmairie'] != -1 && empty($mairiecheck['id'])) {
+        header( "refresh:0;url=revoke.php?mairiecheckerror=true&idmairieerror=true");
       }
+
     }
   }
 
@@ -188,6 +195,12 @@ if (isset($_SESSION['id'])){
                     <h2><a>Révoquer un employé de mairie :</a></h2>
                     <form action="revoke.php?revoke=true" method="post">';
 
+                    if (isset($_GET['mairiecheckerror'])) {
+                      echo '<div class="alert alert-danger fade show" role="alert">
+                        <strong>Une erreur s\'est produite.</strong> Aucune correspondance n\'a pu être trouvée pour cet électeur et cette mairie.
+                      </div><br><br>';
+                    }
+
                     echo '
 
                         <div class="form-group">
@@ -221,7 +234,7 @@ if (isset($_SESSION['id'])){
 
                             if (isset($_GET['idmairieerror'])){
                                 echo '<div class="invalid-feedback">
-                                ID de la mairie incorrect ! L\'employé ne travavaille peut-être pas dans cette mairie.
+                                ID de la mairie incorrect ! Vérifiez votre saisie. L\'employé ne travavaille peut-être pas dans cette mairie.
                                 </div>';
                             }
 
