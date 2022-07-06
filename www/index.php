@@ -21,7 +21,7 @@ if (isset($_SESSION['id'])){
     }
   }
 
-  if (!isset($_POST['cdelaccount'])){
+  if (!isset($_POST['cdelaccount']) && !isset($_POST['ceditaccount'])){
 
     echo '<!DOCTYPE html>
     <html lang="fr">
@@ -82,8 +82,9 @@ if (isset($_SESSION['id'])){
           <!-- Blog Entries Column -->
           <div class="col-md-8">';
 
-            if (isset($_GET['delaccount'])){
+            if (isset($_GET['delaccount'])) {
               echo '<h1 class="my-4">Suppression de compte</h1>';
+
               echo '
               <div class="alert alert-danger fade show" role="alert">
                 <strong>Voulez-vous vraiment supprimer votre compte ?</strong><br> Cette opération est irréversible. Si vous souhaitez recréer un compte, vous devrez impérativement le faire 90 jours avant les prochaines élections.<br>
@@ -95,9 +96,109 @@ if (isset($_SESSION['id'])){
                 <button type="submit" class="btn btn-danger">Confirmer la suppresion</button>
                 </form>
                 <br><a href="index.php" class="btn btn-primary">Annuler</a>
+              <form action="index.php" method="post">
 
               </div>';
-            }else{
+            } else if (isset($_GET['editaccount'])){
+              echo '<h1 class="my-4">Modification des informations de connexion</h1>';
+
+              echo '
+              <h2><a>Modifier l\'adresse e-mail de connexion :</a></h2>
+              <form action="index.php" method="post">
+
+                <div class="form-group">
+                  <label for="email">Saisissez la nouvelle adresse e-mail</label>
+                  <input type="text" name="email" class="form-control';
+
+                  if (isset($_GET['emailerror'])){
+                    echo ' is-invalid';
+                  }
+
+                  echo '" id="email" placeholder="Adresse e-mail" required>';
+
+                  if (isset($_GET['tokenerror'])){
+                    echo '<div class="invalid-feedback">
+                      Email invalide ! Peut-être que cette adresse existe déjà chez un autre utilisateur. Besoin d\'aide ? Contactez un administrateur.
+                    </div>';
+                  }
+
+                  echo ' <small id="emailHelp" class="form-text text-muted">
+                    Vous devez utiliser une adresse e-mail qui ne soit pas utilisée par un autre utilisateur. Vous devrez la confirmer à l\'aide d\'un code envoyé sur votre nouvelle adresse.
+                  </small>
+                  <br>
+
+                  <input type="hidden" name="ceditaccount" class="form-control" id="ceditaccount" value="true" required>
+
+                <button type="submit" class="btn btn-primary">Modifier mon adresse e-mail</button>
+
+              </form><br><br>';
+
+              echo '
+              <h2><a>Modifier le mot de passe de connexion :</a></h2>
+              <form action="index.php" method="post">
+
+                <div class="form-group">
+                  <label for="email">Saisissez l\'ancien mot de passe</label>
+                  <input type="password" name="omdp" class="form-control';
+
+                  if (isset($_GET['oldpassworderror'])){
+                    echo ' is-invalid';
+                  }
+
+                  echo '" id="omdp" placeholder="Ancien mot de passe" required>';
+
+                  if (isset($_GET['oldpassworderror'])){
+                    echo '<div class="invalid-feedback">
+                      Mot de passe incorrect ! Besoin d\'aide ? Contactez un administrateur.
+                    </div>';
+                  }
+
+                  echo '
+                  <br>
+
+                  <label for="email">Saisissez le nouveau mot de passe</label>
+                  <input type="password" name="mdp" class="form-control';
+
+                  if (isset($_GET['passworderror'])){
+                    echo ' is-invalid';
+                  }
+
+                  echo '" id="mdp" placeholder="Nouveau mot de passe" required>';
+
+                  if (isset($_GET['passworderror'])){
+                    echo '<div class="invalid-feedback">
+                      Mot de passe invalide ! Les deux mots de passes ne correspondent pas. Vérifiez votre saisie.
+                    </div>';
+                  }
+
+                  echo '
+                  <br>
+
+                  <label for="email">Confirmez le nouveau mot de passe</label>
+                  <input type="password" name="vmdp" class="form-control';
+
+                  if (isset($_GET['passworderror'])){
+                    echo ' is-invalid';
+                  }
+
+                  echo '" id="vmdp" placeholder="Confirmation du nouveau mot de passe" required>';
+
+                  if (isset($_GET['passworderror'])){
+                    echo '<div class="invalid-feedback">
+                      Mot de passe invalide ! Les deux mots de passes ne correspondent pas. Vérifiez votre saisie.
+                    </div>';
+                  }
+
+                  echo '
+                  <br>
+
+                  <input type="hidden" name="ceditaccount" class="form-control" id="ceditaccount" value="true" required>
+
+                <button type="submit" class="btn btn-primary">Modifier mon mot de passe</button>
+
+              </form><br><br>';
+
+            } else {
               echo '<h1 class="my-4">Bienvenue sur Intellivote,
                 <small>'.$_SESSION['surname'].' '.$_SESSION['name'].'</small>
               </h1>';
@@ -435,8 +536,9 @@ if (isset($_SESSION['id'])){
 
             echo '
 
-            <a class = "btn btn-secondary" href = "logout.php">Se déconnecter</a><br><br>
-            <a class = "btn btn-danger" href = "index.php?delaccount=true">Supprimer mon compte</a><br><br>';
+            <a class = "btn btn-secondary" href="logout.php">Se déconnecter</a><br><br>
+            <a class = "btn btn-primary" href="index.php?editaccount=true">Modifier mes informations de connexion</a><br><br>
+            <a class = "btn btn-danger" href="index.php?delaccount=true">Supprimer mon compte</a><br><br>';
             }
 
             echo '
@@ -464,45 +566,51 @@ if (isset($_SESSION['id'])){
 
     </html>
 ';
-} else{
-  $electionEnCours = false;
-  $date = date('Y-m-d H:i:s');
-  $election_fetch = $bdd->prepare('SELECT * FROM election;');
-  $election_fetch->execute();
+} else {
 
-  while ($election = $election_fetch->fetch()) {
-    if (strtotime('+24 hours')>strtotime($election['begindate']) && $date<$election['enddate']){
-      $electionEnCours = true;
+  if (isset($_POST['cdelaccount'])) {
+    $electionEnCours = false;
+    $date = date('Y-m-d H:i:s');
+    $election_fetch = $bdd->prepare('SELECT * FROM election;');
+    $election_fetch->execute();
+
+    while ($election = $election_fetch->fetch()) {
+      if (strtotime('+24 hours')>strtotime($election['begindate']) && $date<$election['enddate']){
+        $electionEnCours = true;
+      }
     }
+
+    if ($electionEnCours == true) {
+      header( "refresh:0;url=index.php?pendingelection=true" );
+    }else{
+        $recup = $bdd->prepare('SELECT * FROM elector WHERE individual = ?;');
+        $recup->execute(array($_SESSION['id']));
+        $elector = $recup->fetch();
+
+        $del1 = $bdd->prepare('DELETE FROM elector WHERE individual = ?;');
+        $del1->execute(array($_SESSION['id']));
+
+        $del2 = $bdd->prepare('DELETE FROM governor WHERE individual = ?;');
+        $del2->execute(array($_SESSION['id']));
+
+        $del3 = $bdd->prepare('DELETE FROM individual WHERE id = ?;');
+        $del3->execute(array($_SESSION['id']));
+
+        $del4 = $bdd->prepare('DELETE FROM mayor WHERE individual = ?;');
+        $del4->execute(array($_SESSION['id']));
+
+        $del5 = $bdd->prepare('DELETE FROM validations individual = ?;');
+        $del5->execute(array($_SESSION['id']));
+
+        $del6 = $bdd->prepare('DELETE FROM voted WHERE elector = ?;');
+        $del6->execute(array($elector['id']));
+
+        header( "refresh:0;url=logout.php" );
+      }
+  } else {
+    // SQL UPDATE ACCOUNT MAIL + PASS
   }
 
-  if ($electionEnCours == true) {
-    header( "refresh:0;url=index.php?pendingelection=true" );
-  }else{
-      $recup = $bdd->prepare('SELECT * FROM elector WHERE individual = ?;');
-      $recup->execute(array($_SESSION['id']));
-      $elector = $recup->fetch();
-
-      $del1 = $bdd->prepare('DELETE FROM elector WHERE individual = ?;');
-      $del1->execute(array($_SESSION['id']));
-
-      $del2 = $bdd->prepare('DELETE FROM governor WHERE individual = ?;');
-      $del2->execute(array($_SESSION['id']));
-
-      $del3 = $bdd->prepare('DELETE FROM individual WHERE id = ?;');
-      $del3->execute(array($_SESSION['id']));
-
-      $del4 = $bdd->prepare('DELETE FROM mayor WHERE individual = ?;');
-      $del4->execute(array($_SESSION['id']));
-
-      $del5 = $bdd->prepare('DELETE FROM validations individual = ?;');
-      $del5->execute(array($_SESSION['id']));
-
-      $del6 = $bdd->prepare('DELETE FROM voted WHERE elector = ?;');
-      $del6->execute(array($elector['id']));
-
-      header( "refresh:0;url=logout.php" );
-    }
 }
 } else {
   header( "refresh:0;url=login.php?expired=true" );
