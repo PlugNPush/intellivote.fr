@@ -298,7 +298,7 @@ if (isset($_SESSION['id'])){
                     };
                     if ($i==0) { //case no ongoing election
                       echo '
-                      <strong>Pas d\'élections à venir.<br>';
+                      <strong>Pas d\'élections à venir.</strong></div><br><br>';
                     }
 
 
