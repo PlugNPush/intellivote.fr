@@ -132,11 +132,11 @@ if (isset($_SESSION['id'])){
                   echo '
                   <h2><a>Gestion des élections :</a></h2>
 
-                  <br><a class="btn btn-primary" href="election.php?ajout=true">Ajouter une élection</a>
+                  <br><a class="btn btn-primary" href="election.php?ajout=true">Ajouter une élection</a><br>
 
                   <br><a class="btn btn-primary" href="election.php?ajoutcandidat=true">Ajouter un candidat à une élection</a><br>
 
-                  <br><a class="btn btn-primary" href="election.php?affiche=true">Afficher/Supprimer une élection</a>
+                  <br><a class="btn btn-primary" href="election.php?affiche=true">Afficher/Supprimer une élection</a><br>
 
                   <br><a class="btn btn-danger" href="revoke.php">Révoquer un accès...</a>
                   <br><br>';
