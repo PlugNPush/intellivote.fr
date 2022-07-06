@@ -93,8 +93,8 @@ if (isset($_SESSION['id'])){
                 <form action="index.php" method="post">
                 <input type="hidden" name="cdelaccount" class="form-control" id="cdelaccount" value="true" required>
                 <button type="submit" class="btn btn-danger">Confirmer la suppresion</button>
-                <br><a href="index.php" class="btn btn-primary">Annuler</a>
                 </form>
+                <br><br><a href="index.php" class="btn btn-primary">Annuler</a>
 
               </div>';
             }else{
