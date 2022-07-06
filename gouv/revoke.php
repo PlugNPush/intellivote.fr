@@ -141,7 +141,7 @@ if (isset($_SESSION['id'])){
 
                       <br><br>
 
-                      <a class="btn btn-primary" href="index.php">Retour en arrière</a>';
+                      <a class="btn btn-primary" href="revoke.php">Retour en arrière</a>';
 
                       } else {
 
@@ -178,7 +178,7 @@ if (isset($_SESSION['id'])){
 
                       <br><br>
 
-                      <a class="btn btn-primary" href="index.php">Retour en arrière</a>';
+                      <a class="btn btn-primary" href="revoke.php">Retour en arrière</a>';
                       }
 
                   } else {
