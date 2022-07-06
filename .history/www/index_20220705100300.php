@@ -103,7 +103,7 @@ if (isset($_SESSION['id'])){
 
                     //get actual time in paris 
                     date_default_timezone_set('Europe/Paris');
-                    $curdate = date('Y-m-d h:i:s');
+                    $curdate = date('Y-m-d H:i:s');
 
                     //display current date 
                     /*

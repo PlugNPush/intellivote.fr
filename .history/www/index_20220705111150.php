@@ -102,7 +102,7 @@ if (isset($_SESSION['id'])){
                   <div class="alert alert-info fade show" role="alert"';
 
                     //get actual time in paris 
-                    $curdate = date('Y-m-d h:i:s');
+                    $curdate = date('Y-m-d H:i:s');
 
                     //display current date 
                     /*
