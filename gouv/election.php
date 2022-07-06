@@ -226,6 +226,19 @@ if (isset($_SESSION['id'])){
                             <div class="alert alert-info fade show" role="alert">
                             - <strong>ID de l\'élection :</strong> ' . $elec['id'] . ' | Nom : '. $elec['description'];
                             echo '<br> - <strong>Dates de l\'élection :</strong> Début : ' . date('d/m/Y à H:i', strtotime($elec['begindate'])) . ' | fin : ' . date('d/m/Y à H:i', strtotime($elec['enddate']));
+                            $getcandidates = $bdd->prepare('SELECT * FROM candidate WHERE election = ? ');
+                            $getcandidates->execute(array($elec['id']));
+                            echo '<br> - <strong>Candidats :</strong><br> ';
+                            $j = 0;
+                            while ($candidates = $getcandidates->fetch()){ //case 1 or many candidates
+                              echo '
+                                - <strong> ', $candidates['surname'],' ',$candidates['name'], '</strong> (' . $candidates['party'] . ')<br>';
+                              $j++;
+                            };
+                            if ($j==0) { //case no candidates
+                              echo '
+                              <p>Pas de candidats.</p>';
+                            }
                             echo '</div>
                             </label>
                             <input type="hidden" name="delete" class="form-control';
@@ -326,10 +339,12 @@ if (isset($_SESSION['id'])){
                     }
 
 
+                    if (!isset($_GET['delete'])){
+                      echo '
+                      <a class = "btn btn-danger" href = "index.php">Annuler</a>
+                      <br><br>';
+                    }
 
-                    echo '
-                    <a class = "btn btn-danger" href = "index.php">Annuler</a>
-                    <br><br>';
 
                 }
 
