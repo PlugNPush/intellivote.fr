@@ -433,7 +433,8 @@ if (isset($_SESSION['id'])){
           $req->execute(array(
             'description'=> $_POST['description'],
             'begindate'=> $_POST['begindate'],
-            'enddate'=> $_POST['enddate']
+            'enddate'=> $_POST['enddate'],
+            'type'=> 1
           ));
 
           header( "refresh:0;url=index.php?successelection=true");
