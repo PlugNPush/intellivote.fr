@@ -622,7 +622,7 @@ if (isset($_SESSION['id'])){
       $upd2 = $bdd->prepare('UPDATE validations SET validated = 0, token = ?, date = ? WHERE individual = ? AND type = 0;');
       $upd2->execute(array($token, $date, $_SESSION['id']));
 
-      header( "refresh:0;url=validation.php" );
+      header( "refresh:0;url=validation.php?resend=true" );
     } else {
 
       if ($_POST['mdp'] != $_POST['vmdp'] || empty($_POST['mdp'])) {
