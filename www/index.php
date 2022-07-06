@@ -66,7 +66,20 @@ if (isset($_SESSION['id'])){
           <div class="col-md-8">';
 
             if (isset($_GET['delaccount'])){
-              echo 'cque tu veux dedans';
+              echo '<h1 class="my-4">Suppression de compte</h1>';
+              echo '
+              <div class="alert alert-danger fade show" role="alert">
+                <strong>Voulez-vous vraiment supprimer votre compte ?</strong><br> Cette opération est irréversible. Si vous souhaitez recréer un compte, vous devrez impérativement le faire 90 jours avant les prochaines élections.<br>
+                Si vous avez voté en utilisant la plateforme, votre voix sera conservée pour chaque élection à laquelle vous avez voté.<br>
+                Il vous sera toujours possible de vous déplacer dans votre bureau de vote pour les élections auxquelles vous n\'avez pas encore participé.<br>
+                Pour les personnes concernées, les accès aux espaces Mairie et Gouvernement ne seront plus disponibles.<br><br>
+                <a class="btn btn-primary">Annuler</a>
+                <form action="index.php" method="post">
+                <input type="hidden" name="cdelaccount" class="form-control" id="cdelaccount" value="true" required>
+                <button type="submit" class="btn btn-danger">Confirmer la suppresion</button>
+                </form>
+
+              </div>';
             }else{
               echo '<h1 class="my-4">Bienvenue sur Intellivote,
                 <small>'.$_SESSION['surname'].' '.$_SESSION['name'].'</small>
@@ -429,7 +442,7 @@ if (isset($_SESSION['id'])){
     </html>
 ';
 } else{
-  //requete SQL suppression du compte
+  echo 'testtestestestestestestestestestestestestestest';
 }
 } else {
   header( "refresh:0;url=login.php?expired=true" );
