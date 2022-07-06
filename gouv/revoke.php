@@ -184,7 +184,7 @@ if (isset($_SESSION['id'])){
                   } else {
                     echo '
                     <h2><a>Révoquer un employé de mairie :</a></h2>
-                    <form action="election.php?revoke=true" method="post">';
+                    <form action="revoke.php?revoke=true" method="post">';
 
                     echo '
 
@@ -238,7 +238,7 @@ if (isset($_SESSION['id'])){
 
                     echo '
                     <h2><a>Révoquer un électeur :</a></h2>
-                    <form action="election.php?revoke=true" method="post">';
+                    <form action="revoke.php?revoke=true" method="post">';
 
                     echo '<div class="alert alert-danger fade show" role="alert">
                       <strong>ATTENTION : VOTRE RÉSPONSABILITÉ EST ENGAGÉE.</strong><br> Cet espace permet de révoquer l\'accès d\'un électeur à la plateforme Intellivote, suite à un retrait de citoyenneté ou interdiction d\'entrée sur le territoire par exemple. Votre résponsabilté est pleinement engagée sur cette opération. N\'utilisez ce formulaire uniquement si vous en avez reçu l\'instruction d\'une haute juridiction administrative. Un électeur peut se révoquer l\'accès lui-même, et en cas de décès ou d\'impossibilité de voter en ligne, c\'est à la mairie de prendre en charge cette opération.
