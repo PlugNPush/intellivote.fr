@@ -260,7 +260,8 @@ if (isset($_SESSION['id'])){
                                 }
 
                               }
-                              echo '<p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>';
+                              echo '<p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>
+                              <a class = "btn btn-danger" href = "election.php?delete=true&election=' . $row['id'] . '">Supprimer l\'élection</a>';
                             echo '</div>';
                         }
 
