@@ -92,7 +92,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'])){
           if (isset($_GET['deleted'])) {
             echo '
             <div class="alert alert-success fade show" role="alert">
-              <strong>Votre compte a bien été supprimé</strong>. Si vous n\'êtes pas satisfait du service, n\'hésitez pas à faire remonter vos tracas auprès d\'un modérateur.
+              <strong>Votre compte a bien été supprimé</strong>. Si vous n\'êtes pas satisfait du service, n\'hésitez pas à faire remonter vos tracas auprès d\'un administrateur.
             </div>';
           }
           if (isset($_GET['expired'])) {

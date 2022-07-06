@@ -67,7 +67,7 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
           if (isset($_GET['ierror'])) {
             echo '
             <div class="alert alert-danger fade show" role="alert">
-              <strong>Une erreur interne inattendue s\'est produite</strong>. Un paramètre attendu n\'est pas parvenu à sa destination. Veuillez réesayer puis contacter un modérateur si l\'erreur se reproduit.
+              <strong>Une erreur interne inattendue s\'est produite</strong>. Un paramètre attendu n\'est pas parvenu à sa destination. Veuillez réesayer puis contacter un administrateur si l\'erreur se reproduit.
             </div>';
           }
           if (isset($_GET['dperror'])) {

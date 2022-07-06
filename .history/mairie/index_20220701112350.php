@@ -103,7 +103,7 @@ if (!isset($_SESSION['id'])) {
                     <label for="token">Saisissez le code à usage unique ';echo($_POST['token']);echo '</label>
                     <input type="text" name="token" class="form-control" id="token" placeholder="Saisissez le code reçu sur votre adresse mail" required>
                     <small id="emailHelp" class="form-text text-muted">
-                      Vous pouvez récupérer la clé dans votre espace électeur après sa vérification. En cas de problème, contactez un modérateur.
+                      Vous pouvez récupérer la clé dans votre espace électeur après sa vérification. En cas de problème, contactez un administrateur.
                     </small>
                   </div>
 

@@ -99,7 +99,7 @@ if (isset($_SESSION['id'])){
                                 }
 
                                 echo ' <small id="NameHelp" class="form-text text-muted">
-                                    Veuillez saisir l\'identifiant de l\'employé du maire. Celui-ci vous avait été communiqué lors de son enregistrement. En cas de problème, contactez un modérateur.
+                                    Veuillez saisir l\'identifiant de l\'employé du maire. Celui-ci vous avait été communiqué lors de son enregistrement. En cas de problème, contactez un administrateur.
                                 </small>
 
                                 <label for="idmairie">Saisissez l\'ID de la mairie </label>
@@ -157,7 +157,7 @@ if (isset($_SESSION['id'])){
                                 }
 
                                 echo ' <small id="NameHelp" class="form-text text-muted">
-                                    Veuillez saisir l\'identifiant de l\'électeur. En cas de problème, contactez un modérateur.
+                                    Veuillez saisir l\'identifiant de l\'électeur. En cas de problème, contactez un administrateur.
                                 </small>
 
 

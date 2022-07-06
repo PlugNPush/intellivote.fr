@@ -98,7 +98,7 @@ if (!isset($_SESSION['id'])) {
                     <label for="token">Saisissez le code à usage unique</label>
                     <input type="text" name="token" class="form-control" id="token" placeholder="Saisissez le code reçu sur votre adresse mail" required>
                     <small id="emailHelp" class="form-text text-muted">
-                      Vous pouvez également cliquer sur le lien envoyé dans le mail que vous avez reçu. En cas de problème, contactez un modérateur.
+                      Vous pouvez également cliquer sur le lien envoyé dans le mail que vous avez reçu. En cas de problème, contactez un administrateur.
                     </small>
                   </div>
                   <button type="submit" class="btn btn-primary">Vérifier l\'authenticité du compte</button>

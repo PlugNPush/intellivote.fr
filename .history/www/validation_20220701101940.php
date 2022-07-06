@@ -92,14 +92,14 @@ if (isset($_SESSION['id'])){
 
             if (isset($_GET['serror'])) {
               echo '<div class="alert alert-danger fade show" role="alert">
-                <strong>Erreur lors de la validation !</strong><br> Le courrier éléctronique contenant votre code de validation n\'a pas pu s\'envoyer. Veuillez contacter un modérateur.
+                <strong>Erreur lors de la validation !</strong><br> Le courrier éléctronique contenant votre code de validation n\'a pas pu s\'envoyer. Veuillez contacter un administrateur.
               </div>';
             }
 
             if (isset($_GET['ierror'])) {
               echo '
               <div class="alert alert-danger fade show" role="alert">
-                <strong>Une erreur interne inattendue s\'est produite</strong>. Un paramètre attendu n\'est pas parvenu à sa destination. Veuillez réesayer puis contacter un modérateur si l\'erreur se reproduit.
+                <strong>Une erreur interne inattendue s\'est produite</strong>. Un paramètre attendu n\'est pas parvenu à sa destination. Veuillez réesayer puis contacter un administrateur si l\'erreur se reproduit.
               </div>';
             }
 
@@ -134,14 +134,14 @@ if (isset($_SESSION['id'])){
               <a href="index.php" class="btn btn-success btn-lg btn-block">Continuer sur Intellivote</a><br><br>';
             } else if ($data) {
               echo '<div class="alert alert-info fade show" role="alert">
-                <strong>Un processus de vérification est en cours...</strong><br> Votre code d\'authentification vous a été envoyé sur votre adresse mail. Le mail de validation se trouve dans votre dossier de spams, aussi appelé courrier indésirable. En cas de problème, contactez un modérateur.
+                <strong>Un processus de vérification est en cours...</strong><br> Votre code d\'authentification vous a été envoyé sur votre adresse mail. Le mail de validation se trouve dans votre dossier de spams, aussi appelé courrier indésirable. En cas de problème, contactez un administrateur.
               </div>
               <form action="validation.php" method="get">
                 <div class="form-group">
                   <label for="token">Saisissez le code à usage unique</label>
                   <input type="text" name="token" class="form-control" id="token" placeholder="Saisissez le code reçu sur votre adresse mail" required>
                   <small id="emailHelp" class="form-text text-muted">
-                    Vous pouvez également cliquer sur le lien envoyé dans le mail que vous avez reçu. En cas de problème, contactez un modérateur.
+                    Vous pouvez également cliquer sur le lien envoyé dans le mail que vous avez reçu. En cas de problème, contactez un administrateur.
                   </small>
                 </div>
                 <button type="submit" class="btn btn-primary">Vérifier l\'authenticité du compte</button>
