@@ -99,10 +99,39 @@ if (isset($_SESSION['id'])){
                   $gathermairie->execute(array($data['mairie']));
                   $mairie = $gathermairie->fetch();
 
-                  echo '<div class="alert alert-success fade show" role="alert">
-                    <strong>Vous êtes bien enregistré sur la e-liste électorale !</strong><br>Vous votez actuellement dans la mairie de ' . $mairie["nom"] . ' (' . $mairie["departement"] . ')<br>
-                    Vous avez déménagé ? <a href="index.php?transfertoken=true">Demandez un token de transfert ici</a>.
-                    </div>';
+                  $gatherdataverif = $bdd->prepare('SELECT * FROM validations WHERE type = 1 AND individual = ? AND validated = 0');
+                  $gatherdataverif->execute(array($_SESSION['id']));
+                  $dataverif = $gatherdataverif->fetch();
+                  if(isset($_GET['transfertoken']) || $dataverif) {
+
+
+                    if(!$dataverif){
+                        $token = generateRandomString(20);
+                          $date = date('Y-m-d H:i:s');
+
+                          $newtoken = $bdd->prepare('INSERT INTO validations(type, individual, token, date) VALUES(:type, :individual, :token, :date);');
+                          $newtoken->execute(array(
+                            'type' => 1,
+                            'individual' => $_SESSION['id'],
+                            'token' => $token,
+                            'date' => $date
+                          ));
+                        }else {
+                          $token=$dataverif['token'];
+                        }
+
+                        echo '
+                        <div class="alert alert-warning fade show" role="alert">
+                          <strong>Voici votre token de transfert: ', $token ,' </strong><br>Ce dernier devra être présenté dans votre mairie, ou par téléphone.<br>Pensez aux justificatifs habituels: pièce d\'identité, justificatif de domicile et carte d\'électeur.<br>Si vous voulez voter aux prochaines élections, pensez à valider votre compte au moins 7 jours avant le vote.<br><strong>Attention : vous resterez enregistré dans la mairie de ' . $mairie["nom"] . ' (' . $mairie["departement"] . ') jusqu\'à ce que votre code de transfert soit utilisé par votre nouvelle mairie. Ne tardez pas à le communiquer à votre mairie pour rester en conformité avec la loi.</strong>
+                        </div>';
+
+
+                  } else {
+                    echo '<div class="alert alert-success fade show" role="alert">
+                      <strong>Vous êtes bien enregistré sur la e-liste électorale !</strong><br>Vous votez actuellement dans la mairie de ' . $mairie["nom"] . ' (' . $mairie["departement"] . ')<br>
+                      Vous avez déménagé ? <a href="index.php?transfertoken=true">Demandez un token de transfert ici</a>.
+                      </div>';
+                  }
 
                   echo '
                   <div class="alert alert-info fade show" role="alert"';
@@ -276,7 +305,7 @@ if (isset($_SESSION['id'])){
                 // Fin Partie Pablo ------------------------------------------------------------------------------------------
 
                 } else {
-                  $gatherdataverif = $bdd->prepare('SELECT * FROM validations WHERE type = 1 AND individual = ?');
+                  $gatherdataverif = $bdd->prepare('SELECT * FROM validations WHERE type = 1 AND individual = ? AND validated = 0');
                   $gatherdataverif->execute(array($_SESSION['id']));
                   $dataverif = $gatherdataverif->fetch();
                   if(isset($_GET['verifmairie']) || $dataverif) {
