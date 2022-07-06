@@ -4,6 +4,8 @@ require_once dirname(__FILE__).'/../config.php';
 
 if (isset($_SESSION['id'])){
 
+  if (!isset($_POST['cdelaccount'])){
+
     echo '<!DOCTYPE html>
     <html lang="fr">
 
@@ -63,6 +65,9 @@ if (isset($_SESSION['id'])){
           <!-- Blog Entries Column -->
           <div class="col-md-8">';
 
+            if (isset($_GET['delaccount'])){
+              echo 'cque tu veux dedans';
+            }else{
               echo '<h1 class="my-4">Bienvenue sur Intellivote,
                 <small>'.$_SESSION['surname'].' '.$_SESSION['name'].'</small>
               </h1>';
@@ -395,7 +400,10 @@ if (isset($_SESSION['id'])){
             echo '
 
             <a class = "btn btn-secondary" href = "logout.php">Se déconnecter</a><br><br>
+            <a class = "btn btn-danger" href = "index.php?delaccount=true">Supprimer mon compte</a><br><br>';
+            }
 
+            echo '
           </div>
 
         </div>
@@ -420,7 +428,9 @@ if (isset($_SESSION['id'])){
 
     </html>
 ';
-
+} else{
+  //requete SQL suppression du compte
+}
 } else {
   header( "refresh:0;url=login.php?expired=true" );
 }
