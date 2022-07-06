@@ -198,7 +198,7 @@ if (isset($_SESSION['id'])){
                     if (isset($_GET['mairiecheckerror'])) {
                       echo '<div class="alert alert-danger fade show" role="alert">
                         <strong>Une erreur s\'est produite.</strong> Aucune correspondance n\'a pu être trouvée pour cet électeur et cette mairie.
-                      </div><br><br>';
+                      </div>';
                     }
 
                     echo '
@@ -229,14 +229,14 @@ if (isset($_SESSION['id'])){
                                 if (isset($_GET['idmairieerror'])){
                                     echo ' is-invalid';
                                 }
-                                echo '" id="idmairie" placeholder="Saisissez -1 pour révoquer tous les accès" required>
+                                echo '" id="idmairie" placeholder="Saisissez -1 pour révoquer tous les accès" required>';
+                                if (isset($_GET['idmairieerror'])){
+                                    echo '<div class="invalid-feedback">
+                                    ID de la mairie incorrect ! Vérifiez votre saisie. L\'employé ne travavaille peut-être pas dans cette mairie.
+                                    </div>';
+                                }
+                                echo '
                             </div>';
-
-                            if (isset($_GET['idmairieerror'])){
-                                echo '<div class="invalid-feedback">
-                                ID de la mairie incorrect ! Vérifiez votre saisie. L\'employé ne travavaille peut-être pas dans cette mairie.
-                                </div>';
-                            }
 
                             echo '
                             <small id="DateHelp" class="form-text text-muted">
