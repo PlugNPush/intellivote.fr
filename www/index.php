@@ -90,10 +90,10 @@ if (isset($_SESSION['id'])){
                 Si vous avez voté en utilisant la plateforme, votre voix sera conservée pour chaque élection à laquelle vous avez voté.<br>
                 Il vous sera toujours possible de vous déplacer dans votre bureau de vote pour les élections auxquelles vous n\'avez pas encore participé.<br>
                 Pour les personnes concernées, les accès aux espaces Mairie et Gouvernement ne seront plus disponibles.<br><br>
-                <a href="index.php" class="btn btn-primary">Annuler</a>
                 <form action="index.php" method="post">
                 <input type="hidden" name="cdelaccount" class="form-control" id="cdelaccount" value="true" required>
                 <button type="submit" class="btn btn-danger">Confirmer la suppresion</button>
+                <br><a href="index.php" class="btn btn-primary">Annuler</a>
                 </form>
 
               </div>';
