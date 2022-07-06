@@ -103,7 +103,7 @@ if (isset($_SESSION['id'])){
                   if ($electionEnCours) {
                     echo '
                     <div class="alert alert-danger fade show" role="alert">
-                      <strong>Désinscription de la e-liste impossible !</strong><br>Une élection a lieu dans moins de 24 heures. Par mesure de sécurité, il n\'est plus possible de se désinscire de la e-liste électorale. Veuillez réessayer plus tard.
+                      <strong>Désinscription de la e-liste électorale impossible !</strong><br>Une élection a lieu dans moins de 24 heures. Par mesure de sécurité, il n\'est plus possible de se désinscire de la e-liste électorale. Veuillez réessayer plus tard.
                     </div>';
                   } else {
                     $disable = $bdd->prepare('UPDATE elector SET verified = 0 WHERE individual = ?;');
@@ -323,6 +323,17 @@ if (isset($_SESSION['id'])){
                     if ($i==0) { //case no ongoing election
                       echo '
                       <strong>Pas d\'élections en cours.</strong></div><br><br>';
+                    }
+
+                    $electionavenir = $bdd->prepare('SELECT * FROM election WHERE begindate>? ORDER BY begindate DESC;');
+                    $electionavenir->execute(array($date));
+                    echo '<h3>Elections à venir ('.$electionavenir->rowCount().')</h3>';
+                    while($row = $electionavenir->fetch()) {
+                        echo '
+                        <div class="alert alert-info fade show" role="alert">
+                            <strong>L\'élection ' . $row['description'] . ' est à venir</strong><br>
+                            <p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>
+                        </div>';
                     }
 
 
