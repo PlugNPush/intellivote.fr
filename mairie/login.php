@@ -103,6 +103,12 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'] AND !empty($_POST['idmairie
               <strong>Votre session a expiré</strong>. Pour votre sécurité, votre session a expiré. Veuillez vous reconnecter pour continuer.
             </div>';
           }
+          if (isset($_GET['passworderror'])) {
+            echo '
+            <div class="alert alert-danger fade show" role="alert">
+              <strong>Échec de la connexion</strong>. Mot de passe ou identifiant incorrect.
+            </div>';
+          }
 
           if ((isset($_POST['insee']) && isset($_POST['departement'])) || isset($_POST['idmairie'])) {
 
