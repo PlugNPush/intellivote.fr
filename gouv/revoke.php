@@ -138,9 +138,7 @@ if (isset($_SESSION['id'])){
                             echo '<br> - <strong>ATTENTION : sera revoqué en tant qu\'électeur sur Intellivote.</strong>';
                           echo '</div>
                           </label>
-                          <input type="hidden" name="mayorindv" class="form-control" id="mayorindv" value="' . $_POST['mayorindv'] . '" required>';
-
-                          echo '<input type="hidden" name="idmairie" class="form-control" id="idmairie" value="' . $_POST['idmairie'] . '" required>';
+                          <input type="hidden" name="electorindv" class="form-control" id="electorindv" value="' . $_POST['electorindv'] . '" required>';
 
                         echo '</div>
 
