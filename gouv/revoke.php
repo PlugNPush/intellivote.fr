@@ -131,7 +131,7 @@ if (isset($_SESSION['id'])){
 
 
                         echo '
-                        <h2><a>Révoquer un employé de mairie :</a></h2>
+                        <h2><a>Révoquer un électeur :</a></h2>
                         <form action="election.php?revoke=true" method="post">';
 
                         echo '<div class="alert alert-danger fade show" role="alert">
@@ -141,7 +141,7 @@ if (isset($_SESSION['id'])){
                         echo '
 
                             <div class="form-group">
-                                <label for="mayorindv">Saisissez l\'ID de l\'employé de la mairie</label>
+                                <label for="electorindv">Saisissez l\'ID de l\'électeur</label>
                                 <input type="text" name="electorindv" class="form-control';
 
                                 if (isset($_GET['electorindverror'])){
