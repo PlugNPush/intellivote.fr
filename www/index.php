@@ -96,8 +96,6 @@ if (isset($_SESSION['id'])){
                 <button type="submit" class="btn btn-danger">Confirmer la suppresion</button>
                 </form>
                 <br><a href="index.php" class="btn btn-primary">Annuler</a>
-              <form action="index.php" method="post">
-
               </div>';
             } else if (isset($_GET['editaccount'])){
               echo '<h1 class="my-4">Modification des informations de connexion</h1>';
@@ -116,7 +114,7 @@ if (isset($_SESSION['id'])){
 
                   echo '" id="email" placeholder="Adresse e-mail" required>';
 
-                  if (isset($_GET['tokenerror'])){
+                  if (isset($_GET['emailerror'])){
                     echo '<div class="invalid-feedback">
                       Email invalide ! Peut-être que cette adresse existe déjà chez un autre utilisateur. Besoin d\'aide ? Contactez un administrateur.
                     </div>';
@@ -609,6 +607,7 @@ if (isset($_SESSION['id'])){
       }
   } else {
     // SQL UPDATE ACCOUNT MAIL + PASS
+    echo 'PROCESS';
   }
 
 }
