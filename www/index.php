@@ -374,11 +374,19 @@ if (isset($_SESSION['id'])){
                     $gathersuspendeda->execute(array($_SESSION['id']));
                     $suspended = $gathersuspended->fetch();
 
-                    echo '
-                  <div class="alert alert-warning fade show" role="alert">
-                    <strong>Bonjour '.$_SESSION['surname'].' !</strong><br> Vous accès en tant qu\'électeur sur la e-liste électorale a été suspendu. Lancez une pré-demande en ligne ou rendez-vous en mairie pour vous réinscrire.<br><a class = "btn btn-primary" href = "index.php?verifmairie=true">Demander à être ré-inscrit sur une e-liste électorale</a><br>
-                    <br>Vous representez une mairie ? Votre demande devra être traitée par <a href="https://gouv.intellivote.fr">un représentant de l\'État</a>.
-                  </div>';
+                    if (empty($suspended['id'])) {
+                      echo '
+                    <div class="alert alert-warning fade show" role="alert">
+                      <strong>Bonjour '.$_SESSION['surname'].' !</strong><br> Vous devez maintenant vous authentifier en tant qu\'électeur, donc relier votre identité numérique à votre identité physique. Lancez une pré-demande en ligne ou rendez-vous en mairie.<br><a class = "btn btn-primary" href = "index.php?verifmairie=true">Relier mon identité physique</a><br>
+                      <br>Vous representez une mairie ? Votre demande devra être traitée par <a href="https://gouv.intellivote.fr">un représentant de l\'État</a>.
+                    </div>';
+                    } else {
+                      echo '
+                      <div class="alert alert-warning fade show" role="alert">
+                        <strong>Bonjour '.$_SESSION['surname'].' !</strong><br> Vous accès en tant qu\'électeur sur la e-liste électorale a été suspendu. Lancez une pré-demande en ligne ou rendez-vous en mairie pour vous réinscrire.<br><a class = "btn btn-primary" href = "index.php?verifmairie=true">Demander à être ré-inscrit sur une e-liste électorale</a><br>
+                        <br>Vous representez une mairie ? Votre demande devra être traitée par <a href="https://gouv.intellivote.fr">un représentant de l\'État</a>.
+                      </div>';
+                    }
                   }
 
                 }
