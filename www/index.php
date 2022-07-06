@@ -122,7 +122,7 @@ if (isset($_SESSION['id'])){
 
                         echo '
                         <div class="alert alert-warning fade show" role="alert">
-                          <strong>Voici votre token de transfert: ', $token ,' </strong><br>Ce dernier devra être présenté dans votre mairie, ou par téléphone.<br>Pensez aux justificatifs habituels: pièce d\'identité, justificatif de domicile et carte d\'électeur.<br>Si vous voulez voter aux prochaines élections, pensez à valider votre compte au moins 7 jours avant le vote.<br><strong>Attention : vous resterez enregistré dans la mairie de ' . $mairie["nom"] . ' (' . $mairie["departement"] . ') jusqu\'à ce que votre code de transfert soit utilisé par votre nouvelle mairie. Ne tardez pas à le communiquer à votre mairie pour rester en conformité avec la loi.</strong>
+                          <strong>Voici votre token de transfert: ', $token ,' </strong><br>Ce dernier devra être présenté dans votre mairie, ou par téléphone.<br>Pensez aux justificatifs habituels: pièce d\'identité, justificatif de domicile et carte d\'électeur.<br>Si vous voulez voter aux prochaines élections, pensez à valider votre compte au moins 7 jours avant le vote.<br><strong>Attention : vous resterez enregistré dans la mairie de ' . $mairie["nom"] . ' (' . $mairie["departement"] . ') jusqu\'à ce que votre code de transfert soit utilisé par votre nouvelle mairie. Ne tardez pas à le communiquer à votre nouvelle mairie pour rester en conformité avec la loi. Votre nouvelle mairie se chargera de compléter le transfert pour vous, vous n\'avez aucune démarche à faire dans votre mairie actuelle. </strong>
                         </div>';
 
 
