@@ -201,7 +201,7 @@ if (!isset($_SESSION['id'])) {
                             while($row = $electionpassees->fetch()) {
                                 echo '<div class="alert alert-info fade show" role="alert">';
                                 echo '<strong>Résultats de l\'élection ' . $row['description'] . '</strong><br>';
-                                  $getResult=$bdd->prepare('SELECT COUNT(candidate) AS score, candidate FROM votes WHERE mairie=? AND election=? GROUP BY candidate;');
+                                  $getResult=$bdd->prepare('SELECT COUNT(token) AS score, candidate FROM votes WHERE mairie=? AND election=? GROUP BY candidate;');
                                   $getResult->execute(array($_SESSION['idmairie'],$row['id']));
 
                                   while ($result=$getResult->fetch()){
