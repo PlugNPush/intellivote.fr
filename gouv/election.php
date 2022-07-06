@@ -272,7 +272,7 @@ if (isset($_SESSION['id'])){
                                 <p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>';
 
                                 if (date('Y-m-d H:i', strtotime($row['begindate'] . ' - 7 days'))>date('Y-m-d H:i')) {
-                                  echo '<a class = "btn btn-danger" href = "election.php?delete=true&election=' . $row['id'] . '">Annuler l\'élection</a>';
+                                  echo '<a class = "btn btn-danger" href = "election.php?delete=' . $row['id'] . '">Annuler l\'élection</a>';
                                 } else {
                                   echo '<strong>L\'annulation de cette élection n\'est plus possible car elle débutera dans moins de 7 jours.</strong>';
                                 }
