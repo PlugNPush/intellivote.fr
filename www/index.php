@@ -298,7 +298,7 @@ if (isset($_SESSION['id'])){
                   } else {
                     echo '<div class="alert alert-success fade show" role="alert">
                       <strong>Vous êtes bien enregistré sur la e-liste électorale !</strong><br>Vous votez actuellement dans la mairie de ' . $mairie["nom"] . ' (' . $mairie["departement"] . ')<br>
-                      Vous avez déménagé ? Mettez-vous en conformité avec la loi !<br><a href="index.php?transfertoken=true">Demandez un token de transfert ici</a>.<br><br>
+                      Vous avez déménagé ? Mettez-vous en conformité avec la loi.<br><a href="index.php?transfertoken=true">Demandez un token de transfert ici</a>.<br><br>
                       Sachez que vous pouvez aussi vous retirer de la e-liste électorale. <a href="index.php?unregister=true">Demandez à voter en présentiel en mairie ici</a>. Attention : le retrait de la e-liste électorale est instantané, en revanche vous devrez vous rapprocher de votre mairie pour vous y ré-inscrire avec les délais et justificatifs en vigueur. Vous ne pouvez pas vous désincrire de la e-liste à moins de 24 heures de la prochaine élection.
                       </div>';
                   }
