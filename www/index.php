@@ -371,7 +371,7 @@ if (isset($_SESSION['id'])){
                   } else {
 
                     $gathersuspended = $bdd->prepare('SELECT * FROM elector WHERE individual = ? AND verified = 0;');
-                    $gathersuspendeda->execute(array($_SESSION['id']));
+                    $gathersuspended->execute(array($_SESSION['id']));
                     $suspended = $gathersuspended->fetch();
 
                     if (empty($suspended['id'])) {
