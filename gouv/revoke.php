@@ -17,9 +17,11 @@ if (isset($_SESSION['id'])){
 
     } else {
 
-      $req = $bdd->prepare('SELECT * FROM mairies WHERE id = ? ;');
-      $req->execute(array($_POST['idmairie']));
-      $mairie = $req->fetch();
+      if ($_POST['idmairie'] != -1) {
+        $req = $bdd->prepare('SELECT * FROM mairies WHERE id = ? ;');
+        $req->execute(array($_POST['idmairie']));
+        $mairie = $req->fetch();
+      }
 
       $req = $bdd->prepare('SELECT * FROM individual WHERE id = ? ;');
       $req->execute(array($_POST['mayorindv']));
@@ -27,7 +29,7 @@ if (isset($_SESSION['id'])){
 
       if (empty($indiv['id'])) {
         header( "refresh:0;url=revoke.php?mayorindverror=true");
-      } else if (empty($mairie['id'])) {
+      } else if ($_POST['idmairie'] != -1 && empty($mairie['id'])) {
         header( "refresh:0;url=revoke.php?idmairieerror=true");
       }
     }
