@@ -129,7 +129,7 @@ if (isset($_SESSION['id'])){
                   } else {
                     echo '<div class="alert alert-success fade show" role="alert">
                       <strong>Vous êtes bien enregistré sur la e-liste électorale !</strong><br>Vous votez actuellement dans la mairie de ' . $mairie["nom"] . ' (' . $mairie["departement"] . ')<br>
-                      Vous avez déménagé ? Mettez-vous en conformité avec la loi !<br><a href="index.php?transfertoken=true">Demandez un token de transfert ici</a> (nouvelle résidence principale).
+                      Vous avez déménagé ? Mettez-vous en conformité avec la loi !<br><a href="index.php?transfertoken=true">Demandez un token de transfert ici</a>.
                       </div>';
                   }
 
