@@ -84,7 +84,7 @@ if (isset($_SESSION['id'])){
                         if (isset($_GET['beginerror'])) {
                             echo '
                             <div class="alert alert-danger fade show" role="alert">
-                              <strong>Élection insuffisamment anticipée !<br></strong>Vous devez déclarer vos élections au minimum 90 jours à l\'avance.
+                              <strong>Élection insuffisamment anticipée !<br></strong>Vous devez déclarer vos élections au minimum 90 jours à l\'avance. Assurez-vous également d\'avoir des dates de début et fin cohérentes entre elles.
                             </div>';
                         }
 
