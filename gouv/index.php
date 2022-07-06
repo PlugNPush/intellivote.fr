@@ -108,7 +108,7 @@ if (isset($_SESSION['id'])){
                 if (isset($_GET['successelection'])) {
                   echo '
                   <div class="alert alert-success fade show" role="alert">
-                    <strong>L\'élection a bien été ajouté. Pensez à remplir les candidats.</strong>
+                    <strong>L\'élection a bien été ajoutée. Pensez à remplir les candidats.</strong>
                   </div>';
                 }
 
