@@ -73,7 +73,7 @@ if (isset($_SESSION['id'])){
             echo'<h1 class="my-4">Validation du compte</h1>';
 
 
-            $gatherdata = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 0;');
+            $gatherdata = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 0 AND validated=1;');
             $gatherdata->execute(array($_SESSION['id']));
             $data = $gatherdata->fetch();
 
