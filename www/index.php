@@ -628,7 +628,7 @@ if (isset($_SESSION['id'])){
       if ($_POST['mdp'] != $_POST['vmdp'] || empty($_POST['mdp'])) {
         header( "refresh:0;url=index.php?editaccount=true&passworderror=true" );
       } else {
-        $pass_hache = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
+        $pass_hache = password_hash($_POST['omdp'], PASSWORD_DEFAULT);
 
         // Vérification des identifiants
         $req = $bdd->prepare('SELECT * FROM individual WHERE id = ?;');
