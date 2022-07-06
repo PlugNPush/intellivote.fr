@@ -357,7 +357,7 @@ if (isset($_SESSION['id'])){
               <html>
                <body>
                 <h1>Compte électeur révoqué par une haute instance.</h1>
-                <p>Bonjour ' . $data['surname'] . ' ' . $data['name'] . ', l\'accès à votre compte a été révoqué par une haute instance. Si vous pensez que cette suspension est une erreur, vous devrez vous réinscrire en mairie en suivant les instructions sur votre espace électeur.
+                <p>Bonjour ' . $data['surname'] . ' ' . $data['name'] . ', l\'accès à votre compte a été révoqué par une haute instance. Si vous pensez que cette suspension est une erreur, ou si vous aviez demandé une réinitialisation de mot de passe auprès d\'une instance de l\État, vous devrez vous réinscrire en mairie en suivant les instructions sur votre espace électeur.
                 <p>Adresse email utilisée</p>
                 <h4>' . $data['email'] . '</h4>
                 <p>Date effective de la suspension</p>

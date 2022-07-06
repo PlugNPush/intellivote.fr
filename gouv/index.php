@@ -101,15 +101,14 @@ if (isset($_SESSION['id'])){
                 if (isset($_GET['electorrevokesuccess'])) {
                   echo '
                   <div class="alert alert-success fade show" role="alert">
-                    <strong>L\'électeur a bien été revoqué des e-listes électorales.</strong>
+                    <strong>L\'électeur a bien été revoqué des e-listes électorales.</strong>Un e-mail lui a été envoyé pour lui informer de la situation avec son nouveau mot de passe.
                   </div>';
                 }
 
                 if (isset($_GET['tmppass'])) {
                   echo '
                   <div class="alert alert-warning fade show" role="alert">
-                    <strong>L\'e-mail n\'a pas pu être envoyé automatiquement suite à une erreur.</strong> Veuillez communiquer le nouveau mot de passe : <br>
-                    '. $_GET['tmppass'] . '<br>en contactant l\'utilisateur par e-mail ou courrier, même si sa suspension est définitive, conformément au RGPD.<br>
+                    <strong>L\'e-mail n\'a pas pu être envoyé automatiquement suite à une erreur.</strong> Veuillez lui communiquer le nouveau mot de passe : '. $_GET['tmppass'] . '<br>en contactant l\'utilisateur par e-mail ou courrier, même si sa suspension est définitive, conformément au RGPD.<br>
                     <a href="mailto:'. $_GET['tmpemail'] . '">' . $_GET['tmpemail'] . '</a>
                   </div>';
                 }
