@@ -252,7 +252,7 @@ if (!isset($_SESSION['id'])) {
     } else {
 
       $updatecheck = $bdd->prepare('SELECT * FROM elector WHERE individual = ?');
-      $updatecheck->execute(array($test['individual']))
+      $updatecheck->execute(array($test['individual']));
       $update = $updatecheck->fetch();
 
       if (empty($update['id'])) {
