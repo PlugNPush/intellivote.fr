@@ -1,6 +1,11 @@
 <?php
 require_once dirname(__FILE__).'/../config.php';
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\POP3;
+use PHPMailer\PHPMailer\OAuth;
+use PHPMailer\PHPMailer\Exception;
 
 if (isset($_SESSION['id'])){
 
