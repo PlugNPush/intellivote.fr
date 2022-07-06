@@ -92,7 +92,7 @@ if (isset($_SESSION['id'])){
 
                                 echo ' "id="mayorindv" placeholder="Saisissez l\'ID de l\'employé de mairie" required> ';
 
-                                if (isset($_GET['descriptionerror'])){
+                                if (isset($_GET['mayorindverror'])){
                                     echo '<div class="invalid-feedback">
                                     ID de l\'employé de la mairie incorrect ! Vérifiez votre saisie.
                                     </div>';
@@ -130,8 +130,46 @@ if (isset($_SESSION['id'])){
                         </form><br><br>';
 
 
+                        echo '
+                        <h2><a>Révoquer un employé de mairie :</a></h2>
+                        <form action="election.php?revoke=true" method="post">';
+
+                        echo '<div class="alert alert-danger fade show" role="alert">
+                          <strong>ATTENTION : VOTRE RÉSPONSABILITÉ EST ENGAGÉE.</strong><br> Cet espace permet de révoquer l\'accès d\'un électeur à la plateforme Intellivote, suite à un retrait de citoyenneté ou interdiction d\'entrée sur le territoire par exemple. Votre résponsabilté est pleinement engagée sur cette opération. N\'utilisez ce formulaire uniquement si vous en avez reçu l\'instruction d\'une haute juridiction administrative. Un électeur peut se révoquer l\'accès lui-même, et en cas de décès ou d\'impossibilité de voter en ligne, c\'est à la mairie de prendre en charge cette opération.
+                        </div>';
+
+                        echo '
+
+                            <div class="form-group">
+                                <label for="mayorindv">Saisissez l\'ID de l\'employé de la mairie</label>
+                                <input type="text" name="electorindv" class="form-control';
+
+                                if (isset($_GET['electorindverror'])){
+                                    echo ' is-invalid';
+                                }
+
+                                echo ' "id="electorindv" placeholder="Saisissez l\'ID de l\'électeur" required> ';
+
+                                if (isset($_GET['electorindverror'])){
+                                    echo '<div class="invalid-feedback">
+                                    ID de l\'électeur incorrect ! Vérifiez votre saisie.
+                                    </div>';
+                                }
+
+                                echo ' <small id="NameHelp" class="form-text text-muted">
+                                    Veuillez saisir l\'identifiant de l\'électeur. En cas de problème, contactez un modérateur.
+                                </small>
+
+
+                            </div>
+
+                            <button type="submit" class="btn btn-danger">Révoquer le statut d\'électeur</button>
+
+                        </form><br><br>';
+
+
                       echo '
-                      <a class = "btn btn-danger" href = "index.php">Annuler</a>
+                      <a class = "btn btn-primary" href = "index.php">Annuler</a>
                       <br><br>';
 
 
