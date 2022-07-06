@@ -225,7 +225,15 @@ if (isset($_SESSION['id'])){
                             echo '
                             <div class="alert alert-info fade show" role="alert">
                                 <strong>L\'élection ' . $row['description'] . ' est à venir</strong><br>
-                                <p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>
+                                <p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>';
+
+                                if (date('Y-m-d H:i', strtotime($row['begin'] . ' - 7 days'))<=date('Y-m-d H:i')) {
+                                  echo '<a class = "btn btn-danger" href = "election.php?delete=true&election=' . $row['id'] . '">Supprimer l\'élection</a>';
+                                } else {
+                                  echo '<strong>La suppression de cette élection n\'est plus possible car elle débutera dans moins de 7 jours.</strong>';
+                                }
+
+                                echo '
                             </div>';
                         }
 
