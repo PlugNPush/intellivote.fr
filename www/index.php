@@ -185,7 +185,7 @@ if (isset($_SESSION['id'])){
                   <div class="alert alert-info fade show" role="alert"';
 
                     //get actual time in paris
-                    $curdate = date('Y-m-d h:i:s');
+                    $curdate = date('Y-m-d H:i:s');
 
                     //display current date
                     /*
@@ -272,7 +272,7 @@ if (isset($_SESSION['id'])){
                               <button type="submit" class="btn btn-primary">Voter</button>
                               </form>
                               <br>
-                              <p>L\'élection prend fin le : '.date('d/m/Y à H:i', strtotime($date)).' heures.</p>Il est ' . date('Y-m-d h:i:s') . '
+                              <p>L\'élection prend fin le : '.date('d/m/Y à H:i', strtotime($date)).' heures.</p>
                             </div>';
                           }
                           else { // if elector hasnt voted yet and has selected a candidate
