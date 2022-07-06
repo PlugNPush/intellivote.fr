@@ -159,7 +159,7 @@ if (isset($_SESSION['id'])){
                   $indiv = $req->fetch();
 
                     echo '<div class="form-group">
-                      <label for="individual">Confirmez vous les données?<br>
+                      <label for="individual">Confirmez-vous les données ?<br>
                       <div class="alert alert-info fade show" role="alert">
                       - <strong>ID du maire :</strong> ' . $_GET['individual'] . ' | Nom : '. $indiv['name'] . ' | Prénom : ' . $indiv['surname'];
                       echo '<br> - <strong>ID de la mairie :</strong> ' . $_GET['idmairie'] . ' | Nom : ' . $mairie['nom'] . ' | INSEE : ' . $mairie['insee'];

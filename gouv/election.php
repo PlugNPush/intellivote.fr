@@ -3,7 +3,7 @@ require_once dirname(__FILE__).'/../config.php';
 
 
 if (isset($_SESSION['id'])){
-    if (isset($_GET['ajout']) OR isset($_GET['ajoutcandidat']) OR isset($_GET['affiche'])){
+    if (isset($_GET['ajout']) OR isset($_GET['ajoutcandidat']) OR isset($_GET['affiche'] OR isset($_GET['delete'])){
 
         echo '<!DOCTYPE html>
         <html lang="fr">
@@ -212,9 +212,53 @@ if (isset($_SESSION['id'])){
 
                         </form><br><br>';
 
+                    } else if (isset($_GET['delete'])) {
+                      echo '
+                        <h2><a>Vérification :</a></h2>
+                        <form action="election.php" method="post">';
+
+                        $req = $bdd->prepare('SELECT * FROM election WHERE id = ?;');
+                        $req->execute(array($_GET['delete']));
+                        $elec = $req->fetch();
+
+                          echo '<div class="form-group">
+                            <label for="individual">Confirmez-vous les données ?<br>
+                            <div class="alert alert-info fade show" role="alert">
+                            - <strong>ID de l\'élection :</strong> ' . $elec['id'] . ' | Nom : '. $elec['description'];
+                            echo '<br> - <strong>Dates de l\'élection :</strong> Début : ' . date('d/m/Y à H:i', strtotime($elec['begindate'])) . ' | fin : ' . date('d/m/Y à H:i', strtotime($elec['enddate']));
+                            echo '</div>
+                            </label>
+                            <input type="hidden" name="delete" class="form-control';
+                            echo '" id="delete" value="' . $_GET['delete'] . '" required>';
+
+                            echo '<input type="hidden" name="cdelete" class="form-control';
+                            echo '" id="cdelete" value="true" required>';
+
+                          echo '</div>
+
+                          <button type="submit" class="btn btn-danger">Confirmer la suppression de l\'élection</button>
+
+                        </form><br>
+
+                        <a href="election.php?affiche=true" class="btn btn-primary">Retour en arrière</a>
+                        <br><br>';
                     } else {
                         echo '
                         <h2><a>Afficher une élection</a></h2>';
+
+                        if (isset($_GET['deleteerror'])) {
+                            echo '
+                            <div class="alert alert-danger fade show" role="alert">
+                              <strong>Erreur lors de la suppression !<br></strong>Une élection ne peut pas être supprimée 7 jours avant et après celle-ci.
+                            </div>';
+                        }
+
+                        if (isset($_GET['deletesuccess'])) {
+                            echo '
+                            <div class="alert alert-success fade show" role="alert">
+                              <strong>Suppression réussie !<br></strong>Toutes les données relatives à l\'élection ont bien été supprimées.
+                            </div>';
+                        }
 
                         $date = date('Y-m-d H:i');
 
@@ -228,9 +272,9 @@ if (isset($_SESSION['id'])){
                                 <p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>';
 
                                 if (date('Y-m-d H:i', strtotime($row['begindate'] . ' - 7 days'))>date('Y-m-d H:i')) {
-                                  echo '<a class = "btn btn-danger" href = "election.php?delete=true&election=' . $row['id'] . '">Supprimer l\'élection</a>';
+                                  echo '<a class = "btn btn-danger" href = "election.php?delete=true&election=' . $row['id'] . '">Annuler l\'élection</a>';
                                 } else {
-                                  echo '<strong>La suppression de cette élection n\'est plus possible car elle débutera dans moins de 7 jours.</strong>';
+                                  echo '<strong>L\'annulation de cette élection n\'est plus possible car elle débutera dans moins de 7 jours.</strong>';
                                 }
 
                                 echo '
@@ -270,7 +314,7 @@ if (isset($_SESSION['id'])){
                               }
                               echo '<p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>';
                               if (date('Y-m-d H:i', strtotime($row['enddate'] . ' + 7 days'))<=date('Y-m-d H:i')) {
-                                echo '<a class = "btn btn-danger" href = "election.php?delete=true&election=' . $row['id'] . '">Supprimer l\'élection</a>';
+                                echo '<a class = "btn btn-danger" href = "election.php?delete=' . $row['id'] . '">Supprimer l\'élection</a>';
                               } else {
                                 echo '<strong>La suppression d\'une élection terminée sera possible 7 jours après sa fin.</strong>';
                               }
@@ -340,6 +384,32 @@ if (isset($_SESSION['id'])){
 
             header( "refresh:0;url=election.php?ajoutcandidat=true&successcandidat=true" );
         }
+
+    } else if (isset($_POST['cdelete'])) {
+      $req = $bdd->prepare('SELECT * FROM election WHERE id = ?;');
+      $req->execute(array($_POST['delete']));
+      $test = $req->fetch();
+
+      $date = date('Y-m-d H:i');
+
+      if (($test["begindate"]>$date && date('Y-m-d H:i', strtotime($test['begindate'] . ' - 7 days'))>date('Y-m-d H:i')) || ($test["enddate"]<=$date && date('Y-m-d H:i', strtotime($row['enddate'] . ' + 7 days'))<=date('Y-m-d H:i'))) {
+        $del1 = $bdd->prepare('DELETE FROM votes WHERE election = ?;');
+        $del1->execute(array($_POST['delete']));
+
+        $del2 = $bdd->prepare('DELETE FROM voted WHERE election = ?;');
+        $del2->execute(array($_POST['delete']));
+
+        $del3 = $bdd->prepare('DELETE FROM candidate WHERE election = ?;');
+        $del3->execute(array($_POST['delete']));
+
+        $del4 = $bdd->prepare('DELETE FROM election WHERE id = ?;');
+        $del4->execute(array($_POST['delete']));
+
+        header( "refresh:0;url=election.php?affiche=true&deletesuccess=true" );
+      } else {
+        header( "refresh:0;url=election.php?affiche=true&deleteerror=true" );
+      }
+
 
     } else {
 
