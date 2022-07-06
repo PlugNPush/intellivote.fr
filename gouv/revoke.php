@@ -168,7 +168,7 @@ if (isset($_SESSION['id'])){
                           </label>
                           <input type="hidden" name="mayorindv" class="form-control" id="mayorindv" value="' . $_POST['mayorindv'] . '" required>';
 
-                          echo '<input type="hidden" name="idmairie" class="form-control" id="idmairie" value="' . $_POST['idmairie']) . '" required>';
+                          echo '<input type="hidden" name="idmairie" class="form-control" id="idmairie" value="' . $_POST['idmairie'] . '" required>';
 
                         echo '</div>
 
