@@ -628,7 +628,7 @@ if (isset($_SESSION['id'])){
       if ($_POST['mdp'] != $_POST['vmdp'] || empty($_POST['mdp'])) {
         header( "refresh:0;url=index.php?editaccount=true&passworderror=true" );
       } else {
-        $pass_hache = password_hash($_POST['omdp'], PASSWORD_DEFAULT);
+        $pass_hache = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
 
         // Vérification des identifiants
         $req = $bdd->prepare('SELECT * FROM individual WHERE id = ?;');
@@ -636,7 +636,7 @@ if (isset($_SESSION['id'])){
         $test = $req->fetch();
 
 
-        $verify = password_verify($_POST['mdp'], $test['password']);
+        $verify = password_verify($_POST['omdp'], $test['password']);
         if ($verify)
         {
           $upd1 = $bdd->prepare('UPDATE individual SET password = ? WHERE individual = ?;');
