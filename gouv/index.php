@@ -142,7 +142,10 @@ if (isset($_SESSION['id'])){
 
                   <form action="election.php?affiche=true" method="post">
                   <button type="submit" class="btn btn-primary">Afficher/Supprimer une élection</button>
-                  </form><br><br>';
+                  </form>
+
+                  <a class="btn btn-primary" href="revoke.php">Révoquer un accès...</a>
+                  <br><br>';
 
               } else {
 
