@@ -139,7 +139,7 @@ if (isset($_SESSION['id'])){
                         echo '<div class="form-group">
                           <label for="individual">Confirmez-vous les données ?<br>
                           <div class="alert alert-info fade show" role="alert">
-                          - <strong>ID de l\'électeur :</strong> ' . $_POST['electorindv'] . ' | Nom : '. $indiv['name'] . ' | Prénom : ' . $indiv['surname'];
+                          - <strong>ID de l\'électeur :</strong> ' . $_POST['electorindv'] . ' | Nom : '. $indiv['name'] . ' | Prénom : ' . $indiv['surname'] . ' | E-mail : ' . $indiv['email'];
                             echo '<br> - <strong>ATTENTION : sera revoqué en tant qu\'électeur sur Intellivote.</strong>';
                           echo '</div>
                           </label>
@@ -147,7 +147,7 @@ if (isset($_SESSION['id'])){
 
                         echo '</div>
 
-                        <button type="submit" class="btn btn-danger">Confirmer les données et révoquer l\'accès</button>
+                        <button type="submit" class="btn btn-danger">Confirmer les données, révoquer l\'accès et envoyer le nouveau mot de passe par e-mail</button>
 
                       </form><br>
 

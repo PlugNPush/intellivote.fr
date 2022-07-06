@@ -101,7 +101,7 @@ if (isset($_SESSION['id'])){
                 if (isset($_GET['electorrevokesuccess'])) {
                   echo '
                   <div class="alert alert-success fade show" role="alert">
-                    <strong>L\'électeur a bien été revoqué des e-listes électorales.</strong>Un e-mail lui a été envoyé pour lui informer de la situation avec son nouveau mot de passe.
+                    <strong>L\'électeur a bien été revoqué des e-listes électorales.</strong> Un e-mail lui a été envoyé pour lui informer de la situation avec son nouveau mot de passe.
                   </div>';
                 }
 
