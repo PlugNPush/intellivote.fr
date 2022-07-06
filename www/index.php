@@ -88,9 +88,27 @@ if (isset($_SESSION['id'])){
                 </div>';
               } else {
 
+                $electionEnCours = false;
+                $date = date('Y-m-d H:i:s');
+                $election_fetch = $bdd->prepare('SELECT * FROM election;');
+                $election_fetch->execute();
+
+                while ($election = $election_fetch->fetch()) {
+                  if (strtotime('+1 day')>strtotime($election['begindate']) && $date<$election['enddate']){//si la date du jour +7 est apres l'élection et si l'election n'est pas fini
+                    $electionEnCours = true;
+                  }
+                }
+
                 if (isset($_GET['unregister'])) {
-                  $disable = $bdd->prepare('UPDATE elector SET verified = 0 WHERE individual = ?;');
-                  $disable->execute(array($_SESSION['id']));
+                  if ($electionEnCours) {
+                    echo '
+                    <div class="alert alert-danger fade show" role="alert">
+                      <strong>Désinscription de la e-liste impossible !</strong><br>Une élection a lieu dans moins de 24 heures. Par mesure de sécurité, il n\'est plus possible de se désinscire de la e-liste électorale. Veuillez réessayer plus tard.
+                    </div>';
+                  } else {
+                    $disable = $bdd->prepare('UPDATE elector SET verified = 0 WHERE individual = ?;');
+                    $disable->execute(array($_SESSION['id']));
+                  }
                 }
 
                 $gatherdata = $bdd->prepare('SELECT * FROM elector WHERE individual = ? AND verified = 1;');
@@ -135,7 +153,7 @@ if (isset($_SESSION['id'])){
                     echo '<div class="alert alert-success fade show" role="alert">
                       <strong>Vous êtes bien enregistré sur la e-liste électorale !</strong><br>Vous votez actuellement dans la mairie de ' . $mairie["nom"] . ' (' . $mairie["departement"] . ')<br>
                       Vous avez déménagé ? Mettez-vous en conformité avec la loi !<br><a href="index.php?transfertoken=true">Demandez un token de transfert ici</a>.<br><br>
-                      Vous pouvez aussi <a href="index.php?unregister=true">vous retirer de la e-liste électorale (cliquez ici pour voter en physique en mairie)</a>. Attention : le retrait de la e-liste électorale est instantané, en revanche vous devrez vous rapprocher de votre mairie pour vous y ré-inscrire avec les délais et justificatifs en vigueur. Vous ne pouvez pas vous désincrire de la e-liste si une élection est en cours.
+                      Sachez que vous pouvez aussi vous retirer de la e-liste électorale. <a href="index.php?unregister=true">Demandez à voter en présentiel en mairie ici</a>. Attention : le retrait de la e-liste électorale est instantané, en revanche vous devrez vous rapprocher de votre mairie pour vous y ré-inscrire avec les délais et justificatifs en vigueur. Vous ne pouvez pas vous désincrire de la e-liste à moins de 24 heures de la prochaine élection.
                       </div>';
                   }
 
