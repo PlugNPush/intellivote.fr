@@ -635,10 +635,8 @@ if (isset($_SESSION['id'])){
         $req->execute(array($_SESSION['id']));
         $test = $req->fetch();
 
-
         $verify = password_verify($_POST['omdp'], $test['password']);
 
-        echo $verify . $test['password'] . $_POST['omdp'] . $pass_hache . $_POST['mdp'];
         if ($verify)
         {
           $upd1 = $bdd->prepare('UPDATE individual SET password = ? WHERE individual = ?;');
