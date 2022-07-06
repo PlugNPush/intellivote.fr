@@ -282,26 +282,25 @@ if (isset($_SESSION['id'])){
     $mailchange->execute(array($_POST['email'], $_SESSION['id']));
 
 
-    $mail_fetch = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 0 AND validated = 1;');
+    $mail_fetch = $bdd->prepare('SELECT * FROM validations WHERE individual = ? AND type = 0;');
     $mail_fetch->execute(array($_SESSION['id']));
     $mail = $mail_fetch->fetch();
 
-    if ($mail) {
-      header( "refresh:0;url=validation.php?emailexists=true" );
-    } else {
       $newmail = $bdd->prepare('UPDATE individual SET email = ? WHERE id = ?;');
       $newmail->execute(array($_POST['email'], $_SESSION['id']));
 
       $token = generateRandomString(256);
       $date = date('Y-m-d H:i:s');
 
-      $newtoken = $bdd->prepare('INSERT INTO validations(type, individual, token, date) VALUES(:type, :individual, :token, :date);');
-      $newtoken->execute(array(
-        'type' => 0,
-        'individual' => $_SESSION['id'],
-        'token' => $token,
-        'date' => $date
-      ));
+      if (!$mail) {
+        $newtoken = $bdd->prepare('INSERT INTO validations(type, individual, token, date) VALUES(:type, :individual, :token, :date);');
+        $newtoken->execute(array(
+          'type' => 0,
+          'individual' => $_SESSION['id'],
+          'token' => $token,
+          'date' => $date
+        ));
+      }
 
 
       $to = $_SESSION['email']; // $_POST['email']
@@ -370,7 +369,6 @@ if (isset($_SESSION['id'])){
       } else {
         header( "refresh:0;url=validation.php?serror=true" );
       }
-    }
 
 } else {
   $vtoken = $bdd->prepare('SELECT * FROM validations WHERE token = ?;');
