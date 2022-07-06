@@ -98,6 +98,12 @@ if (isset($_SESSION['id'])){
                 <strong>Une erreur s\'est produite</strong>. Vous ne disposez pas des autorisations nécéssaires pour réaliser cette opération.
               </div>';
             }
+            if (isset($_GET['pendingelection'])) {
+              echo '
+              <div class="alert alert-danger fade show" role="alert">
+                <strong>Une erreur s\'est produite</strong>. Vous ne pouvez supprimer votre compte si une élection a lieu dans les 24 heures. Veuillez réessayer ulterieurement.
+              </div>';
+            }
 
               if ($_SESSION['verified'] != 1) {
                 echo '
@@ -442,7 +448,44 @@ if (isset($_SESSION['id'])){
     </html>
 ';
 } else{
-  echo 'testtestestestestestestestestestestestestestest';
+    $electionEnCours = false;
+    $date = date('Y-m-d H:i:s');
+    $election_fetch = $bdd->prepare('SELECT * FROM election;');
+    $election_fetch->execute();
+
+    while ($election = $election_fetch->fetch()) {
+      if (strtotime('+24 hours')>strtotime($election['begindate']) && $date<$election['enddate']){
+        $electionEnCours = true;
+      }
+    }
+
+    if ($electionEnCours == true) {
+      header( "refresh:0;url=index.php?pendingelection=true" );
+    }else{
+      $recup = $bdd->prepare('SELECT * FROM elector WHERE individual = ?;');
+      $recup->execute(array($_SESSION['id']));
+      $elector = $recup->fetch();
+
+      $del1 = $bdd->prepare('DELETE FROM elector WHERE individual = ?;');
+      $del1->execute(array($_SESSION['id']));
+
+      $del2 = $bdd->prepare('DELETE FROM governor WHERE individual = ?;');
+      $del2->execute(array($_SESSION['id']));
+
+      $del3 = $bdd->prepare('DELETE FROM individual WHERE id = ?;');
+      $del3->execute(array($_SESSION['id']));
+
+      $del4 = $bdd->prepare('DELETE FROM mayor WHERE individual = ?;');
+      $del4->execute(array($_SESSION['id']));
+
+      $del5 = $bdd->prepare('DELETE FROM validations individual = ?;');
+      $del5->execute(array($_SESSION['id']));
+
+      $del6 = $bdd->prepare('DELETE FROM voted WHERE elector = ?;');
+      $del6->execute(array($elector['id']));
+
+      header( "refresh:0;url=logout.php" );
+    }
 }
 } else {
   header( "refresh:0;url=login.php?expired=true" );
