@@ -204,7 +204,7 @@ if (!isset($_SESSION['id'])) {
             $getelecteurs = $bdd->prepare('SELECT * FROM elector JOIN individual ON elector.individual = individual.id WHERE mairie=?;');
             $getelecteurs->execute(array($_SESSION['idmairie']));
             while ($electeur=$getelecteurs->fetch()){
-              if ($electeur['verified'] == 1) {
+              if ($electeur['elector.verified'] == 1) {
                 echo $electeur['name'] . " " . $electeur['surname'] . "<br>";
               } else {
                 echo $electeur['name'] . " " . $electeur['surname'] . " <strong>(SUSPENDU)</strong><br>";
