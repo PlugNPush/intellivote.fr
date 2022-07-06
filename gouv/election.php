@@ -261,10 +261,10 @@ if (isset($_SESSION['id'])){
 
                               }
                               echo '<p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>';
-                              if ($row['enddate']<date('Y-m-d H:i', strtotime(' + 7 days'))) {
+                              if (date('Y-m-d H:i', strtotime($row['enddate'] . ' + 7 days'))<=date('Y-m-d H:i')) {
                                 echo '<a class = "btn btn-danger" href = "election.php?delete=true&election=' . $row['id'] . '">Supprimer l\'élection</a>';
                               } else {
-                                echo '<strong>La suppression d\'une élection terminée sera possible 7 jours sa fin.</strong>';
+                                echo '<strong>La suppression d\'une élection terminée sera possible 7 jours après sa fin.</strong>';
                               }
 
                             echo '</div>';
