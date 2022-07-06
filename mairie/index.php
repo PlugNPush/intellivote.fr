@@ -251,15 +251,33 @@ if (!isset($_SESSION['id'])) {
       header( "refresh:0;url=index.php?tokenerror=true" );
     } else {
 
-      $req=$bdd->prepare('INSERT INTO elector(number, individual, mairie, verified, verifiedon) VALUES(:number, :individual, :mairie, :verified, :verifiedon)');
-      $date = date('Y-m-d H:i:s');
-      $req->execute(array(
-        'number'=> $_POST['number'],
-        'individual'=> $test['individual'],
-        'mairie'=> $_SESSION['idmairie'],
-        'verified'=> 1,
-        'verifiedon' => $date
-      ));
+      $updatecheck = $bdd->prepare('SELECT * FROM elector WHERE individual = ?');
+      $updatecheck->execute(array($test['individual']))
+      $update = $updatecheck->fetch();
+
+      if (empty($update['id'])) {
+        $req=$bdd->prepare('INSERT INTO elector(number, individual, mairie, verified, verifiedon) VALUES(:number, :individual, :mairie, :verified, :verifiedon)');
+        $date = date('Y-m-d H:i:s');
+        $req->execute(array(
+          'number'=> $_POST['number'],
+          'individual'=> $test['individual'],
+          'mairie'=> $_SESSION['idmairie'],
+          'verified'=> 1,
+          'verifiedon' => $date
+        ));
+      } else {
+        $req=$bdd->prepare('UPDATE elector SET number = :number, mairie = :mairie, verified = :verified, verifiedon = :verifiedon WHERE individual = :individual');
+        $date = date('Y-m-d H:i:s');
+        $req->execute(array(
+          'number'=> $_POST['number'],
+          'individual'=> $test['individual'],
+          'mairie'=> $_SESSION['idmairie'],
+          'verified'=> 1,
+          'verifiedon' => $date
+        ));
+      }
+
+
       $validation = $bdd->prepare('UPDATE validations SET validated = 1 WHERE id = ?;');
       $validation->execute(array($test['id']));
 
