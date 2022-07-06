@@ -220,6 +220,12 @@ if (isset($_SESSION['id'])){
                 <strong>Une erreur s\'est produite</strong>. Vous ne pouvez supprimer votre compte si une élection a lieu dans les 24 heures. Veuillez réessayer ulterieurement.
               </div>';
             }
+            if (isset($_GET['passwordsuccess'])) {
+              echo '
+              <div class="alert alert-success fade show" role="alert">
+                <strong>Le mot de passe a été changé</strong>. Vous pourrez utiliser votre nouveau mot de passe dès votre prochaine connexion.
+              </div>';
+            }
 
               if ($_SESSION['verified'] != 1) {
                 echo '
@@ -607,7 +613,40 @@ if (isset($_SESSION['id'])){
       }
   } else {
     // SQL UPDATE ACCOUNT MAIL + PASS
-    echo 'PROCESS';
+    if (isset($_POST['email'])) {
+      $upd1 = $bdd->prepare('UPDATE individual SET email = ?, verified = 0 WHERE individual = ?;');
+      $upd1->execute(array($_SESSION['id']));
+
+      $token = generateRandomString(256);
+      $date = date('Y-m-d H:i:s');
+      $upd2 = $bdd->prepare('UPDATE validations SET validated = 0, token = ?, date = ? WHERE individual = ? AND type = 0;');
+      $upd2->execute(array($token, $date, $_SESSION['id']));
+
+      header( "refresh:0;url=validation.php" );
+    } else {
+
+      if ($_POST['mdp'] != $_POST['vmdp'] || empty($_POST['mdp'])) {
+        header( "refresh:0;url=index.php?editaccount=true&passworderror=true" );
+      } else {
+        $pass_hache = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
+
+        // Vérification des identifiants
+        $req = $bdd->prepare('SELECT * FROM individual WHERE id = ?;');
+        $req->execute(array($_SESSION['id']));
+        $test = $req->fetch();
+
+
+        $verify = password_verify($_POST['mdp'], $test['password']);
+        if ($verify)
+        {
+          $upd1 = $bdd->prepare('UPDATE individual SET password = ? WHERE individual = ?;');
+          $upd1->execute(array($pass_hache, $_SESSION['id']));
+          header( "refresh:0;url=index.php?passwordsuccess=true" );
+        } else {
+          header( "refresh:0;url=index.php?editaccount=true&oldpassworderror=true" );
+        }
+      }
+    }
   }
 
 }
