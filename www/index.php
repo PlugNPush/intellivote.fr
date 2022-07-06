@@ -272,7 +272,7 @@ if (isset($_SESSION['id'])){
                               <button type="submit" class="btn btn-primary">Voter</button>
                               </form>
                               <br>
-                              <p>L\'élection prend fin le : '.date('d/m/Y à H:i', strtotime($date)).' heures.</p>
+                              <p>L\'élection prend fin le : '.date('d/m/Y à H:i', strtotime($date)).' heures.</p>Il est ' . date('Y-m-d h:i:s') . '
                             </div>';
                           }
                           else { // if elector hasnt voted yet and has selected a candidate
