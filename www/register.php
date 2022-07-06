@@ -174,7 +174,11 @@ if(empty($_POST['mdp']) OR empty($_POST['vmdp'])){
 
             <div class="form-group">
               <label for="titre">Date de naissance</label>
-              <input type="text" name="birthdate" class="form-control" id="birthdate" placeholder="Format AAAA-MM-JJ" required>
+              <input type="datetime-local" name="birthdate" class="form-control';
+              if (isset($_GET['birthdateerror'])){
+                echo ' is-invalid';
+              }
+              echo '" id="birthdate" placeholder="Saisissez la date de naissance." required>
               <small id="help" class="form-text text-muted">
               ATTENTION : format AAAA-MM-JJ<br>
               Par exemple, si vous êtes né le 25 août 1971, indiquez 1971-08-25.
