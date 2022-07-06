@@ -125,7 +125,7 @@ if (isset($_SESSION['id'])){
                         echo '<div class="form-group">
                           <label for="individual">Confirmez-vous les données ?<br>
                           <div class="alert alert-info fade show" role="alert">
-                          - <strong>ID de l\'employé de mairie :</strong> ' . $_POST['mayorindv'] . ' | Nom : '. $indiv['name'] . ' | Prénom : ' . $indiv['surname'];
+                          - <strong>ID de l\'électeur :</strong> ' . $_POST['electorindv'] . ' | Nom : '. $indiv['name'] . ' | Prénom : ' . $indiv['surname'];
                             echo '<br> - <strong>ATTENTION : sera revoqué en tant qu\'électeur sur Intellivote.</strong>';
                           echo '</div>
                           </label>
