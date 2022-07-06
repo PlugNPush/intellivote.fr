@@ -103,7 +103,7 @@ if (isset($_SESSION['id'])){
                   if ($electionEnCours) {
                     echo '
                     <div class="alert alert-danger fade show" role="alert">
-                      <strong>Désinscription de la e-liste électorale impossible !</strong><br>Une élection a lieu dans moins de 24 heures. Par mesure de sécurité, il n\'est plus possible de se désinscire de la e-liste électorale. Veuillez réessayer plus tard.
+                      <strong>Désinscription de la e-liste électorale impossible !</strong><br>Une élection a lieu dans moins de 24 heures ou est déjà en cours. Par mesure de sécurité, il n\'est plus possible de se désinscire de la e-liste électorale. Veuillez réessayer plus tard.
                     </div>';
                   } else {
                     $disable = $bdd->prepare('UPDATE elector SET verified = 0 WHERE individual = ?;');
