@@ -112,7 +112,7 @@ if (isset($_SESSION['id'])){
                       }
 
                       echo ' <small id="IDHelp" class="form-text text-muted">
-                        Vous pouvez récupérer la clé dans l\'espace électeur ou dans l\'espace mairie après sa vérification. En cas de problème, contactez un administrateur.
+                        Vous pouvez récupérer la clé dans l\'espace électeur ou dans l\'espace mairie après sa vérification. En cas de problème, contactez un modérateur.
                       </small><br>
 
                       <label for="idmairie">Saisissez l\'ID de la mairie correspondante</label>
@@ -120,7 +120,7 @@ if (isset($_SESSION['id'])){
 
                       echo '" id="idmairie" placeholder="Saisissez l\'ID de la mairie" required>
                       <small id="IDHelp" class="form-text text-muted">
-                        Vous pouvez récupérer la clé dans l\'espace mairie du demandeur. En cas de problème, contactez le demandeur ou un administrateur.
+                        Vous pouvez récupérer la clé dans l\'espace mairie du demandeur. En cas de problème, contactez le demandeur ou un modérateur.
                       </small>
 
                     </div>
@@ -134,9 +134,17 @@ if (isset($_SESSION['id'])){
 
                   <br><a class="btn btn-primary" href="election.php?ajout=true">Ajouter une élection</a>
 
+                  <form action="election.php?ajoutcandidat=true" method="post">
+                  <button type="submit" class="btn btn-primary">Ajouter un candidat à une élection</button>
+                  </form><br>
+
                   <br><a class="btn btn-primary" href="election.php?ajoutcandidat=true">Ajouter un candidat à une élection</a><br>
+
+                  <form action="election.php?affiche=true" method="post">
+                  <button type="submit" class="btn btn-primary">Afficher/Supprimer une élection</button>
+                  </form><br><br>
                   
-                  <br><a class="btn btn-primary" href="election.php?affiche=true">Afficher/Supprimer une élection</a>';
+                  <br><a class="btn btn-primary" href="election.php?ajout=true">Ajouter une élection</a>';
 
               } else {
 
@@ -207,9 +215,11 @@ if (isset($_SESSION['id'])){
 
                   </form><br>
 
-                  <br><br>
-                  
-                  <a class="btn btn-primary" href="index.php">Retour en arrière</a>';
+                  <form action="index.php" method="post">
+
+                    <button type="submit" class="btn btn-danger">Retour en arrière</button>
+
+                  </form><br><br>';
 
               }
 

@@ -71,7 +71,7 @@ if (isset($_SESSION['id'])){
             if (isset($_GET['ierror'])) {
               echo '
               <div class="alert alert-danger fade show" role="alert">
-                <strong>Une erreur interne inattendue s\'est produite</strong>. Un paramètre attendu n\'est pas parvenu à sa destination. Veuillez réesayer puis contacter un administrateur si l\'erreur se reproduit.
+                <strong>Une erreur interne inattendue s\'est produite</strong>. Un paramètre attendu n\'est pas parvenu à sa destination. Veuillez réesayer puis contacter un modérateur si l\'erreur se reproduit.
               </div>';
             }
             if (isset($_GET['dperror'])) {
@@ -371,7 +371,7 @@ if (isset($_SESSION['id'])){
                   } else {
                     echo '
                   <div class="alert alert-warning fade show" role="alert">
-                    <strong>Bonjour '.$_SESSION['surname'].' !</strong><br> Vous devez maintenant vous authentifier en tant qu\'électeur, donc relier votre identité numérique à votre identité physique. Lancez une pré-demande en ligne ou rendez-vous en mairie.<br><a class = "btn btn-primary" href = "index.php?verifmairie=true">Relier mon identité physique</a><br>
+                    <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Vous devez maintenant vous authentifier en tant qu\'électeur, donc relier votre identité numérique à votre identité physique. Lancez une pré-demande en ligne ou rendez-vous en mairie.<br><a class = "btn btn-primary" href = "index.php?verifmairie=true">Relier mon identité physique</a><br>
                     <br>Vous representez une mairie ? Votre demande devra être traitée par <a href="https://gouv.intellivote.fr">un représentant de l\'État</a>.
                   </div>';
                   }

@@ -112,7 +112,7 @@ if (isset($_SESSION['id'])){
                       }
 
                       echo ' <small id="IDHelp" class="form-text text-muted">
-                        Vous pouvez récupérer la clé dans l\'espace électeur ou dans l\'espace mairie après sa vérification. En cas de problème, contactez un administrateur.
+                        Vous pouvez récupérer la clé dans l\'espace électeur ou dans l\'espace mairie après sa vérification. En cas de problème, contactez un modérateur.
                       </small><br>
 
                       <label for="idmairie">Saisissez l\'ID de la mairie correspondante</label>
@@ -120,7 +120,7 @@ if (isset($_SESSION['id'])){
 
                       echo '" id="idmairie" placeholder="Saisissez l\'ID de la mairie" required>
                       <small id="IDHelp" class="form-text text-muted">
-                        Vous pouvez récupérer la clé dans l\'espace mairie du demandeur. En cas de problème, contactez le demandeur ou un administrateur.
+                        Vous pouvez récupérer la clé dans l\'espace mairie du demandeur. En cas de problème, contactez le demandeur ou un modérateur.
                       </small>
 
                     </div>
@@ -132,11 +132,17 @@ if (isset($_SESSION['id'])){
                   echo '
                   <h2><a>Gestion des élections :</a></h2>
 
-                  <br><a class="btn btn-primary" href="election.php?ajout=true">Ajouter une élection</a>
+                  <form action="election.php?ajout=true" method="post">
+                    <button type="submit" class="btn btn-primary">Ajouter une élection</button>
+                  </form><br>
 
-                  <br><a class="btn btn-primary" href="election.php?ajoutcandidat=true">Ajouter un candidat à une élection</a><br>
-                  
-                  <br><a class="btn btn-primary" href="election.php?affiche=true">Afficher/Supprimer une élection</a>';
+                  <form action="election.php?ajoutcandidat=true" method="post">
+                    <button type="submit" class="btn btn-primary">Ajouter un candidat à une élection</button>
+                  </form><br>
+
+                  <form action="election.php?affiche=true" method="post">
+                  <button type="submit" class="btn btn-primary">Afficher/Supprimer une élection</button>
+                  </form><br><br>';
 
               } else {
 
@@ -145,11 +151,11 @@ if (isset($_SESSION['id'])){
                   <form action="index.php" method="post">';
 
                   $req = $bdd->prepare('SELECT * FROM mairies WHERE id = ? ;');
-                  $req->execute(array($_GET['idmairie']));
+                  $req->execute(array($_POST['idmairie'],$_GET['idmairie']));
                   $mairie = $req->fetch();
 
-                  $req = $bdd->prepare('SELECT * FROM individual WHERE id = ? ;');
-                  $req->execute(array($_GET['individual']));
+                  $req = $bdd->prepare('SELECT * FROM individual WHERE id ='.$_GET['individual'].';');
+                  $req->execute(array($_POST['individual']));
                   $indiv = $req->fetch();
 
                     echo '<div class="form-group">
@@ -207,9 +213,11 @@ if (isset($_SESSION['id'])){
 
                   </form><br>
 
-                  <br><br>
-                  
-                  <a class="btn btn-primary" href="index.php">Retour en arrière</a>';
+                  <form action="index.php" method="post">
+
+                    <button type="submit" class="btn btn-danger">Retour en arrière</button>
+
+                  </form><br><br>';
 
               }
 

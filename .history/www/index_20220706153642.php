@@ -71,7 +71,7 @@ if (isset($_SESSION['id'])){
             if (isset($_GET['ierror'])) {
               echo '
               <div class="alert alert-danger fade show" role="alert">
-                <strong>Une erreur interne inattendue s\'est produite</strong>. Un paramètre attendu n\'est pas parvenu à sa destination. Veuillez réesayer puis contacter un administrateur si l\'erreur se reproduit.
+                <strong>Une erreur interne inattendue s\'est produite</strong>. Un paramètre attendu n\'est pas parvenu à sa destination. Veuillez réesayer puis contacter un modérateur si l\'erreur se reproduit.
               </div>';
             }
             if (isset($_GET['dperror'])) {
@@ -145,7 +145,7 @@ if (isset($_SESSION['id'])){
 
                         echo '
                         <div class="alert alert-warning fade show" role="alert">
-                          <strong>Voici votre token de transfert: '.$token.' </strong><br>Ce dernier devra être présenté dans votre mairie, ou par téléphone.<br>Pensez aux justificatifs habituels: pièce d\'identité, justificatif de domicile et carte d\'électeur.<br>Si vous voulez voter aux prochaines élections, pensez à valider votre compte au moins 7 jours avant le vote.<br><strong>Attention : vous resterez enregistré dans la mairie de ' . $mairie["nom"] . ' (' . $mairie["departement"] . ') jusqu\'à ce que votre code de transfert soit utilisé par votre nouvelle mairie. Ne tardez pas à le communiquer à votre nouvelle mairie pour rester en conformité avec la loi. Votre nouvelle mairie se chargera de compléter le transfert pour vous, vous n\'avez aucune démarche à faire dans votre mairie actuelle. </strong>
+                          <strong>Voici votre token de transfert: ', $token ,' </strong><br>Ce dernier devra être présenté dans votre mairie, ou par téléphone.<br>Pensez aux justificatifs habituels: pièce d\'identité, justificatif de domicile et carte d\'électeur.<br>Si vous voulez voter aux prochaines élections, pensez à valider votre compte au moins 7 jours avant le vote.<br><strong>Attention : vous resterez enregistré dans la mairie de ' . $mairie["nom"] . ' (' . $mairie["departement"] . ') jusqu\'à ce que votre code de transfert soit utilisé par votre nouvelle mairie. Ne tardez pas à le communiquer à votre nouvelle mairie pour rester en conformité avec la loi. Votre nouvelle mairie se chargera de compléter le transfert pour vous, vous n\'avez aucune démarche à faire dans votre mairie actuelle. </strong>
                         </div>';
 
 
@@ -192,8 +192,8 @@ if (isset($_SESSION['id'])){
                       while ($candidates = $getcandidates->fetch()){ //case 1 or many candidates
                         echo '
                         <div class="alert alert-info fade show" role="alert">
-                          <strong> '.$candidates['surname'].' '.$candidates['name'].' : <a href="'.$candidates['programme'].'"> Cliquez ici pour lire le programme.</a></strong><br>
-                          <p> Parti : '.$candidates['party'].'</p>
+                          <strong> ', $candidates['surname'],' ',$candidates['name'], ' : <a href="',$candidates['programme'],'"> Cliquez ici pour lire le programme.</a></strong><br>
+                          <p> Parti : ',$candidates['party'],'</p>
                           </div>';
                         $j++;
                       };
@@ -238,7 +238,7 @@ if (isset($_SESSION['id'])){
                                     <option disabled selected value> </option>';
                             while ($candidates2 = $getcandidates2->fetch()){ //case 1 or many candidates
                               echo '
-                                    <option value="'.$candidates2['id'].'">'.$candidates2['surname'].' '.$candidates2['name'].' - '.$candidates2['party'].'</option>
+                                    <option value="',$candidates2['id'],'">', $candidates2['surname'],' ',$candidates2['name'],' - ',$candidates2['party'],'</option>
                               ';
                             };
                             echo '
@@ -248,7 +248,7 @@ if (isset($_SESSION['id'])){
                               <button type="submit" class="btn btn-primary">Voter</button>
                               </form>
                               <br>
-                              <p>L\'élection prend fin le : '.date('d/m/Y à H:i', strtotime($date)).' heures.</p>
+                              <p>L\'élection prend fin le : ',date('d/m/Y à H:i', strtotime($date)),' heures.</p>
                             </div>';
                           }
                           else { // if elector hasnt voted yet and has selected a candidate
@@ -364,14 +364,14 @@ if (isset($_SESSION['id'])){
 
                         echo '
                         <div class="alert alert-info fade show" role="alert">
-                          <strong>Voici votre token: '.$token.' </strong><br>Ce dernier devra être présenté dans votre mairie, ou par téléphone.<br>Pensez aux justificatifs habituels: pièce d\'identité, justificatif de domicile et carte d\'électeur.<br>Si vous voulez voter aux prochaines élections, pensez à valider votre compte au moins 7 jours avant le vote.
+                          <strong>Voici votre token: ', $token ,' </strong><br>Ce dernier devra être présenté dans votre mairie, ou par téléphone.<br>Pensez aux justificatifs habituels: pièce d\'identité, justificatif de domicile et carte d\'électeur.<br>Si vous voulez voter aux prochaines élections, pensez à valider votre compte au moins 7 jours avant le vote.
                         </div>';
 
 
                   } else {
                     echo '
                   <div class="alert alert-warning fade show" role="alert">
-                    <strong>Bonjour '.$_SESSION['surname'].' !</strong><br> Vous devez maintenant vous authentifier en tant qu\'électeur, donc relier votre identité numérique à votre identité physique. Lancez une pré-demande en ligne ou rendez-vous en mairie.<br><a class = "btn btn-primary" href = "index.php?verifmairie=true">Relier mon identité physique</a><br>
+                    <strong>Bonjour ', $_SESSION['surname'], ' !</strong><br> Vous devez maintenant vous authentifier en tant qu\'électeur, donc relier votre identité numérique à votre identité physique. Lancez une pré-demande en ligne ou rendez-vous en mairie.<br><a class = "btn btn-primary" href = "index.php?verifmairie=true">Relier mon identité physique</a><br>
                     <br>Vous representez une mairie ? Votre demande devra être traitée par <a href="https://gouv.intellivote.fr">un représentant de l\'État</a>.
                   </div>';
                   }

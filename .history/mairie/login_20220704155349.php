@@ -242,7 +242,7 @@ if (!empty($_POST['email']) AND !empty($_POST['mdp'] AND !empty($_POST['idmairie
                     $insee_fetch->execute(array($test['id']));
 
                     while ($insee = $insee_fetch->fetch()) {
-                      echo '<option value="'.$insee['insee'].'">'.$insee['insee'].' - '.$insee['nom'].'</option>';
+                      echo '<option value="', $insee['insee'] ,'">', $insee['insee'], ' - ', $insee['nom'] ,'</option>';
                     }
 
                     echo '
