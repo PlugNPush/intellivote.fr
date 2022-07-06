@@ -163,6 +163,18 @@ if (isset($_SESSION['id'])){
                         echo '
                         <form action="election.php" method="post">
                             <div class="form-group">
+                                <label for="election">Election</label><br>
+                                <select class="form-control" id="election" name="election" required>
+                                    <option disabled selected value> </option>';
+                                        $election_fetch = $bdd->prepare('SELECT * FROM election WHERE begindate>?;');
+                                        $election_fetch->execute(array(date("Y-m-d H:i", strtotime(" + 90 days"))));
+                                        while ($elections = $election_fetch->fetch()) {
+                                            echo '<option value="'.$elections['id'].'">'.$elections["description"].'</option>';
+                                        }
+                                    echo '
+                                    </optgroup>
+                                </select>
+
                                 <label for="name">Nom</label>
                                 <input type="text" name="name" class="form-control';
                                 if (isset($_GET['nameerror'])){
@@ -177,12 +189,12 @@ if (isset($_SESSION['id'])){
                                 }
                                 echo ' " id="surname" placeholder="Saisissez son prénom." required>
 
-                                <label for="party">Partie</label>
+                                <label for="party">Parti</label>
                                 <input type="text" name="party" class="form-control';
                                 if (isset($_GET['partyerror'])){
                                     echo ' is-invalid';
                                 }
-                                echo ' " id="party" placeholder="Saisissez le nom de son partie." required>
+                                echo ' " id="party" placeholder="Saisissez le nom de son parti." required>
 
                                 <label for="programme">Programme</label>
                                 <input type="text" name="programme" class="form-control';
@@ -194,18 +206,6 @@ if (isset($_SESSION['id'])){
                                 <label for="idmairie">Saisissez l\'ID de la mairie</label>
                                 <input type="text" name="idmairie" class="form-control" id="idmairie" placeholder="Saisissez l\'ID de la mairie." required>
 
-                                <label for="election">Election</label><br>
-                                <select id="election" name="election" required>
-                                    <option disabled selected value> </option>';
-                                        $election_fetch = $bdd->prepare('SELECT * FROM election WHERE begindate>?;');
-                                        $election_fetch->execute(array(date("Y-m-d H:i", strtotime(" + 90 days"))));
-                                        while ($elections = $election_fetch->fetch()) {
-                                            echo '<option value="'.$elections['id'].'">'.$elections["description"].'</option>';
-                                        }
-                                    echo '
-                                    </optgroup>
-                                </select>
-
                             </div>
 
                             <button type="submit" class="btn btn-primary">Ajouter le candidat</button>
@@ -216,61 +216,54 @@ if (isset($_SESSION['id'])){
                         echo '
                         <h2><a>Afficher une élection</a></h2>';
 
-                        $date = date('Y-m-d H:i:s');
+                        $date = date('Y-m-d H:i');
 
-                        $req = $bdd->prepare('SELECT * FROM election WHERE begindate<'.$date.' AND enddate >'.$date = date('Y-m-d H:i:s').';');
-                        $req->execute(array($_POST['electionencours']));
-                        $electionencours = $req->fetch();
+                        $electionavenir = $bdd->prepare('SELECT * FROM election WHERE begindate>? ORDER BY begindate DESC;');
+                        $electionavenir->execute(array($date));
+                        echo '<h3>Elections à venir ('.$electionavenir->rowCount().')</h3>';
+                        while($row = $electionavenir->fetch()) {
+                            echo '
+                            <div class="alert alert-info fade show" role="alert">
+                                <strong>L\'élection ' . $row['description'] . ' est à venir</strong><br>
+                                <p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>
+                            </div>';
+                        }
 
-                        if ($electionencours) {
-                            // Afficher les résultats de chaque ligne
-                            while($row = $electionencours->fetch_assoc()) {
-                              echo "id: " . $row["id"]. " - Nom: " . $row["begindate"]. " - prénom: " . $row["enddate"]. "<br>";
-                            }
-                          } else {
-                            echo "0 results";
-                          }
+                        $electionencours = $bdd->prepare('SELECT * FROM election WHERE begindate<=? AND enddate>? ORDER BY enddate DESC;');
+                        $electionencours->execute(array($date, $date));
+                        echo '<h3>Elections en cours ('.$electionencours->rowCount().')</h3>';
+                        while($row = $electionencours->fetch()) {
+                            echo '
+                            <div class="alert alert-info fade show" role="alert">
+                                <strong>L\'élection ' . $row['description'] . ' est en cours</strong><br>
+                                <p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>
+                            </div>';
+                        }
 
-                        $req = $bdd->prepare('SELECT * FROM election WHERE enddate <'.$date.';');
-                        $req->execute(array($_POST['electionpassees']));
-                        $electionpassees = $req->fetch();
+                        $electionpassees = $bdd->prepare('SELECT * FROM election WHERE enddate<=? ORDER BY enddate DESC;');
+                        $electionpassees->execute(array($date));
+                        echo '<h3>Elections terminées ('.$electionpassees->rowCount().')</h3>';
+                        while($row = $electionpassees->fetch()) {
+                            echo '<div class="alert alert-info fade show" role="alert">';
+                            echo '<strong>Résultats de l\'élection ' . $row['description'] . '</strong><br>';
+                              $getResult=$bdd->prepare('SELECT COUNT(candidate) AS score, candidate FROM votes WHERE election=? GROUP BY candidate;');
+                              $getResult->execute(array($row['id']));
+                
+                              while ($result=$getResult->fetch()){
+                                $getcandidates = $bdd->prepare('SELECT * FROM candidate WHERE id=?');
+                                $getcandidates->execute(array($result["candidate"]));
+                                $getCandidates = $getcandidates->fetch();
+                                if (!empty($result["candidate"])) {
+                                  echo '<p> Candidat ' . $getCandidates["name"] . ' ' . $getCandidates["surname"] . ' (' . $getCandidates["party"] . ') a obtenu ' . $result["score"] . ' voix</p>';
+                                } else {
+                                  echo '<p> Votes blancs: ' . $result["score"] . '</p>';
+                                }
+                
+                              }
+                              echo '<p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>';
+                            echo '</div>';
+                        }
 
-                        if ($electionpassees) {
-                            // Afficher les résultats de chaque ligne
-                            while($row = $electionpassees->fetch_assoc()) {
-                              echo "id: " . $row["id"]. " - Nom: " . $row["begindate"]. " - prénom: " . $row["enddate"]. "<br>";
-                            }
-                          } else {
-                            echo "0 results";
-                          }
-
-                        $req = $bdd->prepare('SELECT * FROM election WHERE begindate>'.$date.';');
-                        $req->execute(array($_POST['electionavenir']));
-                        $electionavenir = $req->fetch();
-
-                        if ($_POST['electionavenir']) {
-                            // Afficher les résultats de chaque ligne
-                            while($row = $electionavenir->fetch_assoc()) {
-                              echo "id: " . $row["id"]. " - Nom: " . $row["begindate"]. " - prénom: " . $row["enddate"]. "<br>";
-                            }
-                          } else {
-                            echo "0 results";
-                          }
-
-                        echo '
-                        <form action="election.php?affiche=true" method="post">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="recherche" name="recherche" placeholder="Saisissez votre Recherche">
-                            <select id="tri">
-                                <optgroup label="Tri">
-                                    <option value="begindate">Date de création+</option>
-                                    <option value="enddate">Date de création-</option>
-                                </optgroup>
-                            </select>
-                            <button type="submit" class="btn btn-primary">Rechercher</button>
-                            <button type="reset" class="btn btn-danger" onclick="location.href=\'election.php\'">Annuler</button>
-                        </div>
-                        </form><br><br>';
 
                     }
 
@@ -347,7 +340,7 @@ if (isset($_SESSION['id'])){
         else if ($_POST['begindate']<date('Y-m-d H:i', strtotime(' + 90 days'))){ // Date de début qu'à partir de demain
           header( "refresh:0;url=election.php?ajout=true&beginerror=true" );
         }
-        else if ($_POST['begindate']>$_POST['enddate']){ // Date de fin qu'à partir de la date de début
+        else if ($_POST['begindate']>=date('Y-m-d H:i', strtotime($_POST['enddate'].' + 8 hours'))){ // Date de fin qu'à partir de la date de début
             header( "refresh:0;url=election.php?ajout=true&enderror=true" );
         }
         else{
