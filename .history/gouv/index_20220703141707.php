@@ -114,7 +114,7 @@ if (isset($_SESSION['id'])){
 
 
                 echo '
-                <h2><a>Inscrire un maire :</a></h2>
+                <h2><a>Inscrire un employé à la mairie :</a></h2>
                 <form action="index.php" method="post">
 
                   <div class="form-group">
@@ -125,11 +125,11 @@ if (isset($_SESSION['id'])){
                       echo ' is-invalid';
                     }
 
-                    echo ' "id="individual" placeholder="Id du maire requis" ';
+                    echo ' "id="individual" placeholder="Id de l\'employé de la mairie requis" ';
 
                     if (isset($_GET['individualerror'])){
                       echo '<div class="invalid-feedback">
-                        Id du maire incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
+                        Id de l\'employé de la mairie incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
                       </div>';
                     }
 
@@ -144,7 +144,7 @@ if (isset($_SESSION['id'])){
 
                   </div>
 
-                  <button type="submit" class="btn btn-primary">Envoyer vos identifiants de maire</button>
+                  <button type="submit" class="btn btn-primary">Envoyer vos identifiants d\'employé à la mairie</button>
 
                 </form><br><br>';
           }

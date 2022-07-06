@@ -80,7 +80,7 @@ if (isset($_SESSION['id'])){
                 if (isset($_GET['success'])) {
                   echo '
                   <div class="alert alert-success fade show" role="alert">
-                    <strong>Le maire a bien été affilié à la mairie.</strong>
+                    <strong>L\'employé a bien été affilié à la mairie.</strong>
                   </div>';
                 }
 
@@ -107,7 +107,7 @@ if (isset($_SESSION['id'])){
 
                       if (isset($_GET['individualerror'])){
                         echo '<div class="invalid-feedback">
-                          ID du maire incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
+                          ID de l\'employé de la mairie incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
                         </div>';
                       }
 
@@ -161,7 +161,7 @@ if (isset($_SESSION['id'])){
                     echo '<div class="form-group">
                       <label for="individual">Confirmez-vous les données ?<br>
                       <div class="alert alert-info fade show" role="alert">
-                      - <strong>ID du maire :</strong> ' . $_GET['individual'] . ' | Nom : '. $indiv['name'] . ' | Prénom : ' . $indiv['surname'];
+                      - <strong>ID de l\'employé de la mairie :</strong> ' . $_GET['individual'] . ' | Nom : '. $indiv['name'] . ' | Prénom : ' . $indiv['surname'];
                       echo '<br> - <strong>ID de la mairie :</strong> ' . $_GET['idmairie'] . ' | Nom : ' . $mairie['nom'] . ' | INSEE : ' . $mairie['insee'];
                       echo '</div>
                       </label>
@@ -175,7 +175,7 @@ if (isset($_SESSION['id'])){
 
                       if (isset($_GET['individualerror'])){
                         echo '<div class="invalid-feedback">
-                          ID du maire incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
+                          ID de l\'employé de la mairie incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
                         </div>';
                       }
 
@@ -189,7 +189,7 @@ if (isset($_SESSION['id'])){
 
                       if (isset($_GET['individualerror'])){
                         echo '<div class="invalid-feedback">
-                          ID du maire incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
+                          ID de l\'employé de la mairie incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
                         </div>';
                       }
 

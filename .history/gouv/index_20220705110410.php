@@ -80,7 +80,7 @@ if (isset($_SESSION['id'])){
                 if (isset($_GET['success'])) {
                   echo '
                   <div class="alert alert-success fade show" role="alert">
-                    <strong>Le maire a bien été affilié à la mairie.</strong>
+                    <strong>L\'employé a bien été affilié à la mairie.</strong>
                   </div>';
                 }
 
@@ -92,22 +92,22 @@ if (isset($_SESSION['id'])){
                 }
 
                 echo '
-                  <h2><a>Inscrire un maire :</a></h2>
+                  <h2><a>Inscrire un employé à la mairie :</a></h2>
                   <form action="index.php" method="post">
 
                     <div class="form-group">
-                      <label for="individual">Saisissez l\'ID de l\'individu maire</label>
+                      <label for="individual">Saisissez l\'ID de l\'individe l\'employé de la mairie</label>
                       <input type="text" name="individual" class="form-control';
 
                       if (isset($_GET['individualerror'])){
                         echo ' is-invalid';
                       }
 
-                      echo ' "id="individual" placeholder="Saisissez votre ID de maire" required> ';
+                      echo ' "id="individual" placeholder="Saisissez votre ID d\'employé à la mairie" required> ';
 
                       if (isset($_GET['individualerror'])){
                         echo '<div class="invalid-feedback">
-                          ID du maire incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
+                          ID de l\'employé de la mairie incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
                         </div>';
                       }
 
@@ -122,7 +122,7 @@ if (isset($_SESSION['id'])){
 
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Envoyer vos identifiants de maire</button>
+                    <button type="submit" class="btn btn-primary">Envoyer vos identifiants d\'employé à la mairie</button>
 
                   </form><br><br>';
 
@@ -154,7 +154,7 @@ if (isset($_SESSION['id'])){
                     echo '<div class="form-group">
                       <label for="individual">Confirmez vous les données?<br>
                       <div class="alert alert-info fade show" role="alert">
-                      - <strong>ID du maire :</strong> ';echo($_GET['individual']);echo(' | Nom : '.$indiv['surname'].' | Prénom : '.$indiv['name']);
+                      - <strong>ID de l\'employé de la mairie :</strong> ';echo($_GET['individual']);echo(' | Nom : '.$indiv['surname'].' | Prénom : '.$indiv['name']);
                       echo '<br> - <strong>ID de la mairie :</strong> ';echo($_GET['idmairie']);;echo(' | Nom : '.$mairie['nom'] .' | INSEE : '.$mairie['insee']);
                       echo '</div>
                       </label>
@@ -168,7 +168,7 @@ if (isset($_SESSION['id'])){
 
                       if (isset($_GET['individualerror'])){
                         echo '<div class="invalid-feedback">
-                          ID du maire incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
+                          ID de l\'employé de la mairie incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
                         </div>';
                       }
 
@@ -182,7 +182,7 @@ if (isset($_SESSION['id'])){
 
                       if (isset($_GET['individualerror'])){
                         echo '<div class="invalid-feedback">
-                          ID du maire incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
+                          ID de l\'employé de la mairie incorrect ! Besoin d\'aide ? Contactez l\'électeur afin de vérifier que l\'ID soit correct.
                         </div>';
                       }
 

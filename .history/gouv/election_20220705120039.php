@@ -205,7 +205,7 @@ if (isset($_SESSION['id'])){
                         $electionavenir = $req->fetch(); //test oh
                         
                         echo '<div class="form-group">
-                        - <strong>ID du maire :</strong> ';echo($_GET['individual']);echo(' | Nom : '.$indiv['surname'].' | Prénom : '.$indiv['name']);
+                        - <strong>ID de l\'employé de la mairie :</strong> ';echo($_GET['individual']);echo(' | Nom : '.$indiv['surname'].' | Prénom : '.$indiv['name']);
                         echo '<br> - <strong>ID de la mairie :</strong> ';echo($_GET['idmairie']);;echo(' | Nom : '.$mairie['nom'] .' | INSEE : '.$mairie['insee']);
                         echo'</div>';
                         
