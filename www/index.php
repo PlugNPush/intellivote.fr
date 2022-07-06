@@ -614,7 +614,7 @@ if (isset($_SESSION['id'])){
   } else {
     // SQL UPDATE ACCOUNT MAIL + PASS
     if (isset($_POST['email'])) {
-      $upd1 = $bdd->prepare('UPDATE individual SET email = ?, verified = 0 WHERE individual = ?;');
+      $upd1 = $bdd->prepare('UPDATE individual SET email = ?, verified = 0 WHERE id = ?;');
       $upd1->execute(array($_SESSION['id']));
 
       $token = generateRandomString(256);
