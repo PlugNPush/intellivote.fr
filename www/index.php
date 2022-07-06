@@ -102,7 +102,7 @@ if (isset($_SESSION['id'])){
                   echo '<div class="alert alert-success fade show" role="alert">
                     <strong>Vous êtes bien enregistré sur la e-liste électorale !</strong><br>Vous votez actuellement dans la mairie de ' . $mairie["nom"] . ' (' . $mairie["departement"] . ')<br>
                     Vous avez déménagé ? <a href="index.php?transfertoken=true">Demandez un token de transfert ici</a>.
-                    </div>'
+                    </div>';
 
                   echo '
                   <div class="alert alert-info fade show" role="alert"';
