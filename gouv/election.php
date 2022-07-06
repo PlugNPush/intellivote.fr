@@ -232,7 +232,7 @@ if (isset($_SESSION['id'])){
                             $j = 0;
                             while ($candidates = $getcandidates->fetch()){ //case 1 or many candidates
                               echo '
-                                - <strong> ', $candidates['surname'],' ',$candidates['name'], '</strong> (' . $candidates['party'] . ')<br>';
+                                - <i> ', $candidates['surname'],' ',$candidates['name'], '</i> (' . $candidates['party'] . ')<br>';
                               $j++;
                             };
                             if ($j==0) { //case no candidates
