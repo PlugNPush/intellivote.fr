@@ -540,9 +540,9 @@ if (isset($_SESSION['id'])){
 
             echo '
 
-            <a class = "btn btn-secondary" href="logout.php">Se déconnecter</a><br><br>
             <a class = "btn btn-primary" href="index.php?editaccount=true">Modifier mes informations de connexion</a><br><br>
-            <a class = "btn btn-danger" href="index.php?delaccount=true">Supprimer mon compte</a><br><br>';
+            <a class = "btn btn-danger" href="index.php?delaccount=true">Supprimer mon compte</a><br><br>
+            <a class = "btn btn-secondary" href="logout.php">Se déconnecter</a><br><br>';
             }
 
             echo '
