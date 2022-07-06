@@ -4,7 +4,7 @@ require_once dirname(__FILE__).'/../config.php';
 
 if (isset($_SESSION['id'])){
 
-  if (isset($_GET['revoke'])) {
+  if (isset($_GET['revoke']) || isset($_GET['crevoke'])) {
     if (isset($_POST['electorindv'])) {
 
       $req = $bdd->prepare('SELECT * FROM individual WHERE id = ? ;');
@@ -324,85 +324,23 @@ if (isset($_SESSION['id'])){
 
         </html>';
 
-    } else if (isset($_POST['name'])){
-
-        // Pas d'inscription en double
-        $req = $bdd->prepare('SELECT * FROM candidate WHERE party=? AND name=? AND surname=? AND election=?;');
-        $req->execute(array($_POST['party'],$_POST['name'],$_POST['surname'],$_POST['election']));
-        $test = $req->fetch();
-
-        if ($test){
-          header( "refresh:0;url=election.php?ajoutcandidat=true&candidaterror=true" );
-        } else {
-
-            $req=$bdd->prepare('INSERT INTO candidate (party, name, surname, programme, election, mairie) VALUES (:party, :name, :surname, :programme, :election, :mairie);');
-            $req->execute(array(
-                'party'=> $_POST['party'],
-                'name'=> $_POST['name'],
-                'surname'=> $_POST['surname'],
-                'programme'=> $_POST['programme'],
-                'election'=> $_POST['election'],
-                'mairie'=> $_POST['idmairie']
-            ));
-
-            header( "refresh:0;url=election.php?ajoutcandidat=true&successcandidat=true" );
-        }
-
-    } else if (isset($_POST['cdelete'])) {
-      $req = $bdd->prepare('SELECT * FROM election WHERE id = ?;');
-      $req->execute(array($_POST['delete']));
-      $test = $req->fetch();
-
-      $date = date('Y-m-d H:i');
-
-      if (($test["begindate"]>$date && date('Y-m-d H:i', strtotime($test['begindate'] . ' - 7 days'))>date('Y-m-d H:i')) || ($test["enddate"]<=$date && date('Y-m-d H:i', strtotime($row['enddate'] . ' + 7 days'))<=date('Y-m-d H:i'))) {
-        $del1 = $bdd->prepare('DELETE FROM votes WHERE election = ?;');
-        $del1->execute(array($_POST['delete']));
-
-        $del2 = $bdd->prepare('DELETE FROM voted WHERE election = ?;');
-        $del2->execute(array($_POST['delete']));
-
-        $del3 = $bdd->prepare('DELETE FROM candidate WHERE election = ?;');
-        $del3->execute(array($_POST['delete']));
-
-        $del4 = $bdd->prepare('DELETE FROM election WHERE id = ?;');
-        $del4->execute(array($_POST['delete']));
-
-        header( "refresh:0;url=election.php?affiche=true&deletesuccess=true" );
-      } else {
-        header( "refresh:0;url=election.php?affiche=true&deleteerror=true" );
-      }
-
-
     } else {
 
-        // Pas de description/nom en double parmis ceux non finis
-        $req = $bdd->prepare('SELECT * FROM election WHERE description = ?;');
-        $req->execute(array($_POST['description']));
-        $test = $req->fetch();
-
-        if ($test){
-          header( "refresh:0;url=election.php?ajout=true&descriptionerror=true" );
+      if (isset($_POST['electorindv'])) {
+        $req = $bdd->prepare('DELETE FROM elector WHERE individual = ?;');
+        $req->execute(array($_POST['electorindv']));
+        header( "refresh:0;url=index.php?electorrevokesuccess=true" );
+      } else {
+        if ($_POST['idmairie'] != -1) {
+          $req = $bdd->prepare('DELETE FROM mayor WHERE mairie = ? AND individual = ?;');
+          $req->execute(array($_POST['idmairie'], $_POST['mayorindv']));
+          header( "refresh:0;url=index.php?mayor1revokesuccess=true" );
+        } else {
+          $req = $bdd->prepare('DELETE FROM mayor WHERE individual = ?;');
+          $req->execute(array($_POST['mayorindv']));
+          header( "refresh:0;url=index.php?mayor2revokesuccess=true" );
         }
-        else if ($_POST['begindate']<date('Y-m-d H:i', strtotime(' + 90 days'))){ // Date de début qu'à partir de demain
-          header( "refresh:0;url=election.php?ajout=true&beginerror=true" );
-        }
-        else if ($_POST['begindate']>=date('Y-m-d H:i', strtotime($_POST['enddate'].' + 8 hours'))){ // Date de fin qu'à partir de la date de début
-            header( "refresh:0;url=election.php?ajout=true&enderror=true" );
-        }
-        else{
-
-          $req=$bdd->prepare('INSERT INTO election (description, begindate, enddate, type) VALUES (:description, :begindate, :enddate, :type);');
-          $req->execute(array(
-            'description'=> $_POST['description'],
-            'begindate'=> $_POST['begindate'],
-            'enddate'=> $_POST['enddate'],
-            'type'=> 1
-          ));
-
-          header( "refresh:0;url=index.php?successelection=true");
-
-        }
+      }
 
     }
 

@@ -84,6 +84,27 @@ if (isset($_SESSION['id'])){
                   </div>';
                 }
 
+                if (isset($_GET['mayor1revokesuccess'])) {
+                  echo '
+                  <div class="alert alert-success fade show" role="alert">
+                    <strong>L\'employé a bien été revoqué de la mairie.</strong>
+                  </div>';
+                }
+
+                if (isset($_GET['mayor2revokesuccess'])) {
+                  echo '
+                  <div class="alert alert-success fade show" role="alert">
+                    <strong>L\'employé a bien été revoqué de toutes les mairies.</strong>
+                  </div>';
+                }
+
+                if (isset($_GET['electorrevokesuccess'])) {
+                  echo '
+                  <div class="alert alert-success fade show" role="alert">
+                    <strong>L\'électeur a bien été revoqué des e-listes électorales.</strong>
+                  </div>';
+                }
+
                 if (isset($_GET['successelection'])) {
                   echo '
                   <div class="alert alert-success fade show" role="alert">
