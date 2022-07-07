@@ -261,7 +261,6 @@ if (isset($_SESSION['id'])){
                 $gatherdata->execute(array($_SESSION['id']));
                 $data = $gatherdata->fetch();
 
-                // Partie Pablo -----------------------------------------------------------------------------------------------
                 if ($data) {
 
                   $gathermairie = $bdd->prepare('SELECT * FROM mairies WHERE id = ?;');
@@ -446,6 +445,10 @@ if (isset($_SESSION['id'])){
                               </div>';
                             }
                             else {
+                              echo '
+                              <div>
+                              <p>Une erreur interne est survenue. Veuillez vous rendre dans votre bureau de vote.</p>
+                              </div>';
                               /*
                               case where token isnt in the database
 
@@ -482,9 +485,7 @@ if (isset($_SESSION['id'])){
                         </div>';
                     }
                     echo '<br><br>';
-
-
-                // Fin Partie Pablo ------------------------------------------------------------------------------------------
+                  
 
                 } else {
                   $gatherdataverif = $bdd->prepare('SELECT * FROM validations WHERE type = 1 AND individual = ? AND validated = 0');
