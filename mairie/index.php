@@ -223,7 +223,7 @@ if (!isset($_SESSION['id'])) {
           <div class="alert alert-success fade show" role="alert">
 
             <strong>Liste des électeurs inscrits sur la e-liste électorale de la mairie de ' . $test['nom'] . '</strong><br>';
-            $getelecteurs = $bdd->prepare('SELECT *, elector.verified AS verif FROM elector JOIN individual ON elector.individual = individual.id WHERE mairie=?;');
+            $getelecteurs = $bdd->prepare('SELECT *, elector.verified AS verif FROM elector JOIN individual ON elector.individual = individual.id WHERE mairie=? ORDER BY name;');
             $getelecteurs->execute(array($_SESSION['idmairie']));
             while ($electeur=$getelecteurs->fetch()){
               if ($electeur['verif'] == 1) {
