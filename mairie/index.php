@@ -227,9 +227,9 @@ if (!isset($_SESSION['id'])) {
             $getelecteurs->execute(array($_SESSION['idmairie']));
             while ($electeur=$getelecteurs->fetch()){
               if ($electeur['verif'] == 1) {
-                echo $electeur['name'] . " " . $electeur['surname'] . "<br>";
+                echo $electeur['name'] . " " . $electeur['surname'] . " - " . $electeur['number'] . "<br>";
               } else {
-                echo $electeur['name'] . " " . $electeur['surname'] . " <strong>(SUSPENDU)</strong><br>";
+                echo $electeur['name'] . " " . $electeur['surname'] . " <strong>(SUSPENDU)</strong>". " - " . $electeur['number'] . "<br>";
               }
 
             }
