@@ -302,9 +302,11 @@ if (isset($_SESSION['id'])){
                       </div>';
                   }
 
-                  echo '<div class="alert alert-danger fade show" role="alert">
+                  if (isset($_GET['frauddetection'])) {
+                    echo '<div class="alert alert-danger fade show" role="alert">
                     <strong>DÉTÉCTION DE FRAUDE ÉLECTORALE !</strong><br>Notre système a détecté une tentative de fraude électorale. Vous risquez des poursuites judiciaires. Si vous pensez qu\'il s\'agit d\'une erreur, contactez immédiatement votre mairie qui vous mettra en relation avec un administrateur.<br>
-                    </div>'
+                    </div>';
+                  }
 
                   echo '
                   <div class="alert alert-info fade show" role="alert"';
