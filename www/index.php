@@ -407,6 +407,7 @@ if (isset($_SESSION['id'])){
 
                             $getvoted = $bdd->prepare('SELECT * FROM voted JOIN elector ON voted.elector=elector.id WHERE elector.id = ? AND election = ?');
                             $getvoted->execute(array($data['id'], $election['id']));
+                            $voted = $getvoted->fetch();
 
                             if ($voted) {
                               header( "refresh:0;url=index.php?frauddetection=true" );
