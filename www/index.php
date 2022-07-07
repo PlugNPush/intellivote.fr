@@ -441,7 +441,7 @@ if (isset($_SESSION['id'])){
                             if ($tokencpt==1){
                               echo '
                               <div>
-                              <p>Vous avez voté.</p>
+                              <p>À voté !</p>
                               </div>';
                             }
                             else {
@@ -485,7 +485,7 @@ if (isset($_SESSION['id'])){
                         </div>';
                     }
                     echo '<br><br>';
-                  
+
 
                 } else {
                   $gatherdataverif = $bdd->prepare('SELECT * FROM validations WHERE type = 1 AND individual = ? AND validated = 0');
