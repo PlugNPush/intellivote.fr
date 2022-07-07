@@ -353,10 +353,10 @@ if (isset($_SESSION['id'])){
                       // check if elector did vote
                       $getvoted = $bdd->prepare('SELECT * FROM voted JOIN elector ON voted.elector=elector.id WHERE elector.id = ?');
                       $getvoted->execute($data['id']);
-
+                      echo 'debug : ' . $data['id']
                       $k = 0;
                       while ($voted = $getvoted->fetch()){ // if elector already voted
-                        echo $voted['election'] . " " . $election['id'];
+                        echo 'debug : ' . $voted['election'] . ' ' . $election['id'];
                         if ($voted['election']==$election['id']){
                           echo '
                           <div>
