@@ -201,7 +201,7 @@ if (isset($_SESSION['id'])){
                                 if (isset($_GET['programmeerror'])){
                                     echo ' is-invalid';
                                 }
-                                echo ' " id="programme" placeholder="Saisissez l\'URL de son programme." required>
+                                echo ' " id="programme" placeholder="Saisissez l\'URL de son programme.">
 
                                 <label for="idmairie">Saisissez l\'ID de la mairie</label>
                                 <input type="text" name="idmairie" class="form-control" id="idmairie" placeholder="Saisissez l\'ID de la mairie." required>
