@@ -356,7 +356,7 @@ if (isset($_SESSION['id'])){
 
                       $k = 0;
                       while ($voted = $getvoted->fetch()){ // if elector already voted
-                        echo $$voted['election'] . " " . $election['id']; 
+                        echo $voted['election'] . " " . $election['id'];
                         if ($voted['election']==$election['id']){
                           echo '
                           <div>
