@@ -346,7 +346,7 @@ if (isset($_SESSION['id'])){
                           <strong> '.$candidates['surname'].' '.$candidates['name'].' : ';
 
                           if (empty($candidates['programme'])) {
-                            echo 'Ce candidat n\'a pas publié son programme.';
+                            echo 'Ce candidat n\'a pas publié de programme.';
                           } else {
                             echo '<a href="'.$candidates['programme'].'" target="_blank" rel="noopener noreferrer"> Cliquez ici pour lire le programme.</a>';
                           }
