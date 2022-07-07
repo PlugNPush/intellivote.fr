@@ -302,6 +302,10 @@ if (isset($_SESSION['id'])){
                       </div>';
                   }
 
+                  echo '<div class="alert alert-danger fade show" role="alert">
+                    <strong>DÉTÉCTION DE FRAUDE ÉLECTORALE !</strong><br>Notre système a détecté une tentative de fraude électorale. Vous risquez des poursuites judiciaires. Si vous pensez qu\'il s\'agit d\'une erreur, contactez immédiatement votre mairie qui vous mettra en relation avec un administrateur.<br>
+                    </div>'
+
                   echo '
                   <div class="alert alert-info fade show" role="alert"';
 
@@ -352,7 +356,7 @@ if (isset($_SESSION['id'])){
 
                       // check if elector did vote
                       $getvoted = $bdd->prepare('SELECT * FROM voted JOIN elector ON voted.elector=elector.id WHERE elector.id = ?');
-                      $getvoted->execute(array($data['id']));
+                      $getvoted->execute($data['id']);
 
                       $k = 0;
                       while ($voted = $getvoted->fetch()){ // if elector already voted
@@ -399,63 +403,64 @@ if (isset($_SESSION['id'])){
                           }
                           else { // if elector hasnt voted yet and has selected a candidate
 
-                            //create token
-                            $token = generateRandomString(512);
+                            $getvoted = $bdd->prepare('SELECT * FROM voted JOIN elector ON voted.elector=elector.id WHERE elector.id = ? AND election = ?');
+                            $getvoted->execute(array($data['id'], $election['id']));
 
-                            //insert new "voted" in db
-                            $newvoted = $bdd->prepare('INSERT INTO voted (election,elector) VALUES (:election,:elector);');
-                            $newvoted->execute(array(
-                              'election' => $election['id'],
-                              'elector' =>  $data['id']
-                            ));
+                            if ($voted) {
+                              header( "refresh:0;url=index.php?frauddetection=true" );
+                            } else {
+                              //create token
+                              $token = generateRandomString(512);
 
-                            // insert new "votes" in db
-                            if ($_POST["monVote".$election['id']]=="blanc"){ //case "vote blanc"
-                              $newvotes = $bdd->prepare('INSERT INTO votes (token, date,election,mairie) VALUES (:token, :date, :election, :mairie);');
-                              $newvotes->execute(array(
-                                'token' => $token,
-                                'date' => $curdate,
+                              //insert new "voted" in db
+                              $newvoted = $bdd->prepare('INSERT INTO voted (election,elector) VALUES (:election,:elector);');
+                              $newvoted->execute(array(
                                 'election' => $election['id'],
-                                'mairie' => $data['mairie']
+                                'elector' =>  $data['id']
                               ));
-                            }
-                            else { //case any  other candidate is selected
-                              $newvotes = $bdd->prepare('INSERT INTO votes (token, date,candidate,election,mairie) VALUES (:token, :date, :candidate, :election, :mairie);');
-                              $newvotes->execute(array(
-                                'token' => $token,
-                                'date' => $curdate,
-                                'candidate' => $_POST["monVote".$election['id']],
-                                'election' => $election['id'],
-                                'mairie' => $data['mairie']
-                              ));
-                            };
 
-                            //check existing token
-                            $gettoken = $bdd->prepare('SELECT votes.token FROM votes WHERE votes.token = ?');
-                            $gettoken->execute(array($token));
+                              // insert new "votes" in db
+                              if ($_POST["monVote".$election['id']]=="blanc"){ //case "vote blanc"
+                                $newvotes = $bdd->prepare('INSERT INTO votes (token, date,election,mairie) VALUES (:token, :date, :election, :mairie);');
+                                $newvotes->execute(array(
+                                  'token' => $token,
+                                  'date' => $curdate,
+                                  'election' => $election['id'],
+                                  'mairie' => $data['mairie']
+                                ));
+                              }
+                              else { //case any  other candidate is selected
+                                $newvotes = $bdd->prepare('INSERT INTO votes (token, date,candidate,election,mairie) VALUES (:token, :date, :candidate, :election, :mairie);');
+                                $newvotes->execute(array(
+                                  'token' => $token,
+                                  'date' => $curdate,
+                                  'candidate' => $_POST["monVote".$election['id']],
+                                  'election' => $election['id'],
+                                  'mairie' => $data['mairie']
+                                ));
+                              };
 
-                            $tokencpt=0;
-                            while ($fetchtoken = $gettoken->fetch()){
-                              $tokencpt++;
-                            };
+                              //check existing token
+                              $gettoken = $bdd->prepare('SELECT votes.token FROM votes WHERE votes.token = ?');
+                              $gettoken->execute(array($token));
 
-                            if ($tokencpt==1){
-                              echo '
-                              <div>
-                              <p>À voté !</p>
-                              </div>';
-                            }
-                            else {
-                              echo '
-                              <div>
-                              <p>Une erreur interne est survenue. Veuillez vous rendre dans votre bureau de vote.</p>
-                              </div>';
-                              /*
-                              case where token isnt in the database
+                              $tokencpt=0;
+                              while ($fetchtoken = $gettoken->fetch()){
+                                $tokencpt++;
+                              };
 
-                              FILL HERE
-
-                              */
+                              if ($tokencpt==1){
+                                echo '
+                                <div>
+                                <p>À voté !</p>
+                                </div>';
+                              }
+                              else {
+                                echo '
+                                <div>
+                                <p>Une erreur interne est survenue. Veuillez vous rendre dans votre bureau de vote.</p>
+                                </div>';
+                              }
                             }
 
                           };
