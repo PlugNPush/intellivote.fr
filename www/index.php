@@ -343,7 +343,15 @@ if (isset($_SESSION['id'])){
                       while ($candidates = $getcandidates->fetch()){ //case 1 or many candidates
                         echo '
                         <div class="alert alert-info fade show" role="alert">
-                          <strong> '.$candidates['surname'].' '.$candidates['name'].' : ' . empty($candidates['programme']) ? 'Ce candidat n\'a pas publié son programme.</strong>' : '<a href="'.$candidates['programme'].'" target="_blank" rel="noopener noreferrer"> Cliquez ici pour lire le programme.</a></strong><br>
+                          <strong> '.$candidates['surname'].' '.$candidates['name'].' : ';
+
+                          if (empty($candidates['programme'])) {
+                            echo 'Ce candidat n\'a pas publié son programme.';
+                          } else {
+                            echo '<a href="'.$candidates['programme'].'" target="_blank" rel="noopener noreferrer"> Cliquez ici pour lire le programme.</a>';
+                          }
+
+                          echo ' </strong><br>
                           <p> Parti : '.$candidates['party'].'</p>
                           </div>';
                         $j++;
