@@ -410,7 +410,9 @@ if (isset($_SESSION['id'])){
                             $voted = $getvoted->fetch();
 
                             if ($voted) {
-                              header( "refresh:0;url=index.php?frauddetection=true" );
+                              echo '<div class="alert alert-danger fade show" role="alert">
+                              <strong>DÉTÉCTION DE FRAUDE ÉLECTORALE !</strong><br>Notre système a détecté une tentative de fraude électorale. Vous risquez des poursuites judiciaires. Si vous pensez qu\'il s\'agit d\'une erreur, contactez immédiatement votre mairie qui vous mettra en relation avec un administrateur.<br>
+                              </div>';
                             } else {
                               //create token
                               $token = generateRandomString(512);
