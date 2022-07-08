@@ -217,7 +217,9 @@ if (!isset($_SESSION['id'])) {
                             $electionencours = $bdd->prepare('SELECT * FROM election WHERE begindate<=? AND enddate>? ORDER BY enddate DESC;');
                             $electionencours->execute(array($date, $date));
                             echo '<h3>Elections en cours ('.$electionencours->rowCount().')</h3>';
+                            $i = 0;
                             while($row = $electionencours->fetch()) {
+                              $i++;
                                 echo '
                                 <div class="alert alert-info fade show" role="alert">
                                     <strong>L\'élection ' . $row['description'] . ' est en cours</strong><br>
@@ -253,6 +255,10 @@ if (!isset($_SESSION['id'])) {
 
                                     echo '
                                 </div>';
+                            }
+                            if ($i==0) { //case no ongoing election
+                              echo '
+                              <strong>Pas d\'élections en cours.</strong></div><br><br>';
                             }
 
                             $electionpassees = $bdd->prepare('SELECT * FROM election WHERE enddate<=? ORDER BY enddate DESC;');
