@@ -257,7 +257,7 @@ if (!isset($_SESSION['id'])) {
                                 </div>';
                             }
                             if ($i==0) { //case no ongoing election
-                              echo '
+                              echo '<div class="alert alert-info fade show" role="alert">
                               <strong>Pas d\'élections en cours.</strong></div><br><br>';
                             }
 
