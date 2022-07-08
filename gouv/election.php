@@ -378,7 +378,7 @@ if (isset($_SESSION['id'])){
                                 $getcandidates->execute(array($result["candidate"]));
                                 $getCandidates = $getcandidates->fetch();
                                 if (!empty($result["candidate"])) {
-                                  echo '<p> Candidat ' . $getCandidates["name"] . ' ' . $getCandidates["surname"] . ' (' . $getCandidates["party"] . ') a obtenu ' . $result["score"] . ' voix</p>';
+                                  echo '<p> Candidat ' . $getCandidates["surname"] . ' ' . $getCandidates["name"] . ' (' . $getCandidates["party"] . ') a obtenu ' . $result["score"] . ' voix</p>';
                                 } else {
                                   echo '<p> Votes blancs: ' . $result["score"] . '</p>';
                                 }

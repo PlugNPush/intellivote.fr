@@ -180,7 +180,37 @@ if (!isset($_SESSION['id'])) {
                                 echo '
                                 <div class="alert alert-info fade show" role="alert">
                                     <strong>L\'élection ' . $row['description'] . ' est à venir</strong><br>
-                                    <p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>
+                                    <p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>';
+
+                                    //display all candidates
+                                    $getcandidates = $bdd->prepare('SELECT * FROM election JOIN candidate ON candidate.election= ? GROUP BY candidate.surname , candidate.name ');
+                                    $getcandidates->execute(array($row['id']));
+
+                                    $j = 0;
+                                    while ($candidates = $getcandidates->fetch()){ //case 1 or many candidates
+                                      echo '
+                                      <div class="alert alert-info fade show" role="alert">
+                                        <strong> '.$candidates['surname'].' '.$candidates['name'].' : ';
+
+                                        if (empty($candidates['programme'])) {
+                                          echo 'Pas de programme.';
+                                        } else {
+                                          echo '<a href="'.$candidates['programme'].'" target="_blank" rel="noopener noreferrer"> Voir le programme.</a>';
+                                        }
+
+                                        echo ' </strong><br>
+                                        <p> Parti : '.$candidates['party'].'</p>
+                                        </div>';
+                                      $j++;
+                                    };
+                                    if ($j==0) { //case no candidates
+                                      echo '
+                                      <div>
+                                      <p>Pas de candidats.</p>
+                                      </div>';
+                                    }
+
+                                    echo '
                                 </div>';
                             }
 
@@ -191,7 +221,37 @@ if (!isset($_SESSION['id'])) {
                                 echo '
                                 <div class="alert alert-info fade show" role="alert">
                                     <strong>L\'élection ' . $row['description'] . ' est en cours</strong><br>
-                                    <p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>
+                                    <p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>';
+
+                                    //display all candidates
+                                    $getcandidates = $bdd->prepare('SELECT * FROM election JOIN candidate ON candidate.election= ? GROUP BY candidate.surname , candidate.name ');
+                                    $getcandidates->execute(array($row['id']));
+
+                                    $j = 0;
+                                    while ($candidates = $getcandidates->fetch()){ //case 1 or many candidates
+                                      echo '
+                                      <div class="alert alert-info fade show" role="alert">
+                                        <strong> '.$candidates['surname'].' '.$candidates['name'].' : ';
+
+                                        if (empty($candidates['programme'])) {
+                                          echo 'Pas de programme.';
+                                        } else {
+                                          echo '<a href="'.$candidates['programme'].'" target="_blank" rel="noopener noreferrer"> Voir le programme.</a>';
+                                        }
+
+                                        echo ' </strong><br>
+                                        <p> Parti : '.$candidates['party'].'</p>
+                                        </div>';
+                                      $j++;
+                                    };
+                                    if ($j==0) { //case no candidates
+                                      echo '
+                                      <div>
+                                      <p>Pas de candidats.</p>
+                                      </div>';
+                                    }
+
+                                    echo '
                                 </div>';
                             }
 
@@ -209,13 +269,43 @@ if (!isset($_SESSION['id'])) {
                                     $getcandidates->execute(array($result["candidate"]));
                                     $getCandidates = $getcandidates->fetch();
                                     if (!empty($result["candidate"])) {
-                                      echo '<p> Candidat ' . $getCandidates["name"] . ' ' . $getCandidates["surname"] . ' (' . $getCandidates["party"] . ') a obtenu ' . $result["score"] . ' voix</p>';
+                                      echo '<p> Candidat ' . $getCandidates["surname"] . ' ' . $getCandidates["name"] . ' (' . $getCandidates["party"] . ') a obtenu ' . $result["score"] . ' voix</p>';
                                     } else {
                                       echo '<p> Votes blancs: ' . $result["score"] . '</p>';
                                     }
 
                                   }
-                                  echo '<p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>
+                                  echo '<p>Dates : '.date('d/m/Y à H:i', strtotime($row['begindate'])).' - '.date('d/m/Y à H:i', strtotime($row['enddate'])).'</p>';
+
+                                  //display all candidates
+                                  $getcandidates = $bdd->prepare('SELECT * FROM election JOIN candidate ON candidate.election= ? GROUP BY candidate.surname , candidate.name ');
+                                  $getcandidates->execute(array($row['id']));
+
+                                  $j = 0;
+                                  while ($candidates = $getcandidates->fetch()){ //case 1 or many candidates
+                                    echo '
+                                    <div class="alert alert-info fade show" role="alert">
+                                      <strong> '.$candidates['surname'].' '.$candidates['name'].' : ';
+
+                                      if (empty($candidates['programme'])) {
+                                        echo 'Pas de programme.';
+                                      } else {
+                                        echo '<a href="'.$candidates['programme'].'" target="_blank" rel="noopener noreferrer"> Voir le programme.</a>';
+                                      }
+
+                                      echo ' </strong><br>
+                                      <p> Parti : '.$candidates['party'].'</p>
+                                      </div>';
+                                    $j++;
+                                  };
+                                  if ($j==0) { //case no candidates
+                                    echo '
+                                    <div>
+                                    <p>Pas de candidats.</p>
+                                    </div>';
+                                  }
+
+                                  echo '
                                   </div>';
           }
 
