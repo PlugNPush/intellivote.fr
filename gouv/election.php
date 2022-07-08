@@ -360,6 +360,7 @@ if (isset($_SESSION['id'])){
                                 }
 
                                 echo '
+                                <strong>La suppression d\'une élection en cours n\'est pas possible.</strong>
                             </div>';
                         }
 
