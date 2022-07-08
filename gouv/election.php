@@ -342,9 +342,9 @@ if (isset($_SESSION['id'])){
                                     <strong> '.$candidates['surname'].' '.$candidates['name'].' : ';
 
                                     if (empty($candidates['programme'])) {
-                                      echo 'Ce candidat n\'a pas publié de programme.';
+                                      echo 'Pas de programme.';
                                     } else {
-                                      echo '<a href="'.$candidates['programme'].'" target="_blank" rel="noopener noreferrer"> Cliquez ici pour lire le programme.</a>';
+                                      echo '<a href="'.$candidates['programme'].'" target="_blank" rel="noopener noreferrer"> Voir le programme.</a>';
                                     }
 
                                     echo ' </strong><br>
@@ -397,9 +397,9 @@ if (isset($_SESSION['id'])){
                                   <strong> '.$candidates['surname'].' '.$candidates['name'].' : ';
 
                                   if (empty($candidates['programme'])) {
-                                    echo 'Ce candidat n\'a pas publié de programme.';
+                                    echo 'Pas de programme.';
                                   } else {
-                                    echo '<a href="'.$candidates['programme'].'" target="_blank" rel="noopener noreferrer"> Cliquez ici pour lire le programme.</a>';
+                                    echo '<a href="'.$candidates['programme'].'" target="_blank" rel="noopener noreferrer"> Voir le programme.</a>';
                                   }
 
                                   echo ' </strong><br>
