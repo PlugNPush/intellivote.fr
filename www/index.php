@@ -493,7 +493,7 @@ if (isset($_SESSION['id'])){
                       <strong>Pas d\'élections en cours.</strong></div><br><br>';
                     }
 
-                    $electionavenir = $bdd->prepare('SELECT * FROM election WHERE begindate>? ORDER BY begindate DESC;');
+                    $electionavenir = $bdd->prepare('SELECT * FROM election WHERE begindate>? ORDER BY begindate ASC;');
                     $electionavenir->execute(array($date));
                     echo '<h3>Elections à venir ('.$electionavenir->rowCount().')</h3>';
                     while($row = $electionavenir->fetch()) {
