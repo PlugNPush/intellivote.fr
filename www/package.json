@@ -30,7 +30,7 @@
     },
     "dependencies": {
         "bootstrap": "4.5.3",
-        "jquery": "3.6.3"
+        "jquery": "3.6.4"
     },
     "devDependencies": {
         "browser-sync": "2.27.11",
